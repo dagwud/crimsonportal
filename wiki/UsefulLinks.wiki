@@ -1,0 +1,23 @@
+#summary Online resources for material which may be useful
+
+= Necessary/Useful Software =
+=== IDE ===
+  * Netbeans
+    * http://www.netbeans.org/downloads/
+  * JOGL Plugin for Netbeans [https://netbeans-opengl-pack.dev.java.net/]
+    * Simple plugin for Netbeans, enabling OpenGL development
+    * https://netbeans-opengl-pack.dev.java.net/
+
+----
+
+= Code Samples =
+=== General Game Development ===
+  * Coke and Code
+    * http://www.cokeandcode.com/node/6
+  * Basic Java Game Tutorials
+    * http://javaboutique.internet.com/tutorials/Java_Game_Programming/
+    * http://www.tutorialized.com/view/tutorial/2D-Java-Platform-Game/10145
+
+=== Graphics ===
+  * NeHe - Graphics Tutorials 
+    * http://www.nehe.gamedev.net/
