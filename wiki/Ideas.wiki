@@ -1,0 +1,25 @@
+#summary A central point to store all those great ideas as they pop up
+#labels Featured
+
+=== Game Play ===
+ * Multiplayer Game Modes
+   * Co-operative
+     * Work together to survive as long as possible
+   * One-on-one: With "Backup":
+     * Each player has "friendly" enemies who don't attack him, only the other player(s)
+   * One-on-one: Lone Ranger
+     * Enemies go for whoever they like; each player tries to survive as long as possible
+     * Players can be killed be enemies and by each other
+
+=== Weapons ===
+
+=== Classes of Enemy ===
+  * Bombers (explode when shot, or when near player, causing damage to all nearby units)
+    * Player can then shoot bombers in order to destroy other enemies ;)
+
+=== Classes of Pickup ===
+ * Land-mines 
+    * Possibly only available later in the game as this will probably change the gameplay quite drastically
+ * Increased movespeed, firing rate, clip size, weapon base damage
+
+=== Other ===
