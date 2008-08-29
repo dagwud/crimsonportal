@@ -4,7 +4,7 @@
 === IDE ===
   * Netbeans
     * http://www.netbeans.org/downloads/
-  * JOGL Plugin for Netbeans [https://netbeans-opengl-pack.dev.java.net/]
+  * JOGL Plugin for Netbeans
     * Simple plugin for Netbeans, enabling OpenGL development
     * https://netbeans-opengl-pack.dev.java.net/
 
@@ -19,5 +19,5 @@
     * http://www.tutorialized.com/view/tutorial/2D-Java-Platform-Game/10145
 
 === Graphics ===
-  * NeHe - Graphics Tutorials 
+  * !NeHe - Graphics Tutorials 
     * http://www.nehe.gamedev.net/
