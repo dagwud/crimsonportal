@@ -1,4 +1,5 @@
 #summary Guide to installing the IDE etc.
+#labels Featured,Phase-Deploy,Phase-Implementation
 
 = JDK =
 
