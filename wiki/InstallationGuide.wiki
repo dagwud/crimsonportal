@@ -1,0 +1,29 @@
+#summary Guide to installing the IDE etc.
+
+= JDK =
+
+ * Download and install the latest Java SDK [http://java.sun.com/javase/downloads/index.jsp here]
+   * [http://java.sun.com/javase/6/webnotes/install/index.html Installation Instructions]
+
+= IDE =
+
+ * Download the Netbeans 6.1 IDE (Java SE version, 31MB) [http://download.netbeans.org/netbeans/6.1/final/ here]
+
+ * Download the JOGL plugin for Netbeans (17.6MB) [http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=3260 here]
+
+ * Install Netbeans IDE
+{{{
+cd [downloaddir]
+sudo ./netbeans-6.1-ml-javase-linux.sh
+}}}
+
+ * Install the JOGL plugins
+   * Extract the JOGL plugins
+{{{
+mkdir ~/Desktop/temp
+unzip netbeans-opengl-pack_0.5.2.zip -d ~/.netbeans/6.1/
+}}}
+  * Launch Netbeans
+  * Open the plugin manager (Tools -> Plugins)
+  * Click the "Downloaded" tab then "Add Plugins"
+  * Add and install all the {{{.nbm}}} files in the .netbeans/6.1 directory
