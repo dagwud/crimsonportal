@@ -19,7 +19,7 @@ sudo ./netbeans-6.1-ml-javase-linux.sh
 
  * Install the JOGL plugins
    * Extract the JOGL plugins
-{{{
+{{{ 
 mkdir ~/Desktop/temp
 unzip netbeans-opengl-pack_0.5.2.zip -d ~/.netbeans/6.1/
 }}}
