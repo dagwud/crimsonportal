@@ -1,0 +1,4 @@
+#summary UML Class Diagram
+#labels Featured,Phase-Design,Phase-Implementation
+
+Attached: UML Class Diagram, draft 1
