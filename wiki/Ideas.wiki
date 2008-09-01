@@ -60,7 +60,7 @@
  * Land-mines 
     * Possibly only available later in the game as this will probably change the gameplay quite drastically
  * Increased movespeed, firing rate, clip size, weapon base damage
- * Regenetation
+ * Regeneration
   * Regenerate at 5%, 10% and 25%, health every 10 seconds
  * Amour
   * A protective shield reducing 10%, 25%, 50% of damage dealt to player
@@ -89,6 +89,7 @@
   * Stronger Bullets
   * Vampirism – Get bit of HP from shooting enemies
   * Amour Upgrades
+  * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more  normal XP {{{*}}} killed enemies )
 
 
 === Pickups ===
@@ -105,4 +106,4 @@
   * Ultra Amour – Damage to player reduced by 50%
   * Stealth 
   * Counter Attack
-  * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more  normal XP {{{*}}} killed enemies )
+  
