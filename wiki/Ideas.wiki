@@ -23,3 +23,61 @@
  * Increased movespeed, firing rate, clip size, weapon base damage
 
 === Other ===
+
+
+= Game Concepts=
+
+*The concepts to be implemented in the game
+
+
+==Game Modes ==
+   
+   * Capture flag
+   * Destroy Base
+   * King Of The Hill
+   * Biggest combo wins
+   * Time Attack
+  
+
+== Weapons ==
+
+   * Weapon Skill Upgrade
+   * XP Upgrade
+   * XP Purchase
+   * Combine Weapons
+   * Create Own Weapons
+
+	
+== Aliens  ==
+
+   * Shoot At player
+   * Alien Upgrades
+   * Smarter Aliens
+   * Aliens can use certain pickups
+   * AI possibility of guarding pickups
+   * AI flanking player
+   * AI trapping  player
+
+== Player==
+
+   * Super Speed – Speed increased by 25%
+   * Ultra Speed – Speed increased by 50%
+   * Limited Ammo
+   * Strength Upgrade
+   * Speed Upgrade
+   * Faster Shooting 
+   * Stronger Bullets
+   * Health Pickups – Increase heath ( 25% or 50% )
+   * Super Health – Health increased to 200%
+   * Regeneration – Restore health 5 HP every 10 seconds
+   * Super Regeneration – Restore health 10 HP every 10 seconds
+   * Ultra Regeneration – Restore health 20 HP every 10 seconds
+   * Vampirism – Get bit of HP from shooting enemies
+   * Amour 
+   * Super Amour – Damage to player reduced by 25%
+   * Ultra Amour – Damage to player reduced by 50%
+   * Amour Upgrades
+   * Counter Attack
+   * Stealth 
+   * Bloody Mess – Damage multiplier ( more players u kill = more XP )
+   * Countdown multiplier  - kill to next upgrade
