@@ -1,31 +1,35 @@
 #summary One-sentence summary of this page.
 
 = Game Concepts=
-The concepts to be implemented in the game
+para1
+*bold*The concepts to be implemented in the game
 
 
 = Details =
-
+para1
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
 
-*Game Modes
+para2
+*bold*Game Modes
    Capture flag
    Destroy Base
    King Of The Hill
    Biggest combo wins
    Time Attack
 
-*Weapons
+para3
+*bold*Weapons
    Weapon Skill Upgrade
    XP Upgrade
    XP Purchase
    Combine Weapons
    Create Own Weapons
 	
-*Aliens 
+para4
+*bold*Aliens 
    Shoot At player
    Alien Upgrades
    Smarter Aliens
@@ -34,7 +38,8 @@ Add your content here.  Format your content with:
    AI flanking player
    AI trapping  player
 
-*Player
+para5
+*bold*Player
    Super Speed – Speed increased by 25%
    Ultra Speed – Speed increased by 50%
    Limited Ammo
