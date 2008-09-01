@@ -6,8 +6,13 @@
    * Game Modes
     * Single Player Game Modes
       * Survival
+       * This will be the main game mode
+       * Survive as long as you possibly can ( what more can we say )
       * Destroy Enemy Bases
+       * Destroy enemy base
+       * Every level gets harder and there are more enemy units to kill
       * Time Attack
+       * Kill as many enemy soldiers within a certain time 
 
  * Multiplayer Game Modes
    * Co-operative
@@ -26,7 +31,7 @@
     * Destroy enemy base to win
     * Player Deploys AI to assist him with defence
    * Death Match 
-    * Kill opponent certain of times to win 
+    * Kill opponent certain number of times to win 
    * King Of Combo's
     * Biggest combo wins
     * Reach a certain combo limit before other player
@@ -48,15 +53,27 @@
 === Classes of Enemy ===
   * Bombers (explode when shot, or when near player, causing damage to all nearby units)
     * Player can then shoot bombers in order to destroy other enemies ;)
+  * Tsotsies 
+   * These players rob you of your XP, Health and Weapons
 
 === Classes of Pickup ===
  * Land-mines 
     * Possibly only available later in the game as this will probably change the gameplay quite drastically
  * Increased movespeed, firing rate, clip size, weapon base damage
+ * Regenetation
+  * Regenerate at 5%, 10% and 25%, health every 10 seconds
+ * Amour
+  * A protective shield reducing 10%, 25%, 50% of damage dealt to player
+ * Health
+  * Increase the player's health 25%, 50%, 100%
+ * Weapons
+  * Get weapons that will assist in your conquest
 
 === Other ===
+
  * Countdown multiplier  - kill to next upgrade
- * Aliens Bio
+
+===  Aliens Bio === 
   * Shoot At player
   * Alien Upgrades
   * Smarter Aliens
@@ -65,26 +82,27 @@
   * AI flanking player
   * AI trapping  player
 
- * Player Bio
+=== Player Bio === 
+  * Limited Ammo
+  * Strength Upgrade
+  * Speed Upgrade
+  * Stronger Bullets
+  * Vampirism – Get bit of HP from shooting enemies
+  * Amour Upgrades
+
 
 === Pickups ===
   * Super Speed – Speed increased by 25%
   * Ultra Speed – Speed increased by 50%
-  * Limited Ammo
-  * Strength Upgrade
-  * Speed Upgrade
   * Faster Shooting 
-  * Stronger Bullets
   * Health Pickups – Increase heath ( 25% or 50% )
   * Super Health – Health increased to 200%
   * Regeneration – Restore health 5 HP every 10 seconds
   * Super Regeneration – Restore health 10 HP every 10 seconds
   * Ultra Regeneration – Restore health 20 HP every 10 seconds
-  * Vampirism – Get bit of HP from shooting enemies
-  * Amour 
+  * Amour – Damage to player reduced by 10
   * Super Amour – Damage to player reduced by 25%
   * Ultra Amour – Damage to player reduced by 50%
-  * Amour Upgrades
-  * Counter Attack
   * Stealth 
-  * Bloody Mess – Damage multiplier ( more players u kill = more XP )
+  * Counter Attack
+  * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more  normal XP {{{*}}} killed enemies )
