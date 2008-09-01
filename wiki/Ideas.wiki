@@ -1,7 +1,14 @@
 #summary A central point to store all those great ideas as they pop up
-#labels Featured
+#labels Featured,Phase-Design,Phase-Requirements
 
 === Game Play ===
+
+   * Game Modes
+    * Single Player Game Modes
+      * Survival
+      * Destroy Enemy Bases
+      * Time Attack
+
  * Multiplayer Game Modes
    * Co-operative
      * Work together to survive as long as possible
@@ -10,8 +17,33 @@
    * One-on-one: Lone Ranger
      * Enemies go for whoever they like; each player tries to survive as long as possible
      * Players can be killed be enemies and by each other
+   * Capture flag
+     * first player to capture the flag wins  
+   * King Of The Hill
+    * Stand at a certain spot on the map and collect point 
+    * First person to reach target points wins
+   * Destroy Enemy Base
+    * Destroy enemy base to win
+    * Player Deploys AI to assist him with defence
+   * Death Match 
+    * Kill opponent certain of times to win 
+   * King Of Combo's
+    * Biggest combo wins
+    * Reach a certain combo limit before other player
+    * Have biggest combo within certain time limit
 
 === Weapons ===
+   * Weapons 
+    * Weapon Skill Upgrade
+     * A skill level that will increase the damage that the player deals to enemies
+    * XP Upgrade
+     * XP will automatically upgrade the player's weapon
+    * XP Purchase
+     * Purchase certain weapons or grenades with gained XP
+    * Combine Weapons 
+     * Put two weapons together to make a super weapon
+    * Create Own Weapons 
+     * To be implemented later as game advances
 
 === Classes of Enemy ===
   * Bombers (explode when shot, or when near player, causing damage to all nearby units)
@@ -23,61 +55,36 @@
  * Increased movespeed, firing rate, clip size, weapon base damage
 
 === Other ===
+ * Countdown multiplier  - kill to next upgrade
+ * Aliens Bio
+  * Shoot At player
+  * Alien Upgrades
+  * Smarter Aliens
+  * Aliens can use certain pickups
+  * AI possibility of guarding pickups
+  * AI flanking player
+  * AI trapping  player
 
+ * Player Bio
 
-= Game Concepts=
-
-*The concepts to be implemented in the game
-
-
-==Game Modes ==
-   
-   * Capture flag
-   * Destroy Base
-   * King Of The Hill
-   * Biggest combo wins
-   * Time Attack
-  
-
-== Weapons ==
-
-   * Weapon Skill Upgrade
-   * XP Upgrade
-   * XP Purchase
-   * Combine Weapons
-   * Create Own Weapons
-
-	
-== Aliens  ==
-
-   * Shoot At player
-   * Alien Upgrades
-   * Smarter Aliens
-   * Aliens can use certain pickups
-   * AI possibility of guarding pickups
-   * AI flanking player
-   * AI trapping  player
-
-== Player==
-
-   * Super Speed – Speed increased by 25%
-   * Ultra Speed – Speed increased by 50%
-   * Limited Ammo
-   * Strength Upgrade
-   * Speed Upgrade
-   * Faster Shooting 
-   * Stronger Bullets
-   * Health Pickups – Increase heath ( 25% or 50% )
-   * Super Health – Health increased to 200%
-   * Regeneration – Restore health 5 HP every 10 seconds
-   * Super Regeneration – Restore health 10 HP every 10 seconds
-   * Ultra Regeneration – Restore health 20 HP every 10 seconds
-   * Vampirism – Get bit of HP from shooting enemies
-   * Amour 
-   * Super Amour – Damage to player reduced by 25%
-   * Ultra Amour – Damage to player reduced by 50%
-   * Amour Upgrades
-   * Counter Attack
-   * Stealth 
-   * Bloody Mess – Damage multiplier ( more players u kill = more XP )
-   * Countdown multiplier  - kill to next upgrade
+=== Pickups ===
+  * Super Speed – Speed increased by 25%
+  * Ultra Speed – Speed increased by 50%
+  * Limited Ammo
+  * Strength Upgrade
+  * Speed Upgrade
+  * Faster Shooting 
+  * Stronger Bullets
+  * Health Pickups – Increase heath ( 25% or 50% )
+  * Super Health – Health increased to 200%
+  * Regeneration – Restore health 5 HP every 10 seconds
+  * Super Regeneration – Restore health 10 HP every 10 seconds
+  * Ultra Regeneration – Restore health 20 HP every 10 seconds
+  * Vampirism – Get bit of HP from shooting enemies
+  * Amour 
+  * Super Amour – Damage to player reduced by 25%
+  * Ultra Amour – Damage to player reduced by 50%
+  * Amour Upgrades
+  * Counter Attack
+  * Stealth 
+  * Bloody Mess – Damage multiplier ( more players u kill = more XP )
