@@ -71,16 +71,16 @@
 
 === Other ===
 
- * Countdown multiplier  - kill to next upgrade
+ * Countdown timer  - displays number of kills to next upgrade
 
 ===  Aliens Bio === 
-  * Shoot At player
   * Alien Upgrades
   * Smarter Aliens
-  * Aliens can use certain pickups
-  * AI possibility of guarding pickups
-  * AI flanking player
-  * AI trapping  player
+    * Shoot At player
+    * Aliens can use certain pickups
+    * AI possibility of guarding pickups
+    * AI flanking player
+    * AI trapping player
 
 === Player Bio === 
   * Limited Ammo
