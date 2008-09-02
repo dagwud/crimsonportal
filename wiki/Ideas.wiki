@@ -2,18 +2,15 @@
 #labels Featured,Phase-Design,Phase-Requirements
 
 === Game Play ===
-
-   * Game Modes
-    * Single Player Game Modes
-      * Survival
-       * This will be the main game mode
-       * Survive as long as you possibly can ( what more can we say )
-      * Destroy Enemy Bases
-       * Destroy enemy base
-       * Every level gets harder and there are more enemy units to kill
-      * Time Attack
-       * Kill as many enemy soldiers within a certain time 
-
+ * Single Player Game Modes
+   * Survival
+     * This will be the main game mode
+     * Survive as long as you possibly can ( what more can we say )
+   * Destroy Enemy Bases
+     * Destroy enemy base
+     * Every level gets harder and there are more enemy units to kill
+   * Time Attack
+     * Kill as many enemy soldiers within a certain time 
  * Multiplayer Game Modes
    * Co-operative
      * Work together to survive as long as possible
@@ -36,19 +33,21 @@
     * Biggest combo wins
     * Reach a certain combo limit before other player
     * Have biggest combo within certain time limit
+ * Countdown timer  - displays number of kills to next upgrade
+ * In-game guide: new units, pickups, etc. are highlighted the first time they appear
+    * Can be disabled by user
 
 === Weapons ===
-   * Weapons 
-    * Weapon Skill Upgrade
-     * A skill level that will increase the damage that the player deals to enemies
-    * XP Upgrade
-     * XP will automatically upgrade the player's weapon
-    * XP Purchase
-     * Purchase certain weapons or grenades with gained XP
-    * Combine Weapons 
-     * Put two weapons together to make a super weapon
-    * Create Own Weapons 
-     * To be implemented later as game advances
+  * Weapon Skill Upgrade
+   * A skill level that will increase the damage that the player deals to enemies
+  * XP Upgrade
+   * XP will automatically upgrade the player's weapon
+  * XP Purchase
+   * Purchase certain weapons or grenades with gained XP
+  * Combine Weapons 
+   * Put two weapons together to make a super weapon
+  * Create Own Weapons 
+   * To be implemented later as game advances
 
 === Classes of Enemy ===
   * Bombers (explode when shot, or when near player, causing damage to all nearby units)
@@ -69,10 +68,6 @@
  * Weapons
   * Get weapons that will assist in your conquest
 
-=== Other ===
-
- * Countdown timer  - displays number of kills to next upgrade
-
 ===  Aliens Bio === 
   * Alien Upgrades
   * Smarter Aliens
@@ -84,26 +79,26 @@
 
 === Player Bio === 
   * Limited Ammo
-  * Strength Upgrade
-  * Speed Upgrade
-  * Stronger Bullets
-  * Vampirism – Get bit of HP from shooting enemies
-  * Amour Upgrades
-  * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more  normal XP {{{*}}} killed enemies )
-
+  * Gain levels through experience (i.e. killing enemies)
+    * Stats increase with experience
 
 === Pickups ===
-  * Super Speed – Speed increased by 25%
-  * Ultra Speed – Speed increased by 50%
-  * Faster Shooting 
-  * Health Pickups – Increase heath ( 25% or 50% )
-  * Super Health – Health increased to 200%
-  * Regeneration – Restore health 5 HP every 10 seconds
-  * Super Regeneration – Restore health 10 HP every 10 seconds
-  * Ultra Regeneration – Restore health 20 HP every 10 seconds
-  * Amour – Damage to player reduced by 10
-  * Super Amour – Damage to player reduced by 25%
-  * Ultra Amour – Damage to player reduced by 50%
-  * Stealth 
-  * Counter Attack
-  
+  * Player Attributes
+    * Super Speed – Speed increased by 25%
+    * Ultra Speed – Speed increased by 50%
+    * Armour – Damage to player reduced
+  * Attack improvements
+    * Faster Shooting 
+    * Stronger Bullets
+    * Larger clip sizes (more bullets before reload)
+  * Abilities
+    * Regeneration – Restore health 5 HP every 10 seconds
+    * Super Regeneration – Restore health 10 HP every 10 seconds
+    * Ultra Regeneration – Restore health 20 HP every 10 seconds
+    * Stealth 
+    * Counter Attack - chance to dodge/fight back when attacked
+    * Vampirism – Get bit of HP from shooting enemies
+    * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more  normal XP {{{*}}} killed enemies )
+  * Other
+    * Health Pickups – Increase heath ( 25% or 50% )
+    * Super Health – Health increased to 200%
