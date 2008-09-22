@@ -6,6 +6,7 @@
 package crimsonportal.googlecode.com;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -20,6 +21,28 @@ public class GameState
         enemies = new LinkedList<EnemyUnit>();
         pickups = new LinkedList<Pickup>();
         elapsedGameTime = new GameTime();
+    }
+    
+    public Iterator<PlayerUnit> getPlayers()
+    {
+        return players.iterator();
+    }
+    
+    public Iterator<EnemyUnit> getEnemies()
+    {
+        return enemies.iterator();
+    }
+    
+    public Iterator<Pickup> getPickups()
+    {
+        return pickups.iterator();
+    }
+    
+    public void spawnPlayer(Location location)
+    {
+        System.out.println("Spawning...");
+        PlayerUnit player = new PlayerUnit(location);
+        players.add(player);
     }
     
     protected Collection<PlayerUnit> players;

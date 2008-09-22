@@ -11,13 +11,14 @@ package crimsonportal.googlecode.com;
  */
 public class PlayerUnit extends Unit
 {
-    public PlayerUnit()
+    public PlayerUnit(Location location)
     {
-        
+        super(location);
     }
     
-    public PlayerUnit(Weapon weapon)
+    public PlayerUnit(Location location, Weapon weapon)
     {
+        super(location);
         this.weapon = weapon;
     }
     
@@ -31,9 +32,10 @@ public class PlayerUnit extends Unit
         this.weapon = weapon;
     }
     
+    @Override
     public PlayerUnit clone()
     {
-        PlayerUnit p = new PlayerUnit(weapon);
+        PlayerUnit p = new PlayerUnit(location, weapon);
         return p;
     }
     

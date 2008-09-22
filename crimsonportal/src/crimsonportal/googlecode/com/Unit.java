@@ -9,8 +9,13 @@ package crimsonportal.googlecode.com;
  *
  * @author dagwud
  */
-public abstract class Unit 
+public abstract class Unit extends GameObject
 {
+    public Unit(Location location)
+    {
+        super(location);
+    }
+    
     public Strategy getStrategy()
     {
         return strategy;

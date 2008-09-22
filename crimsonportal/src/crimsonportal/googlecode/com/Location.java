@@ -44,6 +44,15 @@ public class Location
         return l;
     }
     
+    public boolean equals(Location rhs)
+    {
+        if (rhs.x == x && rhs.y == y) 
+        {
+            return true;
+        }
+        return false;
+    }
+    
     protected int x;
     protected int y;
 }
