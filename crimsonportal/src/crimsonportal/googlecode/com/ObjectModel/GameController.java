@@ -111,6 +111,11 @@ public class GameController extends Observable implements Runnable, KeyListener
                     }
                     setChanged();
                 }
+                
+                if(gameTime % 100 == 0) 
+                {
+                    setChanged();
+                }
                 notifyObservers();
             }
             else
@@ -120,8 +125,86 @@ public class GameController extends Observable implements Runnable, KeyListener
         }
     }
     
-    public void keyPressed(KeyEvent e) {}
-    public void keyReleased(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) 
+    {
+    
+        // Key Down
+        if ( e.getKeyCode() == KeyEvent.VK_DOWN    )
+        {
+                downPressed = true;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_S )
+        {
+                downPressed = true;
+        }
+
+        // Key Up
+        if ( e.getKeyCode() == KeyEvent.VK_UP )
+        {
+                upPressed = true;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_W )
+        {
+                upPressed = true;
+        }
+
+        //Key Left
+        if (e.getKeyCode() == KeyEvent.VK_LEFT ) 
+        {
+                leftPressed = true;
+        } 
+        if (e.getKeyCode() == KeyEvent.VK_A ) 
+        {
+                leftPressed = true;
+        } 
+
+        //Key Right
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT ) 
+        {
+                rightPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D ) 
+        {
+                rightPressed = true;
+        }
+
+        // Key Fire
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) 
+        {
+                firePressed = true;
+        }
+    }
+    public void keyReleased(KeyEvent e) 
+    {
+        if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                downPressed = false;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_S ) {
+                downPressed = false;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                upPressed = false;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_W ) {
+                upPressed = false;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_LEFT ) {
+                leftPressed = false;
+        }
+        if ( e.getKeyCode() == KeyEvent.VK_A ) {
+                leftPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT ) {
+                rightPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D ) {
+                rightPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                firePressed = false;
+        }
+    
+    }
     public void keyTyped(KeyEvent e) 
     {
         int x = gameState.getPlayers().next().getLocation().getX();
@@ -158,4 +241,11 @@ public class GameController extends Observable implements Runnable, KeyListener
     protected GameCanvas gameCanvas;
     
     private final int mapWidth = 640, mapHeight = 480;
+    
+    
+    private boolean leftPressed = false;
+    private boolean rightPressed = false;
+    private boolean downPressed = false;
+    private boolean upPressed = false;
+    private boolean firePressed = false;
 }
