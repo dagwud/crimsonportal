@@ -5,6 +5,8 @@
 
 package ObjectModel.crimsonportal.googlecode.com;
 
+import GameSettings.crimsonportal.googlecode.com.ObjectSizes;
+
 /**
  *
  * @author dagwud
@@ -13,12 +15,12 @@ public class PlayerUnit extends Unit
 {
     public PlayerUnit(Location location)
     {
-        super(location, new Strategy(new Location(0, 0)));
+        super(ObjectSizes.PLAYER_SIZE, location, new Strategy(new Location(0, 0)));
     }
     
     public PlayerUnit(Location location, Weapon weapon)
     {
-        super(location, new Strategy(new Location(0, 0)));
+        super(ObjectSizes.PLAYER_SIZE, location, new Strategy(new Location(0, 0)));
         this.weapon = weapon;
     }
     

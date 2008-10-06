@@ -38,9 +38,9 @@ public class GameState
         return enemies.iterator();
     }
     
-    protected void spawnEnemy(int attackDamage, int moveSpeed, Location location, Location target)
+    protected void spawnEnemy(int size, int attackDamage, int moveSpeed, Location location, Location target)
     {
-        enemies.add(new EnemyUnit(attackDamage, moveSpeed, location, target));
+        enemies.add(new EnemyUnit(size, attackDamage, moveSpeed, location, target));
     }
     
     protected void killEnemy(EnemyUnit enemy)

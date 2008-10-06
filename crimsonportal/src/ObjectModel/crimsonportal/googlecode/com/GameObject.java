@@ -11,8 +11,9 @@ package ObjectModel.crimsonportal.googlecode.com;
  */
 public abstract class GameObject 
 {
-    public GameObject(Location location)
+    public GameObject(int size, Location location)
     {
+        this.size = size;
         this.location = location;
     }
     
@@ -21,10 +22,16 @@ public abstract class GameObject
         return location;
     }
     
+    public int getSize()
+    {
+        return size;
+    }
+    
     protected void setLocation(Location location)
     {
         this.location = location;
     }
     
     private Location location;
+    private int size;
 }

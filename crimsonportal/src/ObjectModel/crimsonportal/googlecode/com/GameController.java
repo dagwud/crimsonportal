@@ -5,6 +5,7 @@
 
 package ObjectModel.crimsonportal.googlecode.com;
 
+import GameSettings.crimsonportal.googlecode.com.ObjectSizes;
 import GameSettings.crimsonportal.googlecode.com.Timers;
 import gui.crimsonportal.googlecode.com.GameFrame;
 import gui.crimsonportal.googlecode.com.GameCanvas;
@@ -27,6 +28,11 @@ public class GameController extends Observable implements Runnable, KeyListener
         
         GameFrame frame = new GameFrame(gameCanvas);
         frame.setSize(mapWidth, mapHeight);
+        
+        // Start the GUI running in a separate thread, so that it does not slow
+        // down this process: 
+        Thread t = new Thread(gameCanvas);
+        t.start();
     }
     
     public GameState getGameState()
@@ -41,6 +47,31 @@ public class GameController extends Observable implements Runnable, KeyListener
     
     public void spawnEnemy()
     {
+        // Determine the size of the new enemy to spawn:
+        // Note: this will be replaced with a factory later
+        int size, moveSpeed;
+        if (gameState.getNumEnemies() < 15) 
+        {
+            size = ObjectSizes.ENEMY_SIZE_TINY;
+            moveSpeed = 1;
+        }
+        else if (gameState.getNumEnemies() < 30)
+        {
+            size = ObjectSizes.ENEMY_SIZE_SMALL;
+            moveSpeed = 2;
+        }
+        else if (gameState.getNumEnemies() < 60)
+        {
+            size = ObjectSizes.ENEMY_SIZE_LARGE;
+            moveSpeed = 3;
+        }
+        else
+        {
+            size = ObjectSizes.ENEMY_SIZE_HUGE;
+            moveSpeed = 5;
+        }
+        
+        // Choose (randomly) where to spawn the enemy:
         int side = (int) Math.floor(Math.random() * 4);
         int locationX = 100, locationY = 100;
         switch (side)
@@ -69,7 +100,7 @@ public class GameController extends Observable implements Runnable, KeyListener
         
         if (gameState.getNumPlayers() > 0)
         {
-            gameState.spawnEnemy(1, 1, new Location(locationX, locationY), gameState.getPlayers().next().getLocation());
+            gameState.spawnEnemy(size, 1, moveSpeed, new Location(locationX, locationY), gameState.getPlayers().next().getLocation());
             setChanged();
         }
         
@@ -80,11 +111,10 @@ public class GameController extends Observable implements Runnable, KeyListener
     {
         while (true)
         {
+            loopCount++;
             if (! getGameState().getGameTime().isPaused() )
             {
-                long gameTime = this.getGameState().getGameTime().getNumMilliseconds();
-
-                if (gameTime % Timers.SPAWN_NEW_ENEMY == 0)
+                if (loopCount % Timers.SPAWN_NEW_ENEMY == 0)
                 {
                     if (getGameState().getNumEnemies() < 100)
                     {
@@ -92,7 +122,7 @@ public class GameController extends Observable implements Runnable, KeyListener
                     }
                 }
                 
-                if (gameTime % Timers.MOVE_ENEMIES == 0)
+                if (loopCount % Timers.MOVE_ENEMIES == 0)
                 {
                     Iterator<EnemyUnit> enemies = gameState.getEnemies();
                     while (enemies.hasNext())
@@ -112,15 +142,20 @@ public class GameController extends Observable implements Runnable, KeyListener
                     setChanged();
                 }
                 
-                if(gameTime % 100 == 0) 
-                {
-                    setChanged();
-                }
                 notifyObservers();
             }
             else
             {
                 System.out.println("Paused");
+            }
+            
+            try
+            {
+                Thread.sleep(1); // Allow other threads to process too!
+            }
+            catch (InterruptedException e)
+            {
+                // Do nothing
             }
         }
     }
@@ -241,7 +276,7 @@ public class GameController extends Observable implements Runnable, KeyListener
     protected GameCanvas gameCanvas;
     
     private final int mapWidth = 640, mapHeight = 480;
-    
+    private int loopCount = 0;
     
     private boolean leftPressed = false;
     private boolean rightPressed = false;

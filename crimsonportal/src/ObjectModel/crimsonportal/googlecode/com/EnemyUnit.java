@@ -11,9 +11,9 @@ package ObjectModel.crimsonportal.googlecode.com;
  */
 public class EnemyUnit extends Unit
 {
-    public EnemyUnit(int attackDamage, int moveSpeed, Location location, Location target)
+    public EnemyUnit(int size, int attackDamage, int moveSpeed, Location location, Location target)
     {
-        super(location, new Strategy(target));
+        super(size, location, new Strategy(target));
         this.attackDamage = attackDamage;
         this.moveSpeed = moveSpeed;
     }
@@ -46,42 +46,44 @@ public class EnemyUnit extends Unit
     @Override
     public EnemyUnit clone()
     {
-        EnemyUnit e = new EnemyUnit(attackDamage, moveSpeed, getLocation(), getStrategy().getTarget());
+        EnemyUnit e = new EnemyUnit(size, attackDamage, moveSpeed, getLocation(), getStrategy().getTarget());
         return e;
     }
     
     protected void move()
     {
-        double diffY = this.getLocation().getY() - getStrategy().getTarget().getY();
-        double diffX = this.getLocation().getX() - getStrategy().getTarget().getX();
+        double diffY = getStrategy().getTarget().getY() - this.getLocation().getY();
+        double diffX = getStrategy().getTarget().getX() - this.getLocation().getX();
         
-        double moveAngle = Math.toRadians(0);
+        double moveAngleRadians = Math.toRadians(0);
         if (diffX != 0)
         {
-            moveAngle = Math.atan2(diffY, diffX);
+            moveAngleRadians = Math.atan2(diffY, diffX);
         }
         else
         {
             if (diffY > 0) 
             {
-                moveAngle = Math.toRadians(0);
+                moveAngleRadians = Math.toRadians(0);
             }
             else if (diffY < 0)
             {
-                moveAngle = Math.toRadians(180);
+                moveAngleRadians = Math.toRadians(180);
             }
             else
             {
-                return;
+                // diffX = 0 and diffY = 0; Enemy is on top of player; don't move:
+                return; 
             }
         }
-        int moveX = (int) ( Math.round(moveSpeed * Math.cos(moveAngle)) );
-        int moveY = (int) ( Math.round(moveSpeed * Math.sin(moveAngle)) );
+        int moveX = (int) ( Math.round(moveSpeed * Math.cos(moveAngleRadians)) );
+        int moveY = (int) ( Math.round(moveSpeed * Math.sin(moveAngleRadians)) );
                 
-        getLocation().setX( getLocation().getX() - moveX);
-        getLocation().setY( getLocation().getY() - moveY);
+        getLocation().setX( getLocation().getX() + moveX);
+        getLocation().setY( getLocation().getY() + moveY);
     }
     
     private int attackDamage;
     private int moveSpeed;
+    private int size;
 }

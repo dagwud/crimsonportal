@@ -11,6 +11,6 @@ package GameSettings.crimsonportal.googlecode.com;
  */
 public abstract class Timers 
 {
-    public static final double SPAWN_NEW_ENEMY = 800;
+    public static final double SPAWN_NEW_ENEMY = 100;
     public static final double MOVE_ENEMIES = 100;
 }

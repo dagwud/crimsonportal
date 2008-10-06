@@ -12,7 +12,6 @@ import ObjectModel.crimsonportal.googlecode.com.GameObject;
 import crimsonportal.googlecode.com.*;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Observable;
@@ -23,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author dagwud
  */
-public class GameCanvas extends JPanel implements Observer
+public class GameCanvas extends JPanel implements Observer, Runnable
 {
     public GameCanvas(GameController gameController)
     {
@@ -45,7 +44,9 @@ public class GameCanvas extends JPanel implements Observer
             {
                 GameObject player = players.next();
                 g.setColor(Color.green);
-                g.draw3DRect(player.getLocation().getX() - 5, player.getLocation().getY() - 5, 10, 10, true);
+                g.draw3DRect(player.getLocation().getX() - (player.getSize() / 2), 
+                             player.getLocation().getY() - (player.getSize() / 2),
+                             player.getSize(), player.getSize(), true);
             }
 
             // Draw enemies:
@@ -54,7 +55,9 @@ public class GameCanvas extends JPanel implements Observer
             {
                 GameObject enemy = enemies.next();
                 g.setColor(Color.red);
-                g.draw3DRect(enemy.getLocation().getX() - 5, enemy.getLocation().getY() - 5, 10, 10, true);
+                g.draw3DRect(enemy.getLocation().getX() - (enemy.getSize() / 2), 
+                             enemy.getLocation().getY() - (enemy.getSize() / 2), 
+                             enemy.getSize(), enemy.getSize(), true);
             }
         }
         catch (ConcurrentModificationException e)
@@ -73,6 +76,22 @@ public class GameCanvas extends JPanel implements Observer
     protected GameController getGameController()
     {
         return gameController;
+    }
+    
+    public void run()
+    {
+        while (true)
+        {
+            repaint();
+            try
+            {
+                Thread.sleep(1); // Allow other threads to execute!
+            }
+            catch (InterruptedException e)
+            {
+                // Do nothing
+            }
+        }
     }
     
     private SpriteProxy spriteProxy;
