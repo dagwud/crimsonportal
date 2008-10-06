@@ -60,7 +60,7 @@ public class GameState
     
     protected void spawnPlayer(Location location)
     {
-        PlayerUnit player = new PlayerUnit(location);
+        PlayerUnit player = new PlayerUnit(location, 4);
         players.add(player);
     }
     

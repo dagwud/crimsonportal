@@ -13,15 +13,17 @@ import GameSettings.crimsonportal.googlecode.com.ObjectSizes;
  */
 public class PlayerUnit extends Unit
 {
-    public PlayerUnit(Location location)
+    public PlayerUnit(Location location, int moveSpeed)
     {
         super(ObjectSizes.PLAYER_SIZE, location, new Strategy(new Location(0, 0)));
+        this.moveSpeed = moveSpeed;
     }
     
-    public PlayerUnit(Location location, Weapon weapon)
+    public PlayerUnit(Location location, int moveSpeed, Weapon weapon)
     {
         super(ObjectSizes.PLAYER_SIZE, location, new Strategy(new Location(0, 0)));
         this.weapon = weapon;
+        this.moveSpeed = moveSpeed;
     }
     
     public Weapon getWeapon()
@@ -34,12 +36,23 @@ public class PlayerUnit extends Unit
         this.weapon = weapon;
     }
     
+    public int getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+    
+    protected void setMoveSpeed(int moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+    
     @Override
     public PlayerUnit clone()
     {
-        PlayerUnit p = new PlayerUnit(getLocation(), weapon);
+        PlayerUnit p = new PlayerUnit(getLocation(), moveSpeed, weapon);
         return p;
     }
     
     private Weapon weapon;
+    private int moveSpeed;
 }

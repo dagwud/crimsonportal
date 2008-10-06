@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -162,125 +164,119 @@ public class GameController extends Observable implements Runnable, KeyListener
     
     public void keyPressed(KeyEvent e) 
     {
-    
+        int key = e.getKeyCode();
+        PlayerUnit player = gameState.getPlayers().next();
+        
         // Key Down
-        if ( e.getKeyCode() == KeyEvent.VK_DOWN    )
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S)
         {
-                downPressed = true;
+            if (moveDownTimer != null)
+            {
+                moveDownTimer.cancel();
+            }
+            moveDownTimer = new Timer();
+            moveDownTimer.schedule(new MoveTimer(0, player.getMoveSpeed(), player), 0, 100);
         }
-        if ( e.getKeyCode() == KeyEvent.VK_S )
-        {
-                downPressed = true;
-        }
-
+        
         // Key Up
-        if ( e.getKeyCode() == KeyEvent.VK_UP )
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W)
         {
-                upPressed = true;
-        }
-        if ( e.getKeyCode() == KeyEvent.VK_W )
-        {
-                upPressed = true;
+            if (moveUpTimer != null)
+            {
+                moveUpTimer.cancel();
+            }
+            moveUpTimer = new Timer();
+            moveUpTimer.schedule(new MoveTimer(0, -player.getMoveSpeed(), player), 0, 100);
         }
 
         //Key Left
-        if (e.getKeyCode() == KeyEvent.VK_LEFT ) 
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) 
         {
-                leftPressed = true;
-        } 
-        if (e.getKeyCode() == KeyEvent.VK_A ) 
-        {
-                leftPressed = true;
+            if (moveLeftTimer != null)
+            {
+                moveLeftTimer.cancel();
+            }
+            moveLeftTimer = new Timer();
+            moveLeftTimer.schedule(new MoveTimer(-player.getMoveSpeed(), 0, player), 0, 100);
         } 
 
         //Key Right
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT ) 
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
         {
-                rightPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D ) 
-        {
-                rightPressed = true;
+            if (moveRightTimer != null)
+            {
+                moveRightTimer.cancel();
+            }
+            moveRightTimer = new Timer();
+            moveRightTimer.schedule(new MoveTimer(player.getMoveSpeed(), 0, player), 0, 100);
         }
 
         // Key Fire
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) 
+        if (key == KeyEvent.VK_SPACE) 
         {
-                firePressed = true;
+            firePressed = true;
         }
     }
+    
     public void keyReleased(KeyEvent e) 
     {
-        if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                downPressed = false;
-        }
-        if ( e.getKeyCode() == KeyEvent.VK_S ) {
-                downPressed = false;
-        }
-        if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                upPressed = false;
-        }
-        if ( e.getKeyCode() == KeyEvent.VK_W ) {
-                upPressed = false;
-        }
-        if ( e.getKeyCode() == KeyEvent.VK_LEFT ) {
-                leftPressed = false;
-        }
-        if ( e.getKeyCode() == KeyEvent.VK_A ) {
-                leftPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT ) {
-                rightPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D ) {
-                rightPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                firePressed = false;
-        }
-    
-    }
-    public void keyTyped(KeyEvent e) 
-    {
-        int x = gameState.getPlayers().next().getLocation().getX();
-        int y = gameState.getPlayers().next().getLocation().getY();
-
-        switch (e.getKeyChar())
+        int key = e.getKeyCode();
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) 
         {
-            case 'w':
-            case 'W':
-                y--;
-                break;
-                
-            case 'a':
-            case 'A':
-                x--;
-                break;
-                
-            case 'd':
-            case 'D':
-                x++;
-                break;
-                
-            case 's':
-            case 'S':
-                y++;
-                break;
+            moveDownTimer.cancel();
         }
-        PlayerUnit p = gameState.getPlayers().next();
-        p.getLocation().setX(x);
-        p.getLocation().setY(y);
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) 
+        {
+            moveUpTimer.cancel();
+        }
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) 
+        {
+            moveLeftTimer.cancel();
+        }
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
+        {
+            moveRightTimer.cancel();
+        }
+        
+        if (key == KeyEvent.VK_SPACE) 
+        {
+            firePressed = false;
+        }
     }
+    
+    public void keyTyped(KeyEvent e) {}
     
     protected GameState gameState;
     protected GameCanvas gameCanvas;
     
-    private final int mapWidth = 640, mapHeight = 480;
+    private final int mapWidth = 800, mapHeight = 600;
     private int loopCount = 0;
     
-    private boolean leftPressed = false;
-    private boolean rightPressed = false;
-    private boolean downPressed = false;
-    private boolean upPressed = false;
     private boolean firePressed = false;
+    
+    private Timer moveLeftTimer;
+    private Timer moveRightTimer;
+    private Timer moveUpTimer;
+    private Timer moveDownTimer;
+    
+    class MoveTimer extends TimerTask
+    {
+        public MoveTimer(int moveAmountX, int moveAmountY, PlayerUnit player)
+        {
+            super();
+            this.moveAmountX = moveAmountX;
+            this.moveAmountY = moveAmountY;
+            this.controlledPlayer = player;
+        }
+        
+        public void run()
+        {
+            controlledPlayer.getLocation().setX(controlledPlayer.getLocation().getX() + moveAmountX);
+            controlledPlayer.getLocation().setY(controlledPlayer.getLocation().getY() + moveAmountY);
+        }
+        
+        protected int moveAmountX;
+        protected int moveAmountY;
+        private PlayerUnit controlledPlayer;
+    }
 }
