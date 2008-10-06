@@ -3,11 +3,11 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.ObjectModel;
+package ObjectModel.crimsonportal.googlecode.com;
 
-import GameSettings.Timers;
-import crimsonportal.googlecode.com.gui.GameFrame;
-import crimsonportal.googlecode.com.gui.GameCanvas;
+import GameSettings.crimsonportal.googlecode.com.Timers;
+import gui.crimsonportal.googlecode.com.GameFrame;
+import gui.crimsonportal.googlecode.com.GameCanvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Iterator;

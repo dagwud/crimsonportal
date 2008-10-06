@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.gui;
+package gui.crimsonportal.googlecode.com;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;

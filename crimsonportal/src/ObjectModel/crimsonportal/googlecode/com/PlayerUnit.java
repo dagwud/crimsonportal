@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.ObjectModel;
+package ObjectModel.crimsonportal.googlecode.com;
 
 /**
  *

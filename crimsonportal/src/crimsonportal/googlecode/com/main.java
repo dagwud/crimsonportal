@@ -5,7 +5,7 @@
 
 package crimsonportal.googlecode.com;
 
-import crimsonportal.googlecode.com.ObjectModel.GameController;
+import ObjectModel.crimsonportal.googlecode.com.GameController;
 
 /**
  *

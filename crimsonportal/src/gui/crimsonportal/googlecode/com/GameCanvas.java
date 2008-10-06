@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.gui;
+package gui.crimsonportal.googlecode.com;
 
-import crimsonportal.googlecode.com.ObjectModel.GameController;
-import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
-import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
-import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import ObjectModel.crimsonportal.googlecode.com.GameController;
+import ObjectModel.crimsonportal.googlecode.com.PlayerUnit;
+import ObjectModel.crimsonportal.googlecode.com.EnemyUnit;
+import ObjectModel.crimsonportal.googlecode.com.GameObject;
 import crimsonportal.googlecode.com.*;
 import java.awt.Color;
 import java.awt.Graphics;
