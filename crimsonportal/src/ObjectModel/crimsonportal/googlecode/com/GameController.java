@@ -167,6 +167,54 @@ public class GameController extends Observable implements Runnable, KeyListener
         int key = e.getKeyCode();
         PlayerUnit player = gameState.getPlayers().next();
         
+        // Key Down Left
+        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_LEFT  || 
+                key == KeyEvent.VK_S && key == KeyEvent.VK_A) 
+        {            
+            if (moveDownLeftTimer != null)
+            {
+                moveDownLeftTimer.cancel();
+            }
+            moveDownLeftTimer = new Timer();
+            moveDownLeftTimer.schedule(new MoveTimer(-player.getMoveSpeed(), player.getMoveSpeed(), player), 0, 100);
+        }
+        
+        // Key Down Right
+        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_RIGHT  || 
+                key == KeyEvent.VK_S && key == KeyEvent.VK_D) 
+        {            
+            if (moveDownRightTimer != null)
+            {
+                moveDownRightTimer.cancel();
+            }
+            moveDownRightTimer = new Timer();
+            moveDownRightTimer.schedule(new MoveTimer(player.getMoveSpeed(), player.getMoveSpeed(), player), 0, 100);
+        }
+        
+        // Key Up Left
+        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_LEFT  || 
+                key == KeyEvent.VK_W && key == KeyEvent.VK_A) 
+        {            
+            if (moveUpLeftTimer != null)
+            {
+                moveUpLeftTimer.cancel();
+            }
+            moveUpLeftTimer = new Timer();
+            moveUpLeftTimer.schedule(new MoveTimer(-player.getMoveSpeed(), -player.getMoveSpeed(), player), 0, 100);
+        }
+        
+        // Key Up Right
+        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_RIGHT  || 
+                key == KeyEvent.VK_W && key == KeyEvent.VK_D) 
+        {            
+            if (moveUpRightTimer != null)
+            {
+                moveUpRightTimer.cancel();
+            }
+            moveUpRightTimer = new Timer();
+            moveUpRightTimer.schedule(new MoveTimer(player.getMoveSpeed(), -player.getMoveSpeed(), player), 0, 100);
+        }
+        
         // Key Down
         if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S)
         {
@@ -221,6 +269,36 @@ public class GameController extends Observable implements Runnable, KeyListener
     public void keyReleased(KeyEvent e) 
     {
         int key = e.getKeyCode();
+        
+        // downLeft
+        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_LEFT  || 
+                key == KeyEvent.VK_S && key == KeyEvent.VK_A) 
+        {
+            moveDownLeftTimer.cancel();
+        }
+        
+        // downRight
+        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_RIGHT  || 
+                key == KeyEvent.VK_S && key == KeyEvent.VK_D) 
+        {
+            moveDownRightTimer.cancel();
+        }
+        
+        // upLeft
+        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_LEFT  || 
+                key == KeyEvent.VK_W && key == KeyEvent.VK_A) 
+        {
+            moveUpLeftTimer.cancel();
+        }
+        
+        // upRight
+        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_RIGHT  || 
+                key == KeyEvent.VK_W && key == KeyEvent.VK_D) 
+        {
+            moveUpRightTimer.cancel();
+        }
+        
+        
         if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) 
         {
             moveDownTimer.cancel();
@@ -258,6 +336,12 @@ public class GameController extends Observable implements Runnable, KeyListener
     private Timer moveRightTimer;
     private Timer moveUpTimer;
     private Timer moveDownTimer;
+    
+    private Timer moveUpLeftTimer;
+    private Timer moveDownLeftTimer;
+    private Timer moveUpRightTimer;
+    private Timer moveDownRightTimer;   
+    
     
     class MoveTimer extends TimerTask
     {
