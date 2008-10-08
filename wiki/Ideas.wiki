@@ -36,6 +36,10 @@
  * Countdown timer  - displays number of kills to next upgrade
  * In-game guide: new units, pickups, etc. are highlighted the first time they appear
     * Can be disabled by user
+ * 3D Terrain
+    * players and enemies move faster downhill and slower uphill
+    * grenades etc. roll downhill
+    * bullets travel faster downhill, etc.
 
 === Weapons ===
   * Weapon Skill Upgrade
@@ -50,6 +54,8 @@
    * To be implemented later as game advances
 
 === Classes of Enemy ===
+  * Various levels of standard enemies 
+    * Just move towards you and attack, but with differing stats (movement speed, attack damage, strength/armour, etc)
   * Bombers (explode when shot, or when near player, causing damage to all nearby units)
     * Player can then shoot bombers in order to destroy other enemies ;)
   * Tsotsies 
@@ -98,7 +104,7 @@
     * Stealth 
     * Counter Attack - chance to dodge/fight back when attacked
     * Vampirism – Get bit of HP from shooting enemies
-    * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more  normal XP {{{*}}} killed enemies )
+    * Bloody Mess – Damage multiplier ( more players u kill without getting shot at = more normal XP {{{*}}} killed enemies )
   * Other
     * Health Pickups – Increase heath ( 25% or 50% )
     * Super Health – Health increased to 200%
