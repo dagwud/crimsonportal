@@ -333,9 +333,6 @@ public class GameController extends Observable implements Runnable, KeyListener
     private Timer moveUpRightTimer;
     private Timer moveDownRightTimer;   
     
-    private Timer moveDownRight;    // To be removed in next commit
-    
-    
     class MoveTimer extends TimerTask
     {
         public MoveTimer(int moveAmountX, int moveAmountY, PlayerUnit player)
