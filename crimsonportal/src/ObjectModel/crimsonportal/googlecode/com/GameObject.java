@@ -9,7 +9,7 @@ package ObjectModel.crimsonportal.googlecode.com;
  *
  * @author dagwud
  */
-public abstract class GameObject 
+public abstract class GameObject
 {
     public GameObject(int size, Location location)
     {

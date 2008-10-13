@@ -5,36 +5,39 @@
 
 package ObjectModel.crimsonportal.googlecode.com;
 
+import Controller.KeyController;
 import GameSettings.crimsonportal.googlecode.com.ObjectSizes;
 import GameSettings.crimsonportal.googlecode.com.Timers;
 import gui.crimsonportal.googlecode.com.GameFrame;
 import gui.crimsonportal.googlecode.com.GameCanvas;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
  * @author dagwud
  */
-public class GameController extends Observable implements Runnable, KeyListener
+public class GameController extends Observable implements Runnable
 {
     public GameController()
     {
+        // Initialise the game state: 
         gameState = new GameState();
         gameState.spawnPlayer(new Location(mapWidth / 2, mapHeight / 2));
-        gameCanvas = new GameCanvas(this);
         
+        // Initialise the game GUI: 
+        gameCanvas = new GameCanvas(this);
         GameFrame frame = new GameFrame(gameCanvas);
         frame.setSize(mapWidth, mapHeight);
+        frame.addKeyListener(new KeyController(gameState.getPlayers().next()));
         
         // Start the GUI running in a separate thread, so that it does not slow
         // down this process: 
-        Thread t = new Thread(gameCanvas);
-        t.start();
+        Thread guiThread = new Thread(gameCanvas);
+        guiThread.start();
+        
+        setChanged();
+        notifyObservers();
     }
     
     public GameState getGameState()
@@ -135,7 +138,13 @@ public class GameController extends Observable implements Runnable, KeyListener
                         while (players.hasNext())
                         {
                             PlayerUnit player = players.next();
-                            if (enemy.getLocation().equals(player.getLocation()))
+                            // Check if the enemy's bounding circle overlaps with
+                            // the player's bounding circle: 
+                            int distX = Math.abs(player.getLocation().getX() - enemy.getLocation().getX());
+                            int distY = Math.abs(player.getLocation().getY() - enemy.getLocation().getY());
+                            int distSquared = (distX * distX) + (distY * distY);
+                            double dist = Math.sqrt(distSquared);
+                            if (dist - (enemy.getSize() / 2) - (player.getSize() / 2) <= 0)
                             {
                                 enemy.attack(player);
                             }
@@ -162,195 +171,9 @@ public class GameController extends Observable implements Runnable, KeyListener
         }
     }
     
-    public void keyPressed(KeyEvent e) 
-    {
-        int key = e.getKeyCode();
-        PlayerUnit player = gameState.getPlayers().next();
-        
-        // Key Down Left
-        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_LEFT  || 
-                key == KeyEvent.VK_S && key == KeyEvent.VK_A) 
-        {            
-            if (moveDownLeftTimer != null)
-            {
-                moveDownLeftTimer.cancel();
-            }
-            moveDownLeftTimer = new Timer();
-            moveDownLeftTimer.schedule(new MoveTimer(-player.getMoveSpeed(), player.getMoveSpeed(), player), 0, 100);
-        }
-        // Key Down Right
-        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_RIGHT  || 
-                key == KeyEvent.VK_S && key == KeyEvent.VK_D) 
-        {            
-            if (moveDownRightTimer != null)
-            {
-                moveDownRightTimer.cancel();
-            }
-            moveDownRightTimer = new Timer();
-            moveDownRightTimer.schedule(new MoveTimer(player.getMoveSpeed(), player.getMoveSpeed(), player), 0, 100);
-        }
-        // Key Up Left
-        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_LEFT  || 
-                key == KeyEvent.VK_W && key == KeyEvent.VK_A) 
-        {            
-            if (moveUpLeftTimer != null)
-            {
-                moveUpLeftTimer.cancel();
-            }
-            moveUpLeftTimer = new Timer();
-            moveUpLeftTimer.schedule(new MoveTimer(-player.getMoveSpeed(), -player.getMoveSpeed(), player), 0, 100);
-        }
-        // Key Up Right
-        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_RIGHT  || 
-                key == KeyEvent.VK_W && key == KeyEvent.VK_D) 
-        {            
-            if (moveUpRightTimer != null)
-            {
-                moveUpRightTimer.cancel();
-            }
-            moveUpRightTimer = new Timer();
-            moveUpRightTimer.schedule(new MoveTimer(player.getMoveSpeed(), -player.getMoveSpeed(), player), 0, 100);
-        }
-        // Key Down
-        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S)
-        {
-            if (moveDownTimer != null)
-            {
-                moveDownTimer.cancel();
-            }
-            moveDownTimer = new Timer();
-            moveDownTimer.schedule(new MoveTimer(0, player.getMoveSpeed(), player), 0, 100);
-        }
-        // Key Up
-        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W)
-        {
-            if (moveUpTimer != null)
-            {
-                moveUpTimer.cancel();
-            }
-            moveUpTimer = new Timer();
-            moveUpTimer.schedule(new MoveTimer(0, -player.getMoveSpeed(), player), 0, 100);
-        }
-        //Key Left
-        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) 
-        {
-            if (moveLeftTimer != null)
-            {
-                moveLeftTimer.cancel();
-            }
-            moveLeftTimer = new Timer();
-            moveLeftTimer.schedule(new MoveTimer(-player.getMoveSpeed(), 0, player), 0, 100);
-        } 
-        //Key Right
-        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
-        {
-            if (moveRightTimer != null)
-            {
-                moveRightTimer.cancel();
-            }
-            moveRightTimer = new Timer();
-            moveRightTimer.schedule(new MoveTimer(player.getMoveSpeed(), 0, player), 0, 100);
-        }
-        // Key Fire
-        if (key == KeyEvent.VK_SPACE) 
-        {
-            firePressed = true;
-        }
-    }
-    
-    public void keyReleased(KeyEvent e) 
-    {
-        int key = e.getKeyCode();
-        
-        // downLeft
-        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_LEFT  || 
-                key == KeyEvent.VK_S && key == KeyEvent.VK_A) 
-        {
-            moveDownLeftTimer.cancel();
-        }
-        // downRight
-        if (key == KeyEvent.VK_DOWN && key == KeyEvent.VK_RIGHT  || 
-                key == KeyEvent.VK_S && key == KeyEvent.VK_D) 
-        {
-            moveDownRightTimer.cancel();
-        }
-        // upLeft
-        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_LEFT  || 
-                key == KeyEvent.VK_W && key == KeyEvent.VK_A) 
-        {
-            moveUpLeftTimer.cancel();
-        }
-        // upRight
-        if (key == KeyEvent.VK_UP && key == KeyEvent.VK_RIGHT  || 
-                key == KeyEvent.VK_W && key == KeyEvent.VK_D) 
-        {
-            moveUpRightTimer.cancel();
-        }
-        // down
-        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) 
-        {
-            moveDownTimer.cancel();
-        }
-        // up
-        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) 
-        {
-            moveUpTimer.cancel();
-        }
-        // left
-        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) 
-        {
-            moveLeftTimer.cancel();
-        }
-        // right
-        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
-        {
-            moveRightTimer.cancel();
-        }
-        // fire
-        if (key == KeyEvent.VK_SPACE) 
-        {
-            firePressed = false;
-        }
-    }
-    
-    public void keyTyped(KeyEvent e) {}
-    
     protected GameState gameState;
     protected GameCanvas gameCanvas;
     
     private final int mapWidth = 800, mapHeight = 600;
     private int loopCount = 0;
-    
-    private boolean firePressed = false;
-    
-    private Timer moveLeftTimer;
-    private Timer moveRightTimer;
-    private Timer moveUpTimer;
-    private Timer moveDownTimer;
-    
-    private Timer moveUpLeftTimer;
-    private Timer moveDownLeftTimer;
-    private Timer moveUpRightTimer;
-    private Timer moveDownRightTimer;   
-    
-    class MoveTimer extends TimerTask
-    {
-        public MoveTimer(int moveAmountX, int moveAmountY, PlayerUnit player)
-        {
-            super();
-            this.moveAmountX = moveAmountX;
-            this.moveAmountY = moveAmountY;
-            this.controlledPlayer = player;
-        }
-        
-        public void run()
-        {
-            controlledPlayer.getLocation().setX(controlledPlayer.getLocation().getX() + moveAmountX);
-            controlledPlayer.getLocation().setY(controlledPlayer.getLocation().getY() + moveAmountY);
-        }
-        
-        protected int moveAmountX;
-        protected int moveAmountY;
-        private PlayerUnit controlledPlayer;
-    }
 }

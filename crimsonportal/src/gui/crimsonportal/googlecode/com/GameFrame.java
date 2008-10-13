@@ -24,8 +24,6 @@ public class GameFrame extends JFrame implements KeyListener
         
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-        addKeyListener(canvas.getGameController());
     }
     
     public void keyReleased(KeyEvent e) {}

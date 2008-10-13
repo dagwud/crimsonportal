@@ -9,7 +9,6 @@ import ObjectModel.crimsonportal.googlecode.com.GameController;
 import ObjectModel.crimsonportal.googlecode.com.PlayerUnit;
 import ObjectModel.crimsonportal.googlecode.com.EnemyUnit;
 import ObjectModel.crimsonportal.googlecode.com.GameObject;
-import crimsonportal.googlecode.com.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ConcurrentModificationException;
@@ -94,6 +93,6 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         }
     }
     
-    private SpriteProxy spriteProxy;
+    //private SpriteProxy spriteProxy;
     private GameController gameController;
 }

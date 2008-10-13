@@ -3,8 +3,6 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com;
-
 import ObjectModel.crimsonportal.googlecode.com.GameController;
 
 /**
@@ -19,9 +17,8 @@ public class main
 
         GameController gameController = new GameController();
         
-        Thread t = new Thread(gameController);
-        t.start();
-        
+        Thread gameControlThread = new Thread(gameController);
+        gameControlThread.start();
         gameController.getGameState().getGameTime().startTimer();
         
         System.out.println("Loaded");
