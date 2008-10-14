@@ -7,36 +7,6 @@
     <description>Builds the SimpleJOGL2.</description>
 
     <target name="-jogl-template-post-jar">
-        <echo message="Creating native distibutions"/>
-
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="linux-i586"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="linux-amd64"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="macosx-ppc"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="macosx-universal"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="solaris-sparc"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="solaris-sparcv9"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="solaris-i586"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="windows-i586"/>
-        </antcall>
-        <antcall target="-create-native-distribution" inheritall="true">
-            <param name="platform.name" value="windows-amd64"/>
-        </antcall>
-        <antcall target="-jogl-template-copy-natives" inheritall="true"/>
     </target>
 
     <target name="-jogl-template-copy-natives" depends="-jogl-template-test-jnlp-enabled" unless="is.jnlp.enabled">

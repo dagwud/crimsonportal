@@ -1,4 +1,4 @@
-package ObjectModel.crimsonportal.googlecode.com;
+package crimsonportal.googlecode.com.ObjectModel;
 
 public class Weapon
 {

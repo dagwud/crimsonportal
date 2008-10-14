@@ -1,9 +1,11 @@
+package crimsonportal.googlecode.com;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import ObjectModel.crimsonportal.googlecode.com.GameController;
+import crimsonportal.googlecode.com.ObjectModel.GameController;
 
 /**
  *

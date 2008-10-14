@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package Controller;
+package crimsonportal.googlecode.com.Controller;
 
-import ObjectModel.crimsonportal.googlecode.com.PlayerUnit;
+import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import java.util.TimerTask;
 
 /**

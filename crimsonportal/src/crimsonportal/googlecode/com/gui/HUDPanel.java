@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package gui.crimsonportal.googlecode.com;
+package crimsonportal.googlecode.com.gui;
 
-import ObjectModel.crimsonportal.googlecode.com.GameController;
+import crimsonportal.googlecode.com.ObjectModel.GameController;
 import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;

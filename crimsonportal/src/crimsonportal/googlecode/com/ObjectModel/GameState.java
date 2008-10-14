@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ObjectModel.crimsonportal.googlecode.com;
+package crimsonportal.googlecode.com.ObjectModel;
 
 import java.util.Collection;
 import java.util.Iterator;

@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package ObjectModel.crimsonportal.googlecode.com;
+package crimsonportal.googlecode.com.ObjectModel;
 
-import GameSettings.crimsonportal.googlecode.com.ObjectSizes;
+import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 
 /**
  *

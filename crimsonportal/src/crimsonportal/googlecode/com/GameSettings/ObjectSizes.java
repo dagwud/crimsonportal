@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package GameSettings.crimsonportal.googlecode.com;
+package crimsonportal.googlecode.com.GameSettings;
 
 /**
  *
