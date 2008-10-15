@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.Controller;
 
+import crimsonportal.googlecode.com.Observer.PlayerMoveEvent;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import java.util.TimerTask;
 
@@ -14,10 +15,11 @@ import java.util.TimerTask;
  */
 class MoveTimerTask extends TimerTask
 {
-    public MoveTimerTask(PlayerUnit playerToMove)
+    public MoveTimerTask(Controller controller, PlayerUnit controlledPlayer)
     {
         super();
-        this.controlledPlayer = playerToMove;
+        this.controller = controller;
+        this.controlledPlayer = controlledPlayer;
     }
 
     public void run()
@@ -32,11 +34,12 @@ class MoveTimerTask extends TimerTask
             moveY = moveY * 2;
         }
 
-        controlledPlayer.getLocation().setX(controlledPlayer.getLocation().getX() + moveX);
-        controlledPlayer.getLocation().setY(controlledPlayer.getLocation().getY() + moveY);
+        PlayerMoveEvent event = new PlayerMoveEvent(controlledPlayer, moveX, moveY);
+        controller.notifyObservers(event);
     }
 
     protected int moveAmountX = 0;
     protected int moveAmountY = 0;
+    private Controller controller;
     private PlayerUnit controlledPlayer;
 }

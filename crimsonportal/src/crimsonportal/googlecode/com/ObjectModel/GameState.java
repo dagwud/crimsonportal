@@ -5,6 +5,9 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Observer.Observable;
+import crimsonportal.googlecode.com.Observer.PlayerMoveObserver;
+import crimsonportal.googlecode.com.Observer.PlayerMoveEvent;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,7 +16,7 @@ import java.util.LinkedList;
  *
  * @author dagwud
  */
-public class GameState 
+public class GameState extends PlayerMoveObserver
 {
     public GameState()
     {
@@ -67,6 +70,14 @@ public class GameState
     public GameTime getGameTime()
     {
         return elapsedGameTime;
+    }
+    
+    @Override
+    public void update(Observable o, PlayerMoveEvent e)
+    {
+        PlayerUnit player = e.getPlayerToMove();
+        player.getLocation().setX(player.getLocation().getX() + e.getMoveAmountX());
+        player.getLocation().setY(player.getLocation().getY() + e.getMoveAmountY());
     }
     
     private Collection<PlayerUnit> players;

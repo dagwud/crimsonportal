@@ -13,23 +13,23 @@ import java.util.Timer;
  * @author dagwud
  */
 class MoveTimer extends Timer
+{
+    public MoveTimer(Controller controller, PlayerUnit playerToMove)
     {
-        public MoveTimer(PlayerUnit playerToMove)
-        {
-            super();
-            timerTask = new MoveTimerTask(playerToMove);
-            this.scheduleAtFixedRate(timerTask, 100, 100);
-        }
-        
-        public void setMovementX(int moveAmountX)
-        {
-            timerTask.moveAmountX = moveAmountX;
-        }
-        
-        public void setMovementY(int moveAmountY)
-        {
-            timerTask.moveAmountY = moveAmountY;
-        }
-        
-        private MoveTimerTask timerTask;
+        super();
+        timerTask = new MoveTimerTask(controller, playerToMove);
+        this.scheduleAtFixedRate(timerTask, 100, 100);
     }
+
+    public void setMovementX(int moveAmountX)
+    {
+        timerTask.moveAmountX = moveAmountX;
+    }
+
+    public void setMovementY(int moveAmountY)
+    {
+        timerTask.moveAmountY = moveAmountY;
+    }
+
+    private MoveTimerTask timerTask;
+}

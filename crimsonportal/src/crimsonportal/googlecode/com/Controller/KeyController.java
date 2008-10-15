@@ -13,11 +13,11 @@ import java.awt.event.KeyListener;
  *
  * @author dagwud
  */
-public class KeyController implements KeyListener
+public class KeyController extends Controller implements KeyListener
 {
     public KeyController(PlayerUnit controlledPlayer)
     {
-        moveTimer = new MoveTimer(controlledPlayer);
+        moveTimer = new MoveTimer(this, controlledPlayer);
     }
     
     public void keyPressed(KeyEvent e) 

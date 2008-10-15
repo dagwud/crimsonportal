@@ -29,7 +29,9 @@ public class GameController extends Observable implements Runnable
         gameCanvas = new GameCanvas(this);
         GameFrame frame = new GameFrame(gameCanvas);
         frame.setSize(mapWidth, mapHeight);
-        frame.addKeyListener(new KeyController(gameState.getPlayers().next()));
+        KeyController player1Controller = new KeyController(gameState.getPlayers().next());
+        frame.addKeyListener(player1Controller);
+        player1Controller.addObserver(gameState);
         
         // Start the GUI running in a separate thread, so that it does not slow
         // down this process: 

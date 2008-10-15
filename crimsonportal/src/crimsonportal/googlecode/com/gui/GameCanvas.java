@@ -43,9 +43,9 @@ public class GameCanvas extends JPanel implements Observer, Runnable
             {
                 GameObject player = players.next();
                 g.setColor(Color.green);
-                g.draw3DRect(player.getLocation().getX() - (player.getSize() / 2), 
-                             player.getLocation().getY() - (player.getSize() / 2),
-                             player.getSize(), player.getSize(), true);
+                g.drawArc(player.getLocation().getX() - (player.getSize() / 2), 
+                          player.getLocation().getY() - (player.getSize() / 2),
+                          player.getSize(), player.getSize(), 0, 360);
             }
 
             // Draw enemies:
@@ -54,9 +54,9 @@ public class GameCanvas extends JPanel implements Observer, Runnable
             {
                 GameObject enemy = enemies.next();
                 g.setColor(Color.red);
-                g.draw3DRect(enemy.getLocation().getX() - (enemy.getSize() / 2), 
-                             enemy.getLocation().getY() - (enemy.getSize() / 2), 
-                             enemy.getSize(), enemy.getSize(), true);
+                g.drawArc(enemy.getLocation().getX() - (enemy.getSize() / 2), 
+                          enemy.getLocation().getY() - (enemy.getSize() / 2), 
+                          enemy.getSize(), enemy.getSize(), 0, 360);
             }
         }
         catch (ConcurrentModificationException e)
