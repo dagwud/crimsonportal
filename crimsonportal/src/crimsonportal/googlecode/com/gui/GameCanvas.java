@@ -9,8 +9,11 @@ import crimsonportal.googlecode.com.ObjectModel.GameController;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.Proxy.Sprite;
+import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Observable;
@@ -29,6 +32,7 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         this.gameController = gameController;
         gameController.addObserver(this);
         setDoubleBuffered(true);
+        spriteProxy = new SpriteProxy();
     }
     
     @Override
@@ -37,26 +41,28 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         super.paintComponent(g);
         try
         {
-            // Draw players:
-            Iterator<PlayerUnit> players = gameController.getGameState().getPlayers();
-            while (players.hasNext())
-            {
-                GameObject player = players.next();
-                g.setColor(Color.green);
-                g.drawArc(player.getLocation().getX() - (player.getSize() / 2), 
-                          player.getLocation().getY() - (player.getSize() / 2),
-                          player.getSize(), player.getSize(), 0, 360);
-            }
-
             // Draw enemies:
             Iterator<EnemyUnit> enemies = gameController.getGameState().getEnemies();
             while (enemies.hasNext())
             {
+                Sprite img = spriteProxy.get("enemy.gif"); 
                 GameObject enemy = enemies.next();
-                g.setColor(Color.red);
-                g.drawArc(enemy.getLocation().getX() - (enemy.getSize() / 2), 
-                          enemy.getLocation().getY() - (enemy.getSize() / 2), 
-                          enemy.getSize(), enemy.getSize(), 0, 360);
+                g.drawImage(img.toImage(),
+                        enemy.getLocation().getX() - (enemy.getSize() / 2),
+                        enemy.getLocation().getY() - (enemy.getSize() / 2),
+                        enemy.getSize(), enemy.getSize(), null);
+            }
+            
+            // Draw players:
+            Iterator<PlayerUnit> players = gameController.getGameState().getPlayers();
+            while (players.hasNext())
+            {
+                Sprite img = spriteProxy.get("player.gif"); 
+                GameObject player = players.next();
+                g.drawImage(img.toImage(), 
+                        player.getLocation().getX() - (player.getSize() / 2),
+                        player.getLocation().getY() - (player.getSize() / 2),
+                        player.getSize(), player.getSize(), null);
             }
         }
         catch (ConcurrentModificationException e)
@@ -93,6 +99,6 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         }
     }
     
-    //private SpriteProxy spriteProxy;
+    protected SpriteProxy spriteProxy;
     private GameController gameController;
 }

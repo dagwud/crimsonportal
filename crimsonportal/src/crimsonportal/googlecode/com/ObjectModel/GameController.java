@@ -8,6 +8,7 @@ package crimsonportal.googlecode.com.ObjectModel;
 import crimsonportal.googlecode.com.Controller.KeyController;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.GameSettings.Timers;
+import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import java.util.Iterator;

@@ -27,6 +27,8 @@ public class HUDPanel extends JPanel implements Observer
         lblEnemies = new JLabel("Enemies: ");
         add(lblEnemies, BorderLayout.EAST);
         
+        setDoubleBuffered(true);
+        
         gameController.addObserver(this);
     }
     
