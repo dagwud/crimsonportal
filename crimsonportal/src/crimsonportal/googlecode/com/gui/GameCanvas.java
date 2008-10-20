@@ -61,11 +61,11 @@ public class GameCanvas extends JPanel implements Observer, Runnable
                 double scale = 4.5;
                 g2.translate(enemy.getLocation().getX() - (enemy.getSize() / 2),
                             enemy.getLocation().getY() - (enemy.getSize() / 2));
-                    g2.rotate(rotate);
                     g2.scale(scale / enemy.getSize(), scale / enemy.getSize());
+                    g2.rotate(rotate);
                         g.drawImage(img.toImage(), 0, 0, null);
-                    g2.scale(enemy.getSize() / scale, enemy.getSize() / scale);
                     g2.rotate(-rotate);
+                    g2.scale(enemy.getSize() / scale, enemy.getSize() / scale);
                 g2.translate(-(enemy.getLocation().getX() - (enemy.getSize() / 2)),
                             -(enemy.getLocation().getY() - (enemy.getSize() / 2)));
             }
