@@ -33,6 +33,8 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         gameController.addObserver(this);
         setDoubleBuffered(true);
         spriteProxy = new SpriteProxy();
+        setSize(800, 600);
+        setOpaque(false);
     }
     
     @Override

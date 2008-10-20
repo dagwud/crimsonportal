@@ -7,6 +7,8 @@ package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.GameController;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JLabel;
@@ -22,14 +24,18 @@ public class HUDPanel extends JPanel implements Observer
     {
         super(new BorderLayout());
         lblHealth = new JLabel("Health: ");
+        lblHealth.setForeground(Color.white);
         add(lblHealth, BorderLayout.WEST);
         
         lblEnemies = new JLabel("Enemies: ");
+        lblEnemies.setForeground(Color.white);
         add(lblEnemies, BorderLayout.EAST);
         
         setDoubleBuffered(true);
         
         gameController.addObserver(this);
+        
+        setOpaque(false);
     }
     
     public void update(Observable o, Object arg)

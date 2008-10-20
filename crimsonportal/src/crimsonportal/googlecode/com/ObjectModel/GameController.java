@@ -11,6 +11,7 @@ import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
+import java.awt.Dimension;
 import java.util.Iterator;
 import java.util.Observable;
 
@@ -22,6 +23,7 @@ public class GameController extends Observable implements Runnable
 {
     public GameController()
     {
+        super();
         // Initialise the game state: 
         gameState = new GameState();
         gameState.spawnPlayer(new Location(mapWidth / 2, mapHeight / 2));
@@ -29,7 +31,12 @@ public class GameController extends Observable implements Runnable
         // Initialise the game GUI: 
         gameCanvas = new GameCanvas(this);
         GameFrame frame = new GameFrame(gameCanvas);
-        frame.setSize(mapWidth, mapHeight);
+        
+        // Set up the size of the frame: 
+        frame.setPreferredSize(new Dimension(mapWidth, mapHeight));
+        frame.pack();
+
+        // Add a controller for player 1:
         KeyController player1Controller = new KeyController(gameState.getPlayers().next());
         frame.addKeyListener(player1Controller);
         player1Controller.addObserver(gameState);
