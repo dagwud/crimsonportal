@@ -24,6 +24,7 @@ public class GameState extends PlayerMoveObserver
         enemies = new LinkedList<EnemyUnit>();
         pickups = new LinkedList<Pickup>();
         elapsedGameTime = new GameTime(true);
+        map = new Map(800, 600);
     }
     
     public Iterator<PlayerUnit> getPlayers()
@@ -72,16 +73,31 @@ public class GameState extends PlayerMoveObserver
         return elapsedGameTime;
     }
     
+    public Map getMap()
+    {
+        return map;
+    }
+    
     @Override
     public void update(Observable o, PlayerMoveEvent e)
     {
         PlayerUnit player = e.getPlayerToMove();
         player.getLocation().setX(player.getLocation().getX() + e.getMoveAmountX());
         player.getLocation().setY(player.getLocation().getY() + e.getMoveAmountY());
+        
+        // Update enemies' targets:
+        Iterator<EnemyUnit> i = enemies.iterator();
+        while (i.hasNext())
+        {
+            EnemyUnit enemy = i.next();
+            enemy.getStrategy().getTarget().setX(getPlayers().next().getLocation().getX() + (getPlayers().next().getSize() / 2));
+            enemy.getStrategy().getTarget().setY(getPlayers().next().getLocation().getY() + (getPlayers().next().getSize() / 2));
+        }
     }
     
     private Collection<PlayerUnit> players;
     private Collection<EnemyUnit> enemies;
     private Collection<Pickup> pickups;
     private GameTime elapsedGameTime;
+    private Map map;
 }

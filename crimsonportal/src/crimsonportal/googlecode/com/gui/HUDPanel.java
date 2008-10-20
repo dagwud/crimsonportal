@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  */
 public class HUDPanel extends JPanel implements Observer
 {
-    public HUDPanel(GameController gameController)
+    public HUDPanel(GameController gameController, int width)
     {
         super(new BorderLayout());
         lblHealth = new JLabel("Health: ");
@@ -32,10 +32,12 @@ public class HUDPanel extends JPanel implements Observer
         add(lblEnemies, BorderLayout.EAST);
         
         setDoubleBuffered(true);
+        setOpaque(false);
+        this.setSize(width, 100);
+        
+        setVisible(true);
         
         gameController.addObserver(this);
-        
-        setOpaque(false);
     }
     
     public void update(Observable o, Object arg)

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.gui;
 
+import crimsonportal.googlecode.com.ObjectModel.Map;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,17 +17,16 @@ import javax.swing.JLabel;
  */
 public class GameFrame extends JFrame
 {
-    public GameFrame(GameCanvas canvas)
+    public GameFrame(GameCanvas canvas, Map map)
     {
         JLabel background = new JLabel(new ImageIcon(canvas.spriteProxy.get("background.jpg").toImage()));
-        background.setSize(new Dimension(800, 600));
+        background.setSize(map.getWidth(), map.getHeight());
         background.setOpaque(true);
         getLayeredPane().add(background, new Integer(0));
         
         getLayeredPane().add(canvas, new Integer(1));
         
-        HUDPanel hud = new HUDPanel(canvas.getGameController());
-        hud.setSize(800, 200);
+        HUDPanel hud = new HUDPanel(canvas.getGameController(), map.getWidth());
         // Position the HUD:
         hud.setLocation(0, background.getHeight() - hud.getHeight());
         getLayeredPane().add(hud, new Integer(2));

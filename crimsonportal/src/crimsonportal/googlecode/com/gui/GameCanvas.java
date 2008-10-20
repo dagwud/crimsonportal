@@ -11,9 +11,10 @@ import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImageOp;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Observable;
@@ -41,6 +42,7 @@ public class GameCanvas extends JPanel implements Observer, Runnable
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
         try
         {
             // Draw enemies:
@@ -48,11 +50,24 @@ public class GameCanvas extends JPanel implements Observer, Runnable
             while (enemies.hasNext())
             {
                 Sprite img = spriteProxy.get("enemy.gif"); 
-                GameObject enemy = enemies.next();
-                g.drawImage(img.toImage(),
-                        enemy.getLocation().getX() - (enemy.getSize() / 2),
-                        enemy.getLocation().getY() - (enemy.getSize() / 2),
-                        enemy.getSize(), enemy.getSize(), null);
+                EnemyUnit enemy = enemies.next();
+                
+                // Calculate the angle this enemy is facing (towards its target):
+                double distY = enemy.getLocation().getY() + (enemy.getSize() / 2) - enemy.getStrategy().getTarget().getY();
+                double distX = enemy.getLocation().getX() + (enemy.getSize() / 2) - enemy.getStrategy().getTarget().getX();
+                double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
+                
+                // Draw the enemy: 
+                double scale = 4.5;
+                g2.translate(enemy.getLocation().getX() - (enemy.getSize() / 2),
+                            enemy.getLocation().getY() - (enemy.getSize() / 2));
+                    g2.rotate(rotate);
+                    g2.scale(scale / enemy.getSize(), scale / enemy.getSize());
+                        g.drawImage(img.toImage(), 0, 0, null);
+                    g2.scale(enemy.getSize() / scale, enemy.getSize() / scale);
+                    g2.rotate(-rotate);
+                g2.translate(-(enemy.getLocation().getX() - (enemy.getSize() / 2)),
+                            -(enemy.getLocation().getY() - (enemy.getSize() / 2)));
             }
             
             // Draw players:

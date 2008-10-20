@@ -30,7 +30,7 @@ public class GameController extends Observable implements Runnable
         
         // Initialise the game GUI: 
         gameCanvas = new GameCanvas(this);
-        GameFrame frame = new GameFrame(gameCanvas);
+        GameFrame frame = new GameFrame(gameCanvas, gameState.getMap());
         
         // Set up the size of the frame: 
         frame.setPreferredSize(new Dimension(mapWidth, mapHeight));
@@ -115,7 +115,10 @@ public class GameController extends Observable implements Runnable
         
         if (gameState.getNumPlayers() > 0)
         {
-            gameState.spawnEnemy(size, 1, moveSpeed, new Location(locationX, locationY), gameState.getPlayers().next().getLocation());
+            gameState.spawnEnemy(size, 1, moveSpeed, 
+                    new Location(locationX, locationY), 
+                    new Location(gameState.getPlayers().next().getLocation().getX() + (gameState.getPlayers().next().getSize() / 2),
+                                    gameState.getPlayers().next().getLocation().getY() + (gameState.getPlayers().next().getSize() / 2)));
             setChanged();
         }
         
