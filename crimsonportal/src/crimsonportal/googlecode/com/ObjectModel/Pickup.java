@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import java.util.Random;
+
 /**
  *
  * @author dagwud
@@ -32,10 +34,22 @@ public abstract class Pickup
         pickupLocation.setY( loc.getY() );
     }
     
-    public void setPickupLocation(int locX, int locY) 
+    public void setPickupLocation(double locX, double locY) 
     {
         pickupLocation.setX(locX);
         pickupLocation.setY(locY);
+    }
+    
+    public void generatePickupLocation (Map map)
+    {
+        //TODO : Fix coordinates . . . 
+        
+        Random randomGenerator = new Random();
+        
+        double randomX = randomGenerator.nextInt(map.height - 10);
+        double randomY = randomGenerator.nextInt(map.width - 10);
+        
+        setPickupLocation(randomX, randomY);
     }
     
     public Location getPickupLocation() 
