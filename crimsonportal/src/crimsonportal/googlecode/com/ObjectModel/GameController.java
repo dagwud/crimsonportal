@@ -153,9 +153,9 @@ public class GameController extends Observable implements Runnable
                             PlayerUnit player = players.next();
                             // Check if the enemy's bounding circle overlaps with
                             // the player's bounding circle: 
-                            int distX = Math.abs(player.getLocation().getX() - enemy.getLocation().getX());
-                            int distY = Math.abs(player.getLocation().getY() - enemy.getLocation().getY());
-                            int distSquared = (distX * distX) + (distY * distY);
+                            double distX = Math.abs(player.getLocation().getX() - enemy.getLocation().getX());
+                            double distY = Math.abs(player.getLocation().getY() - enemy.getLocation().getY());
+                            double distSquared = (distX * distX) + (distY * distY);
                             double dist = Math.sqrt(distSquared);
                             if (dist - (enemy.getSize() / 2) - (player.getSize() / 2) <= 0)
                             {

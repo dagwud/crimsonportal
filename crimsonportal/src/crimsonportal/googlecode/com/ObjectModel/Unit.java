@@ -11,7 +11,7 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public abstract class Unit extends GameObject
 {
-    public Unit(int size, Location location, Strategy strategy)
+    public Unit(double size, Location location, Strategy strategy)
     {
         super(size, location);
         this.strategy = strategy;
@@ -39,5 +39,4 @@ public abstract class Unit extends GameObject
     
     private Strategy strategy;
     private int health;
-    private int size;
 }

@@ -11,28 +11,28 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class Location 
 {
-    public Location(int x, int y)
+    public Location(double x, double y)
     {
         this.x = x;
         this.y = y;
     }
     
-    public int getX()
+    public double getX()
     {
         return x;
     }
     
-    protected void setX(int x)
+    protected void setX(double x)
     {
         this.x = x;
     }
     
-    public int getY()
+    public double getY()
     {
         return y;
     }
     
-    protected void setY(int y)
+    protected void setY(double y)
     {
         this.y = y;
     }
@@ -53,6 +53,6 @@ public class Location
         return false;
     }
     
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 }

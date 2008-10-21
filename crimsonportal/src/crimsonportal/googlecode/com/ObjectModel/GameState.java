@@ -9,6 +9,7 @@ import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.PlayerMoveObserver;
 import crimsonportal.googlecode.com.Observer.PlayerMoveEvent;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -81,17 +82,24 @@ public class GameState extends PlayerMoveObserver
     @Override
     public void update(Observable o, PlayerMoveEvent e)
     {
-        PlayerUnit player = e.getPlayerToMove();
-        player.getLocation().setX(player.getLocation().getX() + e.getMoveAmountX());
-        player.getLocation().setY(player.getLocation().getY() + e.getMoveAmountY());
-        
-        // Update enemies' targets:
-        Iterator<EnemyUnit> i = enemies.iterator();
-        while (i.hasNext())
+        try
         {
-            EnemyUnit enemy = i.next();
-            enemy.getStrategy().getTarget().setX(getPlayers().next().getLocation().getX() + (getPlayers().next().getSize() / 2));
-            enemy.getStrategy().getTarget().setY(getPlayers().next().getLocation().getY() + (getPlayers().next().getSize() / 2));
+            PlayerUnit player = e.getPlayerToMove();
+            player.getLocation().setX(player.getLocation().getX() + e.getMoveAmountX());
+            player.getLocation().setY(player.getLocation().getY() + e.getMoveAmountY());
+
+            // Update enemies' targets:
+            Iterator<EnemyUnit> i = enemies.iterator();
+            while (i.hasNext())
+            {
+                EnemyUnit enemy = i.next();
+                enemy.getStrategy().getTarget().setX(getPlayers().next().getLocation().getX() + (getPlayers().next().getSize() / 2));
+                enemy.getStrategy().getTarget().setY(getPlayers().next().getLocation().getY() + (getPlayers().next().getSize() / 2));
+            }
+        }
+        catch (ConcurrentModificationException er)
+        {
+            // Do nothing
         }
     }
     

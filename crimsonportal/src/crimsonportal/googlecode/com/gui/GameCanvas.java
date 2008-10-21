@@ -58,16 +58,16 @@ public class GameCanvas extends JPanel implements Observer, Runnable
                 double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
                 
                 // Draw the enemy: 
-                double scale = 4.5;
-                g2.translate(enemy.getLocation().getX() - (enemy.getSize() / 2),
-                            enemy.getLocation().getY() - (enemy.getSize() / 2));
-                    g2.scale(scale / enemy.getSize(), scale / enemy.getSize());
-                    g2.rotate(rotate);
-                        g.drawImage(img.toImage(), 0, 0, null);
-                    g2.rotate(-rotate);
-                    g2.scale(enemy.getSize() / scale, enemy.getSize() / scale);
-                g2.translate(-(enemy.getLocation().getX() - (enemy.getSize() / 2)),
-                            -(enemy.getLocation().getY() - (enemy.getSize() / 2)));
+                double scale = enemy.getSize() / img.toImage().getWidth();
+                g2.translate(enemy.getLocation().getX(), enemy.getLocation().getY());
+                    g2.scale(scale, scale);
+                        g2.rotate(rotate);
+                            g2.translate(-enemy.getSize() / 2.0, -enemy.getSize() / 2.0);
+                                g.drawImage(img.toImage(), 0, 0, null);
+                            g2.translate(enemy.getSize() / 2.0, enemy.getSize() / 2.0);
+                        g2.rotate(-rotate);
+                    g2.scale(1.0 / scale, 1.0 / scale);
+                g2.translate(-enemy.getLocation().getX(), -enemy.getLocation().getY());
             }
             
             // Draw players:
@@ -77,9 +77,9 @@ public class GameCanvas extends JPanel implements Observer, Runnable
                 Sprite img = spriteProxy.get("player.gif"); 
                 GameObject player = players.next();
                 g.drawImage(img.toImage(), 
-                        player.getLocation().getX() - (player.getSize() / 2),
-                        player.getLocation().getY() - (player.getSize() / 2),
-                        player.getSize(), player.getSize(), null);
+                        (int) (player.getLocation().getX() - (player.getSize() / 2)),
+                        (int) (player.getLocation().getY() - (player.getSize() / 2)),
+                        (int)player.getSize(), (int)player.getSize(), null);
             }
         }
         catch (ConcurrentModificationException e)

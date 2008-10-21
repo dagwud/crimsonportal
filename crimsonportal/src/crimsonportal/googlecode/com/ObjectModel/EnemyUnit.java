@@ -76,8 +76,8 @@ public class EnemyUnit extends Unit
                 return; 
             }
         }
-        int moveX = (int) ( Math.round(moveSpeed * Math.cos(moveAngleRadians)) );
-        int moveY = (int) ( Math.round(moveSpeed * Math.sin(moveAngleRadians)) );
+        double moveX = (double) Math.round(moveSpeed * Math.cos(moveAngleRadians));
+        double moveY = (double) Math.round(moveSpeed * Math.sin(moveAngleRadians));
                 
         getLocation().setX( getLocation().getX() + moveX);
         getLocation().setY( getLocation().getY() + moveY);
