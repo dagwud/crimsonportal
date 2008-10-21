@@ -26,5 +26,23 @@ public abstract class Pickup
         this.expirationTime = expirationTime;
     }
     
+    public void setPickupLocation(Location loc) 
+    {
+        pickupLocation.setX( loc.getX() );
+        pickupLocation.setY( loc.getY() );
+    }
+    
+    public void setPickupLocation(int locX, int locY) 
+    {
+        pickupLocation.setX(locX);
+        pickupLocation.setY(locY);
+    }
+    
+    public Location getPickupLocation() 
+    {
+        return pickupLocation;
+    }
+    
+    private Location pickupLocation;
     private GameTime expirationTime;
 }
