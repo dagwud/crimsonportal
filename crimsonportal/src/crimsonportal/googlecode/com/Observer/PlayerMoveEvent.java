@@ -13,7 +13,7 @@ import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
  */
 public class PlayerMoveEvent implements Event
 {
-    public PlayerMoveEvent(PlayerUnit playerToMove, int moveAmountX, int moveAmountY)
+    public PlayerMoveEvent(PlayerUnit playerToMove, double moveAmountX, double moveAmountY)
     {
         this.playerToMove = playerToMove;
         this.moveAmountX = moveAmountX;
@@ -25,17 +25,17 @@ public class PlayerMoveEvent implements Event
         return playerToMove;
     }
     
-    public int getMoveAmountX()
+    public double getMoveAmountX()
     {
         return moveAmountX;
     }
     
-    public int getMoveAmountY()
+    public double getMoveAmountY()
     {
         return moveAmountY;
     }
     
     private PlayerUnit playerToMove;
-    private int moveAmountX;
-    private int moveAmountY;
+    private double moveAmountX;
+    private double moveAmountY;
 }
