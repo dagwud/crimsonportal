@@ -24,22 +24,22 @@ class MoveTimerTask extends TimerTask
 
     public void run()
     {
-        int moveX = moveAmountX * controlledPlayer.getMoveSpeed();
-        int moveY = moveAmountY * controlledPlayer.getMoveSpeed();
+        double moveX = moveAmountX * controlledPlayer.getMoveSpeed();
+        double moveY = moveAmountY * controlledPlayer.getMoveSpeed();
         if (moveX != 0 ^ moveY != 0)
         {
             // Increase movement speed when moving up, down, left or right
             // to counter the effect of faster movement when moving diagonally:
-            moveX = moveX * 2;
-            moveY = moveY * 2;
+            moveX = moveX * 1.5;
+            moveY = moveY * 1.5;
         }
 
         PlayerMoveEvent event = new PlayerMoveEvent(controlledPlayer, moveX, moveY);
         controller.notifyObservers(event);
     }
 
-    protected int moveAmountX = 0;
-    protected int moveAmountY = 0;
+    protected double moveAmountX = 0;
+    protected double moveAmountY = 0;
     private Controller controller;
     private PlayerUnit controlledPlayer;
 }
