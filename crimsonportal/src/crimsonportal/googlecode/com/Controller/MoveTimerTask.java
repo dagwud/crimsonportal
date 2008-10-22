@@ -33,6 +33,11 @@ class MoveTimerTask extends TimerTask
             moveX = moveX * 1.5;
             moveY = moveY * 1.5;
         }
+        else
+        {
+            moveX = moveX * 1.4;
+            moveY = moveY * 1.4;
+        }
 
         PlayerMoveEvent event = new PlayerMoveEvent(controlledPlayer, moveX, moveY);
         controller.notifyObservers(event);
