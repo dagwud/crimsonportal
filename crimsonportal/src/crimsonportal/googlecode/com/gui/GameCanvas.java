@@ -9,12 +9,11 @@ import crimsonportal.googlecode.com.ObjectModel.GameController;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.ObjectModel.Pickup;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImageOp;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Observable;
@@ -80,6 +79,18 @@ public class GameCanvas extends JPanel implements Observer, Runnable
                         (int) (player.getLocation().getX() - (player.getSize() / 2)),
                         (int) (player.getLocation().getY() - (player.getSize() / 2)),
                         (int)player.getSize(), (int)player.getSize(), null);
+            }
+            
+            // Draw pickups:
+            Iterator<Pickup> pickups = gameController.getGameState().getPickups();
+            while (pickups.hasNext())
+            {
+                Sprite img = spriteProxy.get("pickup.gif"); 
+                GameObject pickup = pickups.next();
+                g.drawImage(img.toImage(), 
+                        (int) (pickup.getLocation().getX() - (pickup.getSize() / 2)),
+                        (int) (pickup.getLocation().getY() - (pickup.getSize() / 2)),
+                        (int)pickup.getSize(), (int)pickup.getSize(), null);
             }
         }
         catch (ConcurrentModificationException e)

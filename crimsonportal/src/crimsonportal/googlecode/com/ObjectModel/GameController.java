@@ -8,7 +8,6 @@ package crimsonportal.googlecode.com.ObjectModel;
 import crimsonportal.googlecode.com.Controller.KeyController;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.GameSettings.Timers;
-import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import java.awt.Dimension;
@@ -27,6 +26,7 @@ public class GameController extends Observable implements Runnable
         // Initialise the game state: 
         gameState = new GameState();
         gameState.spawnPlayer(new Location(mapWidth / 2, mapHeight / 2));
+        gameState.spawnPickup();
         
         // Initialise the game GUI: 
         gameCanvas = new GameCanvas(this);

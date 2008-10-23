@@ -11,6 +11,7 @@ package crimsonportal.googlecode.com.GameSettings;
  */
 public abstract class ObjectSizes 
 {
+    public static final int PICKUP_SIZE = 20;
     public static final int PLAYER_SIZE = 15;
     public static final int ENEMY_SIZE_TINY = 10;
     public static final int ENEMY_SIZE_SMALL = 15;

@@ -32,6 +32,6 @@ public abstract class GameObject
         this.location = location;
     }
     
-    private Location location;
-    private double size;
+    protected Location location;
+    protected double size;
 }

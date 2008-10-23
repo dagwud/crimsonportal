@@ -26,6 +26,13 @@ public class GameTime implements Comparable<GameTime>
         this.previousRunTime = numSeconds;
     }
     
+    public GameTime(GameTime gameTime)
+    {
+        this.previousRunTime = gameTime.previousRunTime;
+        this.lastStartTime = gameTime.lastStartTime;
+        this.isPaused = gameTime.isPaused;
+    }
+    
     public void startTimer()
     {
         lastStartTime = System.currentTimeMillis();

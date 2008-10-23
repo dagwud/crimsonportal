@@ -6,7 +6,6 @@
 package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.Map;
-import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;

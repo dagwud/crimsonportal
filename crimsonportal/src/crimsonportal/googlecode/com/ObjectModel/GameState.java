@@ -69,6 +69,16 @@ public class GameState extends PlayerMoveObserver
         players.add(player);
     }
     
+    protected void spawnPickup()
+    {
+        Location location = Pickup.generateLocation(map);
+        Weapon weapon = new Weapon(10, 1);
+        WeaponPickup pickup = new WeaponPickup(5.0, location, 
+                                                new GameTime(elapsedGameTime), 
+                                                weapon);
+        pickups.add(pickup);
+    }
+    
     public GameTime getGameTime()
     {
         return elapsedGameTime;

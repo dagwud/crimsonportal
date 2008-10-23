@@ -11,9 +11,9 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class WeaponPickup extends Pickup
 {
-    public WeaponPickup(Weapon weapon, GameTime expirationTime)
+    public WeaponPickup(double size, Location location, GameTime expirationTime, Weapon weapon)
     {
-        super(expirationTime);
+        super(size, location, expirationTime);
         this.weapon = weapon;
     }
     
@@ -27,16 +27,10 @@ public class WeaponPickup extends Pickup
         this.weapon = weapon;
     }
     
-    public boolean isExpired()
-    {
-        throw new RuntimeException("Method not implemented: WeaponPickup.isExpired()");
-    }
-    
     @Override
     public WeaponPickup clone()
     {
-        WeaponPickup w = new WeaponPickup(weapon, getExpirationTime());
-        return w;
+        return new WeaponPickup(size, location, expirationTime, weapon);
     }
     
     private Weapon weapon;
