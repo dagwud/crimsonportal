@@ -108,3 +108,17 @@
   * Other
     * Health Pickups – Increase heath ( 25% or 50% )
     * Super Health – Health increased to 200%
+
+=== Linking Player and Weapon  ===
+ * Idea on how to draw player and weapon ( including accurate rotate )
+   * Using pivots to link player and weapon together
+   * pivot 1 will be the player's 90{{{*}}} angle
+   * pivot 2 will be the weapon's 270{{{*}}} angle
+   * rotate the player and the weapon to the desired angle
+   * get the (x,y) coordinates for player 
+   * get the player's radius
+   * take the player's 90{{{*}}} angle and assign it to the weapon's 270{{{*}}} after drawing the player
+   * that way the when the player rotates, the weapon will always be on the same rotation without colliding
+
+  
+ *
