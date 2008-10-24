@@ -33,5 +33,9 @@ public class WeaponPickup extends Pickup
         return new WeaponPickup(size, location, expirationTime, weapon);
     }
     
+    public String getSpriteFilename()
+    {
+        return "pickup.gif";
+    }
     private Weapon weapon;
 }

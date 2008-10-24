@@ -27,11 +27,24 @@ public abstract class GameObject
         return size;
     }
     
+    public double getRotation()
+    {
+        return rotation;
+    }
+    
+    protected void setRotation(double rotation)
+    {
+        this.rotation = rotation;
+    }
+    
     protected void setLocation(Location location)
     {
         this.location = location;
     }
     
+    public abstract String getSpriteFilename();
+    
     protected Location location;
     protected double size;
+    protected double rotation;
 }

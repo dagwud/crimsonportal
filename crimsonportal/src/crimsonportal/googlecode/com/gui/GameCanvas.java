@@ -44,31 +44,41 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         Graphics2D g2 = (Graphics2D)g;
         try
         {
-            // Draw enemies:
-            Iterator<EnemyUnit> enemies = gameController.getGameState().getEnemies();
-            while (enemies.hasNext())
+            // Draw objects:
+            Iterator<GameObject> gameObjects = gameController.getGameState().getGameObjects();
+            while (gameObjects.hasNext())
             {
-                Sprite img = spriteProxy.get("enemy.gif"); 
-                EnemyUnit enemy = enemies.next();
+                //EnemyUnit enemy = gameObjects.next();
+                GameObject gameObject = gameObjects.next();
+                Sprite img = spriteProxy.get(gameObject.getSpriteFilename()); 
                 
                 // Calculate the angle this enemy is facing (towards its target):
+                double rotate = gameObject.getRotation();
+                /*
+                 * This moves to EnemyUnit.getRotation:
                 double distY = enemy.getLocation().getY() + (enemy.getSize() / 2) - enemy.getStrategy().getTarget().getY();
                 double distX = enemy.getLocation().getX() + (enemy.getSize() / 2) - enemy.getStrategy().getTarget().getX();
                 double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
+                return rotate;
+                 */
+                
+                /* And WeaponPickup.getRotation():
+                 * return 0;
+                 */
                 
                 // Draw the enemy: 
-                double scale = enemy.getSize() / img.toImage().getWidth();
-                g2.translate(enemy.getLocation().getX(), enemy.getLocation().getY());
+                double scale = gameObject.getSize() / img.toImage().getWidth();
+                g2.translate(gameObject.getLocation().getX(), gameObject.getLocation().getY());
                     g2.scale(scale, scale);
                         g2.rotate(rotate);
-                            g2.translate(-enemy.getSize() / 2.0, -enemy.getSize() / 2.0);
+                            g2.translate(-gameObject.getSize() / 2.0, -gameObject.getSize() / 2.0);
                                 g.drawImage(img.toImage(), 0, 0, null);
-                            g2.translate(enemy.getSize() / 2.0, enemy.getSize() / 2.0);
+                            g2.translate(gameObject.getSize() / 2.0, gameObject.getSize() / 2.0);
                         g2.rotate(-rotate);
                     g2.scale(1.0 / scale, 1.0 / scale);
-                g2.translate(-enemy.getLocation().getX(), -enemy.getLocation().getY());
+                g2.translate(-gameObject.getLocation().getX(), -gameObject.getLocation().getY());
             }
-            
+            /*
             // Draw players:
             Iterator<PlayerUnit> players = gameController.getGameState().getPlayers();
             while (players.hasNext())
@@ -91,7 +101,7 @@ public class GameCanvas extends JPanel implements Observer, Runnable
                         (int) (pickup.getLocation().getX() - (pickup.getSize() / 2)),
                         (int) (pickup.getLocation().getY() - (pickup.getSize() / 2)),
                         (int)pickup.getSize(), (int)pickup.getSize(), null);
-            }
+            }*/
         }
         catch (ConcurrentModificationException e)
         {

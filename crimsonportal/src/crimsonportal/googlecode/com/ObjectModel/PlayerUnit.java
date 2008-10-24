@@ -53,6 +53,11 @@ public class PlayerUnit extends Unit
         return p;
     }
     
+    public String getSpriteFilename()
+    {
+        return "player.gif";
+    }
+    
     private Weapon weapon;
     private int moveSpeed;
 }

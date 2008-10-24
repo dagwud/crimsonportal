@@ -24,6 +24,7 @@ public class GameState extends PlayerMoveObserver
         players = new LinkedList<PlayerUnit>();
         enemies = new LinkedList<EnemyUnit>();
         pickups = new LinkedList<Pickup>();
+        bullets = new LinkedList<Bullet>();
         elapsedGameTime = new GameTime(true);
         map = new Map(800, 600);
     }
@@ -62,6 +63,16 @@ public class GameState extends PlayerMoveObserver
     {
         return pickups.iterator();
     }
+    
+    public Iterator<GameObject> getGameObjects()
+    {
+        Collection<GameObject> gameObjects = new LinkedList<GameObject>(pickups);
+        gameObjects.addAll(enemies);
+        gameObjects.addAll(bullets);
+        gameObjects.addAll(players);
+        return gameObjects.iterator();
+    }
+            
     
     protected void spawnPlayer(Location location)
     {
@@ -116,6 +127,7 @@ public class GameState extends PlayerMoveObserver
     private Collection<PlayerUnit> players;
     private Collection<EnemyUnit> enemies;
     private Collection<Pickup> pickups;
+    private Collection<Bullet> bullets;
     private GameTime elapsedGameTime;
     private Map map;
 }

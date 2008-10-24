@@ -83,6 +83,21 @@ public class EnemyUnit extends Unit
         getLocation().setY( getLocation().getY() + moveY);
     }
     
+     // This moves to EnemyUnit.getRotation:
+    
+    @Override 
+    public double getRotation()
+    {
+        double distY = getLocation().getY() + (getSize() / 2) - getStrategy().getTarget().getY();
+        double distX = getLocation().getX() + (getSize() / 2) - getStrategy().getTarget().getX();
+        double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
+        return rotate;
+    }
+    
+    public String getSpriteFilename()
+    {
+        return "enemy.gif";
+    }
     private int attackDamage;
     private int moveSpeed;
     private int size;

@@ -48,6 +48,11 @@ public class Bullet extends GameObject
     {
         this.strategy = strategy;
     }
+    
+    public String getSpriteFilename()
+    {
+        return "bullet.gif";
+    }
         
     protected Strategy strategy;
     protected double moveSpeed;
