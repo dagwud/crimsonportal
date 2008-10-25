@@ -117,8 +117,7 @@ public class GameController extends Observable implements Runnable
         {
             gameState.spawnEnemy(size, 1, moveSpeed, 
                     new Location(locationX, locationY), 
-                    new Location(gameState.getPlayers().next().getLocation().getX() + (gameState.getPlayers().next().getSize() / 2),
-                                    gameState.getPlayers().next().getLocation().getY() + (gameState.getPlayers().next().getSize() / 2)));
+                    gameState.getPlayers().next());
             setChanged();
         }
         
@@ -153,8 +152,8 @@ public class GameController extends Observable implements Runnable
                             PlayerUnit player = players.next();
                             // Check if the enemy's bounding circle overlaps with
                             // the player's bounding circle: 
-                            double distX = Math.abs(player.getLocation().getX() - enemy.getLocation().getX());
-                            double distY = Math.abs(player.getLocation().getY() - enemy.getLocation().getY());
+                            double distX = Math.abs(player.getCentreOfObject().getX() - enemy.getCentreOfObject().getX());
+                            double distY = Math.abs(player.getCentreOfObject().getY() - enemy.getCentreOfObject().getY());
                             double distSquared = (distX * distX) + (distY * distY);
                             double dist = Math.sqrt(distSquared);
                             if (dist - (enemy.getSize() / 2) - (player.getSize() / 2) <= 0)

@@ -11,7 +11,7 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class EnemyUnit extends Unit
 {
-    public EnemyUnit(int size, int attackDamage, int moveSpeed, Location location, Location target)
+    public EnemyUnit(int size, int attackDamage, int moveSpeed, Location location, GameObject target)
     {
         super(size, location, new Strategy(target));
         this.attackDamage = attackDamage;
@@ -46,14 +46,20 @@ public class EnemyUnit extends Unit
     @Override
     public EnemyUnit clone()
     {
-        EnemyUnit e = new EnemyUnit(size, attackDamage, moveSpeed, getLocation(), getStrategy().getTarget());
+        EnemyUnit e = new EnemyUnit(size, attackDamage, moveSpeed, getCentreOfObject(), getStrategy().getTarget());
         return e;
     }
     
     protected void move()
     {
-        double diffY = getStrategy().getTarget().getY() - this.getLocation().getY();
-        double diffX = getStrategy().getTarget().getX() - this.getLocation().getX();
+        double diffY = getStrategy().getTarget().getCentreOfObject().getY() - this.getCentreOfObject().getY();
+        double diffX = getStrategy().getTarget().getCentreOfObject().getX() - this.getCentreOfObject().getX();
+        double moveAmount = moveSpeed;
+        double distBeforeMove = Math.sqrt((diffY * diffY) + (diffX * diffX));
+        if (getSize() / 2.0 + getStrategy().getTarget().getSize() / 2.0 >= distBeforeMove )
+        {
+            return;
+        }
         
         double moveAngleRadians = Math.toRadians(0);
         if (diffX != 0)
@@ -76,11 +82,21 @@ public class EnemyUnit extends Unit
                 return; 
             }
         }
-        double moveX = (double) Math.round(moveSpeed * Math.cos(moveAngleRadians));
-        double moveY = (double) Math.round(moveSpeed * Math.sin(moveAngleRadians));
-                
-        getLocation().setX( getLocation().getX() + moveX);
-        getLocation().setY( getLocation().getY() + moveY);
+        double moveX = (double) Math.round(moveAmount * Math.cos(moveAngleRadians));
+        double moveY = (double) Math.round(moveAmount * Math.sin(moveAngleRadians));
+        
+        // Calculate how far from the target the enemyUnit will be after the move: 
+        double newDiffY = getStrategy().getTarget().getCentreOfObject().getY() - (this.getCentreOfObject().getY() + moveY);
+        double newDiffX = getStrategy().getTarget().getCentreOfObject().getX() - (this.getCentreOfObject().getX() + moveX);
+        double distAfterMove = Math.sqrt((newDiffY * newDiffY) + (newDiffX * newDiffX));
+        if ( distAfterMove >= distBeforeMove )
+        {
+            moveX = 0.0;
+            moveY = 0.0;
+        }
+        
+        getCentreOfObject().setX( getCentreOfObject().getX() + moveX);
+        getCentreOfObject().setY( getCentreOfObject().getY() + moveY);
     }
     
      // This moves to EnemyUnit.getRotation:
@@ -88,8 +104,8 @@ public class EnemyUnit extends Unit
     @Override 
     public double getRotation()
     {
-        double distY = getLocation().getY() + (getSize() / 2) - getStrategy().getTarget().getY();
-        double distX = getLocation().getX() + (getSize() / 2) - getStrategy().getTarget().getX();
+        double distY = getCentreOfObject().getY() - getStrategy().getTarget().getCentreOfObject().getY();
+        double distX = getCentreOfObject().getX() - getStrategy().getTarget().getCentreOfObject().getX();
         double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
         return rotate;
     }

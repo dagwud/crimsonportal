@@ -44,7 +44,7 @@ public class GameState extends PlayerMoveObserver
         return enemies.iterator();
     }
     
-    protected void spawnEnemy(int size, int attackDamage, int moveSpeed, Location location, Location target)
+    protected void spawnEnemy(int size, int attackDamage, int moveSpeed, Location location, GameObject target)
     {
         enemies.add(new EnemyUnit(size, attackDamage, moveSpeed, location, target));
     }
@@ -106,17 +106,8 @@ public class GameState extends PlayerMoveObserver
         try
         {
             PlayerUnit player = e.getPlayerToMove();
-            player.getLocation().setX(player.getLocation().getX() + e.getMoveAmountX());
-            player.getLocation().setY(player.getLocation().getY() + e.getMoveAmountY());
-
-            // Update enemies' targets:
-            Iterator<EnemyUnit> i = enemies.iterator();
-            while (i.hasNext())
-            {
-                EnemyUnit enemy = i.next();
-                enemy.getStrategy().getTarget().setX(getPlayers().next().getLocation().getX() + (getPlayers().next().getSize() / 2));
-                enemy.getStrategy().getTarget().setY(getPlayers().next().getLocation().getY() + (getPlayers().next().getSize() / 2));
-            }
+            player.getCentreOfObject().setX(player.getCentreOfObject().getX() + e.getMoveAmountX());
+            player.getCentreOfObject().setY(player.getCentreOfObject().getY() + e.getMoveAmountY());
         }
         catch (ConcurrentModificationException er)
         {

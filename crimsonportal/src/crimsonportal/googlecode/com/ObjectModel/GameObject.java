@@ -17,7 +17,7 @@ public abstract class GameObject
         this.location = location;
     }
     
-    public Location getLocation()
+    public Location getCentreOfObject()
     {
         return location;
     }
@@ -37,7 +37,7 @@ public abstract class GameObject
         this.rotation = rotation;
     }
     
-    protected void setLocation(Location location)
+    protected void setCentreOfObject(Location location)
     {
         this.location = location;
     }

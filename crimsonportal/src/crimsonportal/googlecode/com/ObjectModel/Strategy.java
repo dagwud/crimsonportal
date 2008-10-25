@@ -11,17 +11,17 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class Strategy 
 {
-    public Strategy(Location target)
+    public Strategy(GameObject target)
     {
         this.target = target;
     }
     
-    public Location getTarget()
+    public GameObject getTarget()
     {
         return target;
     }
     
-    protected void setTarget(Location target)
+    protected void setTarget(GameObject target)
     {
         this.target = target;
     }
@@ -33,5 +33,5 @@ public class Strategy
         return s;
     }
     
-    private Location target;
+    private GameObject target;
 }

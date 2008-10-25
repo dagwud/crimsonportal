@@ -6,10 +6,7 @@
 package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.GameController;
-import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
-import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
-import crimsonportal.googlecode.com.ObjectModel.Pickup;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Graphics;
@@ -48,60 +45,24 @@ public class GameCanvas extends JPanel implements Observer, Runnable
             Iterator<GameObject> gameObjects = gameController.getGameState().getGameObjects();
             while (gameObjects.hasNext())
             {
-                //EnemyUnit enemy = gameObjects.next();
                 GameObject gameObject = gameObjects.next();
                 Sprite img = spriteProxy.get(gameObject.getSpriteFilename()); 
                 
-                // Calculate the angle this enemy is facing (towards its target):
+                // Calculate the angle this gameobject is facing:
                 double rotate = gameObject.getRotation();
-                /*
-                 * This moves to EnemyUnit.getRotation:
-                double distY = enemy.getLocation().getY() + (enemy.getSize() / 2) - enemy.getStrategy().getTarget().getY();
-                double distX = enemy.getLocation().getX() + (enemy.getSize() / 2) - enemy.getStrategy().getTarget().getX();
-                double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
-                return rotate;
-                 */
                 
-                /* And WeaponPickup.getRotation():
-                 * return 0;
-                 */
-                
-                // Draw the enemy: 
+                // Draw the GameObject: 
                 double scale = gameObject.getSize() / img.toImage().getWidth();
-                g2.translate(gameObject.getLocation().getX(), gameObject.getLocation().getY());
-                    g2.scale(scale, scale);
-                        g2.rotate(rotate);
-                            g2.translate(-gameObject.getSize() / 2.0, -gameObject.getSize() / 2.0);
-                                g.drawImage(img.toImage(), 0, 0, null);
-                            g2.translate(gameObject.getSize() / 2.0, gameObject.getSize() / 2.0);
-                        g2.rotate(-rotate);
-                    g2.scale(1.0 / scale, 1.0 / scale);
-                g2.translate(-gameObject.getLocation().getX(), -gameObject.getLocation().getY());
+                g2.translate(Math.floor(gameObject.getCentreOfObject().getX()), Math.floor(gameObject.getCentreOfObject().getY()));
+                   g2.rotate(rotate);
+                      g2.translate(Math.floor(-gameObject.getSize() / 2.0), Math.floor(-gameObject.getSize() / 2.0));
+                         g2.scale(scale, scale);
+                            g.drawImage(img.toImage(), 0, 0, null);
+                         g2.scale(1.0 / scale, 1.0 / scale);
+                      g2.translate(Math.floor(gameObject.getSize() / 2.0), Math.floor(gameObject.getSize() / 2.0));
+                   g2.rotate(-rotate);
+                g2.translate(Math.floor(-gameObject.getCentreOfObject().getX()), Math.floor(-gameObject.getCentreOfObject().getY()));
             }
-            /*
-            // Draw players:
-            Iterator<PlayerUnit> players = gameController.getGameState().getPlayers();
-            while (players.hasNext())
-            {
-                Sprite img = spriteProxy.get("player.gif"); 
-                GameObject player = players.next();
-                g.drawImage(img.toImage(), 
-                        (int) (player.getLocation().getX() - (player.getSize() / 2)),
-                        (int) (player.getLocation().getY() - (player.getSize() / 2)),
-                        (int)player.getSize(), (int)player.getSize(), null);
-            }
-            
-            // Draw pickups:
-            Iterator<Pickup> pickups = gameController.getGameState().getPickups();
-            while (pickups.hasNext())
-            {
-                Sprite img = spriteProxy.get("pickup.gif"); 
-                GameObject pickup = pickups.next();
-                g.drawImage(img.toImage(), 
-                        (int) (pickup.getLocation().getX() - (pickup.getSize() / 2)),
-                        (int) (pickup.getLocation().getY() - (pickup.getSize() / 2)),
-                        (int)pickup.getSize(), (int)pickup.getSize(), null);
-            }*/
         }
         catch (ConcurrentModificationException e)
         {

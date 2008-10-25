@@ -15,13 +15,13 @@ public class PlayerUnit extends Unit
 {
     public PlayerUnit(Location location, int moveSpeed)
     {
-        super(ObjectSizes.PLAYER_SIZE, location, new Strategy(new Location(0, 0)));
+        super(ObjectSizes.PLAYER_SIZE, location, null);
         this.moveSpeed = moveSpeed;
     }
     
     public PlayerUnit(Location location, int moveSpeed, Weapon weapon)
     {
-        super(ObjectSizes.PLAYER_SIZE, location, new Strategy(new Location(0, 0)));
+        super(ObjectSizes.PLAYER_SIZE, location, null);
         this.weapon = weapon;
         this.moveSpeed = moveSpeed;
     }
@@ -49,7 +49,7 @@ public class PlayerUnit extends Unit
     @Override
     public PlayerUnit clone()
     {
-        PlayerUnit p = new PlayerUnit(getLocation(), moveSpeed, weapon);
+        PlayerUnit p = new PlayerUnit(getCentreOfObject(), moveSpeed, weapon);
         return p;
     }
     
