@@ -6,19 +6,26 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Controller.KeyController;
+import crimsonportal.googlecode.com.Controller.TurnListener;
+import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.GameSettings.Timers;
+import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
+import crimsonportal.googlecode.com.Observer.Observable;
+import crimsonportal.googlecode.com.Observer.Observer;
+import crimsonportal.googlecode.com.Observer.ObserverGroup;
+import crimsonportal.googlecode.com.Observer.Player.PlayerTurnObserver;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import java.awt.Dimension;
 import java.util.Iterator;
-import java.util.Observable;
 
 /**
  *
  * @author dagwud
  */
-public class GameController extends Observable implements Runnable
+public class GameController implements Observable<GameStateChangedEvent>,
+                                        Runnable
 {
     public GameController()
     {
@@ -28,6 +35,8 @@ public class GameController extends Observable implements Runnable
         gameState.spawnPlayer(new Location(mapWidth / 2, mapHeight / 2));
         gameState.spawnPickup();
         
+        observers = new ObserverGroup<GameStateChangedEvent>();
+
         // Initialise the game GUI: 
         gameCanvas = new GameCanvas(this);
         GameFrame frame = new GameFrame(gameCanvas, gameState.getMap());
@@ -36,18 +45,24 @@ public class GameController extends Observable implements Runnable
         frame.setPreferredSize(new Dimension(mapWidth, mapHeight));
         frame.pack();
 
+
         // Add a controller for player 1:
         KeyController player1Controller = new KeyController(gameState.getPlayers().next());
         frame.addKeyListener(player1Controller);
-        player1Controller.addObserver(gameState);
+        
+        // Add a turn listener for player 1:
+        TurnListener l = new TurnListener(gameState.getPlayers().next());
+        gameCanvas.addMouseMotionListener(l);
+        PlayerTurnObserver observer = new PlayerTurnObserver(gameState.getPlayers().next());
+        l.addObserver(observer);
+        //player1Controller.addObserver(gameState);
         
         // Start the GUI running in a separate thread, so that it does not slow
         // down this process: 
         Thread guiThread = new Thread(gameCanvas);
         guiThread.start();
         
-        setChanged();
-        notifyObservers();
+        observers.notifyObservers(new GameStateChangedEvent(gameState));
     }
     
     public GameState getGameState()
@@ -87,7 +102,7 @@ public class GameController extends Observable implements Runnable
         }
         
         // Choose (randomly) where to spawn the enemy:
-        int side = (int) Math.floor(Math.random() * 4);
+        int side = (int) Math.round(Math.random() * 4);
         int locationX = 100, locationY = 100;
         switch (side)
         {
@@ -118,10 +133,9 @@ public class GameController extends Observable implements Runnable
             gameState.spawnEnemy(size, 1, moveSpeed, 
                     new Location(locationX, locationY), 
                     gameState.getPlayers().next());
-            setChanged();
         }
         
-        notifyObservers();
+        observers.notifyObservers(new GameStateChangedEvent(gameState));
     }
     
     public void run()
@@ -162,10 +176,9 @@ public class GameController extends Observable implements Runnable
                             }
                         }
                     }
-                    setChanged();
                 }
                 
-                notifyObservers();
+                observers.notifyObservers(new GameStateChangedEvent(gameState));
             }
             else
             {
@@ -183,9 +196,38 @@ public class GameController extends Observable implements Runnable
         }
     }
     
+    public void removeAllObservers()
+    {
+        observers.removeAllObservers();
+    }
+    
+    public void notifyObservers(GameStateChangedEvent event)
+    {
+        Debug.logMethod("GameController is notifying observers");
+        observers.notifyObservers(event);
+    }
+
+    public boolean addObserver(Observer<GameStateChangedEvent> observer)
+    {
+        return observers.addObserver(observer);
+    }
+
+    public boolean removeObserver(Observer<GameStateChangedEvent> observer)
+    {
+        return observers.removeObserver(observer);
+    }
+    
+    public int countObservers()
+    {
+        return observers.countObservers();
+    }
+    
     protected GameState gameState;
     protected GameCanvas gameCanvas;
     
+    private ObserverGroup<GameStateChangedEvent> observers;
+    
     private final int mapWidth = 800, mapHeight = 600;
     private int loopCount = 0;
+
 }

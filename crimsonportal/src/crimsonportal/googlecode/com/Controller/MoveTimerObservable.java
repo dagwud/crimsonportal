@@ -5,15 +5,14 @@
 
 package crimsonportal.googlecode.com.Controller;
 
+import crimsonportal.googlecode.com.Observer.Player.MoveTimerEvent;
 import crimsonportal.googlecode.com.Observer.Observable;
-import java.util.EventObject;
 
 /**
  *
  * @author dagwud
  */
-public abstract class Controller<EventType extends EventObject>  
-                                        implements Observable<EventType>
+public interface MoveTimerObservable extends Observable<MoveTimerEvent>
 {
 
 }

@@ -3,26 +3,22 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.Observer;
+package crimsonportal.googlecode.com.Observer.Player;
 
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
+import java.util.EventObject;
 
 /**
  *
  * @author dagwud
  */
-public class PlayerMoveEvent implements Event
+public class PlayerMoveEvent extends EventObject
 {
     public PlayerMoveEvent(PlayerUnit playerToMove, double moveAmountX, double moveAmountY)
     {
-        this.playerToMove = playerToMove;
+        super(playerToMove);
         this.moveAmountX = moveAmountX;
         this.moveAmountY = moveAmountY;
-    }
-    
-    public PlayerUnit getPlayerToMove()
-    {
-        return playerToMove;
     }
     
     public double getMoveAmountX()
@@ -35,7 +31,6 @@ public class PlayerMoveEvent implements Event
         return moveAmountY;
     }
     
-    private PlayerUnit playerToMove;
     private double moveAmountX;
     private double moveAmountY;
 }

@@ -7,21 +7,25 @@ package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.GameController;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.ObjectModel.PlayerTurnEvent;
+import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
+import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JPanel;
 
 /**
  *
  * @author dagwud
  */
-public class GameCanvas extends JPanel implements Observer, Runnable
+public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent>, 
+                                                    Runnable
 {
     public GameCanvas(GameController gameController)
     {
@@ -32,6 +36,17 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         spriteProxy = new SpriteProxy();
         setSize(800, 600);
         setOpaque(false);
+        addMouseListener(new MouseListener() {
+            public void mousePressed(MouseEvent e) 
+            {
+                // create playershoot event
+            }
+            
+            public void mouseClicked(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {}
+        });
     }
     
     @Override
@@ -53,15 +68,15 @@ public class GameCanvas extends JPanel implements Observer, Runnable
                 
                 // Draw the GameObject: 
                 double scale = gameObject.getSize() / img.toImage().getWidth();
-                g2.translate(Math.floor(gameObject.getCentreOfObject().getX()), Math.floor(gameObject.getCentreOfObject().getY()));
+                g2.translate(Math.round(gameObject.getCentreOfObject().getX()), Math.round(gameObject.getCentreOfObject().getY()));
                    g2.rotate(rotate);
-                      g2.translate(Math.floor(-gameObject.getSize() / 2.0), Math.floor(-gameObject.getSize() / 2.0));
+                      g2.translate(Math.round(-gameObject.getSize() / 2.0), Math.round(-gameObject.getSize() / 2.0));
                          g2.scale(scale, scale);
                             g.drawImage(img.toImage(), 0, 0, null);
                          g2.scale(1.0 / scale, 1.0 / scale);
-                      g2.translate(Math.floor(gameObject.getSize() / 2.0), Math.floor(gameObject.getSize() / 2.0));
+                      g2.translate(Math.round(gameObject.getSize() / 2.0), Math.round(gameObject.getSize() / 2.0));
                    g2.rotate(-rotate);
-                g2.translate(Math.floor(-gameObject.getCentreOfObject().getX()), Math.floor(-gameObject.getCentreOfObject().getY()));
+                g2.translate(Math.round(-gameObject.getCentreOfObject().getX()), Math.round(-gameObject.getCentreOfObject().getY()));
             }
         }
         catch (ConcurrentModificationException e)
@@ -72,7 +87,7 @@ public class GameCanvas extends JPanel implements Observer, Runnable
         }
     }
     
-    public void update(Observable o, Object arg)
+    public void update(GameStateChangedEvent event)
     {
         repaint();
     }
@@ -97,7 +112,7 @@ public class GameCanvas extends JPanel implements Observer, Runnable
             }
         }
     }
-    
+        
     protected SpriteProxy spriteProxy;
     private GameController gameController;
 }

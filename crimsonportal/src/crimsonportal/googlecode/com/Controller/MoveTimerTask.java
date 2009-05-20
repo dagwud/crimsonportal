@@ -5,7 +5,8 @@
 
 package crimsonportal.googlecode.com.Controller;
 
-import crimsonportal.googlecode.com.Observer.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import java.util.TimerTask;
 
@@ -15,10 +16,9 @@ import java.util.TimerTask;
  */
 class MoveTimerTask extends TimerTask
 {
-    public MoveTimerTask(Controller controller, PlayerUnit controlledPlayer)
+    public MoveTimerTask(PlayerUnit controlledPlayer)
     {
         super();
-        this.controller = controller;
         this.controlledPlayer = controlledPlayer;
     }
 
@@ -40,11 +40,18 @@ class MoveTimerTask extends TimerTask
         }
 
         PlayerMoveEvent event = new PlayerMoveEvent(controlledPlayer, moveX, moveY);
-        controller.notifyObservers(event);
+        if (controlledPlayer.countObservers() > 0)
+        {
+            Debug.logMethod("MoveTimerTask is notifying observers of player " + controlledPlayer);
+            controlledPlayer.notifyObservers(event);
+        }
+        else
+        {
+            Debug.logWarning("Player controlled by MoveTimerTask has no associated observers");
+        }
     }
 
     protected double moveAmountX = 0;
     protected double moveAmountY = 0;
-    private Controller controller;
     private PlayerUnit controlledPlayer;
 }

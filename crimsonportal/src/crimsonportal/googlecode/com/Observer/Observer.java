@@ -5,11 +5,13 @@
 
 package crimsonportal.googlecode.com.Observer;
 
+import java.util.EventObject;
+
 /**
  *
  * @author dagwud
  */
-public abstract class Observer 
+public interface Observer<EventType extends EventObject>
 {
-    public abstract void update(Observable observable, Event event);
+    public void update(EventType event);
 }

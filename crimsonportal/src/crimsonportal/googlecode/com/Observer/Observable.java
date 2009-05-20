@@ -5,44 +5,21 @@
 
 package crimsonportal.googlecode.com.Observer;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.EventObject;
 
 /**
  *
  * @author dagwud
  */
-public abstract class Observable 
+public interface Observable<EventType extends EventObject>
 {
-    public Observable()
-    {
-        observers = new LinkedList<Observer>();
-    }
+    public void notifyObservers(EventType event);
     
-    public void notifyObservers(Event event)
-    {
-        Iterator<Observer> i = observers.iterator();
-        while (i.hasNext())
-        {
-            i.next().update(this, event);
-        }
-    }
+    public boolean addObserver(Observer<EventType> observer);
     
-    public boolean addObserver(Observer observer)
-    {
-        return observers.add(observer);
-    }
+    public boolean removeObserver(Observer<EventType> observer);
     
-    public boolean removeObserver(Observer observer)
-    {
-        return observers.remove(observer);
-    }
+    public void removeAllObservers();
     
-    public void removeAllObservers()
-    {
-        observers.clear();
-    }
-    
-    private List<Observer> observers;
+    public int countObservers();
 }

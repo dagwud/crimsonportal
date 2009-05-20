@@ -5,11 +5,11 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
-import crimsonportal.googlecode.com.Observer.Observable;
-import crimsonportal.googlecode.com.Observer.PlayerMoveObserver;
-import crimsonportal.googlecode.com.Observer.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Observer.Player.PlayerMoveObserver;
+import crimsonportal.googlecode.com.Observer.Player.PlayerShootEvent;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
+import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -17,7 +17,7 @@ import java.util.LinkedList;
  *
  * @author dagwud
  */
-public class GameState extends PlayerMoveObserver
+public class GameState implements PlayerMoveObserver //, PlayerShootObserver
 {
     public GameState()
     {
@@ -78,6 +78,7 @@ public class GameState extends PlayerMoveObserver
     {
         PlayerUnit player = new PlayerUnit(location, 4);
         players.add(player);
+        player.addObserver(this);
     }
     
     protected void spawnPickup()
@@ -100,25 +101,23 @@ public class GameState extends PlayerMoveObserver
         return map;
     }
     
-    @Override
-    public void update(Observable o, PlayerMoveEvent e)
-    {
-        try
-        {
-            PlayerUnit player = e.getPlayerToMove();
-            player.getCentreOfObject().setX(player.getCentreOfObject().getX() + e.getMoveAmountX());
-            player.getCentreOfObject().setY(player.getCentreOfObject().getY() + e.getMoveAmountY());
-        }
-        catch (ConcurrentModificationException er)
-        {
-            // Do nothing
-        }
-    }
-    
     private Collection<PlayerUnit> players;
     private Collection<EnemyUnit> enemies;
     private Collection<Pickup> pickups;
     private Collection<Bullet> bullets;
     private GameTime elapsedGameTime;
     private Map map;
+
+    public void update(PlayerMoveEvent event)
+    {
+        PlayerUnit player = (PlayerUnit)event.getSource();
+        player.getCentreOfObject().setX(player.getCentreOfObject().getX() + event.getMoveAmountX());
+        player.getCentreOfObject().setY(player.getCentreOfObject().getY() + event.getMoveAmountY());
+    }
+    
+    public void update(PlayerShootEvent event)
+    {
+        Bullet bullet = event.getBullet();
+        bullets.add(bullet);
+    }
 }
