@@ -9,7 +9,7 @@ import crimsonportal.googlecode.com.Controller.KeyController;
 import crimsonportal.googlecode.com.Controller.ShootListener;
 import crimsonportal.googlecode.com.Controller.TurnListener;
 import crimsonportal.googlecode.com.Debug;
-import crimsonportal.googlecode.com.GameSettings.Enemies;
+import crimsonportal.googlecode.com.GameSettings.EnemyStats;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
@@ -95,26 +95,27 @@ public class GameController implements Observable<GameStateChangedEvent>,
         // Note: this will be replaced with a factory later
         double size;
         int moveSpeed;
+        int enemyType = 0;
         if (gameState.getNumEnemies() < 15) 
         {
-            size = Enemies.ENEMY_SIZE_TINY;
-            moveSpeed = Enemies.ENEMY_SPEED_TINY;
+            enemyType = EnemyStats.ENEMY_TINY;
         }
         else if (gameState.getNumEnemies() < 30)
         {
-            size = Enemies.ENEMY_SIZE_SMALL;
-            moveSpeed = Enemies.ENEMY_SPEED_SMALL;
+            enemyType = EnemyStats.ENEMY_SMALL;
         }
         else if (gameState.getNumEnemies() < 60)
         {
-            size = Enemies.ENEMY_SIZE_LARGE;
-            moveSpeed = Enemies.ENEMY_SPEED_LARGE;
+            enemyType = EnemyStats.ENEMY_MEDIUM;
         }
         else
         {
-            size = Enemies.ENEMY_SIZE_HUGE;
-            moveSpeed = Enemies.ENEMY_SPEED_HUGE;
+            enemyType = EnemyStats.ENEMY_LARGE;
         }
+        EnemyStats enemy = EnemyStats.getEnemyStats(enemyType);
+        System.out.println(enemyType);
+        size = enemy.getSize();
+        moveSpeed = enemy.getMoveSpeed();
         
         // Choose (randomly) where to spawn the enemy:
         int side = (int) Math.round(Math.random() * 4);
