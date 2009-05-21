@@ -15,9 +15,10 @@ import java.util.EventObject;
  */
 public class ShootEvent extends EventObject
 {
-    public ShootEvent(Unit shooter, Bullet bullet)
+    public ShootEvent(boolean isShootStart, Unit shooter, Bullet bullet)
     {
         super(shooter);
+        this.shootEventType = isShootStart;
         this.bullet = bullet;
     }
     
@@ -26,5 +27,18 @@ public class ShootEvent extends EventObject
         return bullet;
     }
     
+    public boolean isStartEvent()
+    {
+        return (shootEventType == SHOOTTYPE_START);
+    }
+    
+    public boolean isStopEvent()
+    {
+        return (shootEventType == SHOOTTYPE_STOP);
+    }
+    
     private Bullet bullet;
+    private boolean shootEventType;
+    private static boolean SHOOTTYPE_START = true,
+                           SHOOTTYPE_STOP = false;
 }

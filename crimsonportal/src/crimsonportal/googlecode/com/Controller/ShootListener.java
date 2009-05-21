@@ -23,12 +23,14 @@ import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  *
  * @author dagwud
  */
-public class ShootListener implements MouseListener, Observable<ShootEvent>
+public class ShootListener implements MouseListener, MouseMotionListener,
+        Observable<ShootEvent>
 {
     public ShootListener(Unit controlledUnit)
     {
@@ -82,11 +84,45 @@ public class ShootListener implements MouseListener, Observable<ShootEvent>
         Bullet bullet = new Bullet(bulletSize,
                 controlledUnit.getCentreOfObject(), 
                 strategy, bulletMoveSpeed, bulletDamage);
-        ShootEvent ev = new ShootEvent(controlledUnit, bullet);
+        ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
+        lastShot = ev;
         notifyObservers(ev);
     }
     
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) 
+    {
+        //GameObject target = new LocationObject(e.getX(), e.getY());
+        
+        /*double bulletSize = ObjectSizes.BULLET_SIZE_PISTOL;
+        double bulletMoveSpeed = ObjectSizes.BULLET_SPEED_PISTOL;
+        int bulletDamage = ObjectSizes.BULLET_DAMAGE_PISTOL;
+        Strategy strategy = new Strategy(target);
+        Bullet bullet = new Bullet(bulletSize,
+                controlledUnit.getCentreOfObject(), 
+                strategy, bulletMoveSpeed, bulletDamage);*/
+        ShootEvent ev = new ShootEvent(false, controlledUnit, null);
+        lastShot = ev;
+        notifyObservers(ev);
+    }
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {}
+
+    public void mouseDragged(MouseEvent e)
+    {
+        if (lastShot == null) return;
+        if (!lastShot.isStartEvent()) return;
+        // Create a new bullet based on the last one shot:
+        Bullet lastBullet = lastShot.getBullet();
+        Strategy strategy = new Strategy(new Location(e.getX(), e.getY()));
+        Bullet bullet = new Bullet(lastBullet.getSize(),
+                controlledUnit.getCentreOfObject(),
+                strategy, lastBullet.getMoveSpeed(),
+                lastBullet.getAttackDamage());
+        ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
+        lastShot = ev;
+        notifyObservers(ev);
+    }
+    
+    ShootEvent lastShot = null;
 }

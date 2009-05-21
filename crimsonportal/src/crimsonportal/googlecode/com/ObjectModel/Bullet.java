@@ -79,6 +79,13 @@ public class Bullet extends GameObject
         return rotation;
     }
         
+    public Bullet clone()
+    {
+        Bullet bullet = new Bullet(size, location.clone(), 
+                strategy.clone(), moveSpeed, attackDamage);
+        return bullet;
+    }
+    
     protected Strategy strategy;
     protected double moveSpeed;
     private int attackDamage;

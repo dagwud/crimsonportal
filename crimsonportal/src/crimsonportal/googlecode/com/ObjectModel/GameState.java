@@ -127,7 +127,30 @@ public class GameState implements PlayerMoveObserver
     
     public void update(ShootEvent event)
     {
-        Bullet bullet = event.getBullet();
+        if (event.isStartEvent())
+        {
+            spawningBullets = event.getBullet();
+        }
+        else 
+        {
+            spawningBullets = null;
+        }
+    }
+    
+    public void spawnBullet()
+    {
+        if (spawningBullets == null)
+        {
+            return;
+        }
+        Bullet bullet = spawningBullets.clone();
         bullets.add(bullet);
     }
+    
+    public boolean isSpawningBullets()
+    {
+        return (spawningBullets != null);
+    }
+    
+    private Bullet spawningBullets = null;
 }

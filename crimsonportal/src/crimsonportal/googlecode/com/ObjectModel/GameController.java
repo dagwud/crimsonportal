@@ -63,6 +63,7 @@ public class GameController implements Observable<GameStateChangedEvent>,
         // Add a PlayerShoot listener for player 1:
         ShootListener s = new ShootListener(controlledPlayer);
         gameCanvas.addMouseListener(s);
+        gameCanvas.addMouseMotionListener(s);
         Observer<ShootEvent> obs = new Observer<ShootEvent>() {
             public void update(ShootEvent event)
             {
@@ -113,7 +114,6 @@ public class GameController implements Observable<GameStateChangedEvent>,
             enemyType = EnemyStats.ENEMY_LARGE;
         }
         EnemyStats enemy = EnemyStats.getEnemyStats(enemyType);
-        System.out.println(enemyType);
         size = enemy.getSize();
         moveSpeed = enemy.getMoveSpeed();
         
@@ -174,6 +174,14 @@ public class GameController implements Observable<GameStateChangedEvent>,
                 if (loopCount % Timers.MOVE_ENEMIES == 0)
                 {
                     moveEnemies();
+                }
+                
+                if (loopCount % Timers.SPAWN_BULLET == 0) 
+                {
+                    if (gameState.isSpawningBullets())
+                    {
+                        gameState.spawnBullet();
+                    }
                 }
                 
                 observers.notifyObservers(new GameStateChangedEvent(gameState));
@@ -302,7 +310,10 @@ public class GameController implements Observable<GameStateChangedEvent>,
                         }
                         
                         // Destroy the bullet:
-                        bullets.remove();
+                        try {
+                            bullets.remove();
+                        }
+                        catch (IllegalStateException e) {} // Oh well!
                         break;
                     }
                 }

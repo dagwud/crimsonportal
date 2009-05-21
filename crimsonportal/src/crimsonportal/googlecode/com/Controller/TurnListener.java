@@ -39,7 +39,10 @@ public class TurnListener implements MouseMotionListener, Observable<PlayerTurnE
         observers.notifyObservers(ev);
     }
     
-    public void mouseDragged(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) 
+    {
+        mouseMoved(e);
+    }
     
     
     public void keyTyped(KeyEvent e) {}
