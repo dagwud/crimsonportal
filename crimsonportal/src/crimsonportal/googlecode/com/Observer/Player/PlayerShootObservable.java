@@ -11,7 +11,7 @@ import crimsonportal.googlecode.com.Observer.*;
  *
  * @author dagwud
  */
-public interface PlayerShootObservable extends Observable<PlayerShootEvent>
+public interface PlayerShootObservable extends Observable<ShootEvent>
 {
 
 }

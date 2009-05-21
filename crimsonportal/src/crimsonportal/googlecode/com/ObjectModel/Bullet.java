@@ -53,8 +53,40 @@ public class Bullet extends GameObject
     {
         return "bullet.gif";
     }
+    
+    public void move()
+    {
+        double moveAmount = moveSpeed;
+        double moveAngleRadians = getRotation();
+        double moveX = (double) Math.round(moveAmount * Math.cos(moveAngleRadians));
+        double moveY = (double) Math.round(moveAmount * Math.sin(moveAngleRadians));
+        
+        getCentreOfObject().setX( getCentreOfObject().getX() + moveX);
+        getCentreOfObject().setY( getCentreOfObject().getY() + moveY);
+    }
+    
+    @Override
+    public double getRotation()
+    {
+        if (rotation == 0)
+        {
+            double diffY = getStrategy().getTarget().getCentreOfObject().getY()
+                    - this.getCentreOfObject().getY();
+            double diffX = getStrategy().getTarget().getCentreOfObject().getX() 
+                    - this.getCentreOfObject().getX();
+            rotation = Math.atan2(diffY, diffX);
+        }
+        return rotation;
+    }
         
     protected Strategy strategy;
     protected double moveSpeed;
     private int attackDamage;
+
+    void attack(EnemyUnit enemy)
+    {
+        int health = enemy.getHealth();
+        health = health - attackDamage;
+        enemy.setHealth(health);
+    }
 }

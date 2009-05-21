@@ -16,6 +16,12 @@ public class Strategy
         this.target = target;
     }
     
+    public Strategy(Location target)
+    {
+        LocationObject objTarget = new LocationObject(target);
+        this.target = objTarget;
+    }
+    
     public GameObject getTarget()
     {
         return target;

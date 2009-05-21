@@ -5,11 +5,11 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.PlayerMoveObserver;
-import crimsonportal.googlecode.com.Observer.Player.PlayerShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
 import java.util.Collection;
-import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -17,7 +17,7 @@ import java.util.LinkedList;
  *
  * @author dagwud
  */
-public class GameState implements PlayerMoveObserver //, PlayerShootObserver
+public class GameState implements PlayerMoveObserver
 {
     public GameState()
     {
@@ -44,7 +44,17 @@ public class GameState implements PlayerMoveObserver //, PlayerShootObserver
         return enemies.iterator();
     }
     
-    protected void spawnEnemy(int size, int attackDamage, int moveSpeed, Location location, GameObject target)
+    public Iterator<Bullet> getBullets()
+    {
+        return bullets.iterator();
+    }
+    
+    public int getNumBullets()
+    {
+        return bullets.size();
+    }
+    
+    protected void spawnEnemy(double size, int attackDamage, int moveSpeed, Location location, GameObject target)
     {
         enemies.add(new EnemyUnit(size, attackDamage, moveSpeed, location, target));
     }
@@ -115,7 +125,7 @@ public class GameState implements PlayerMoveObserver //, PlayerShootObserver
         player.getCentreOfObject().setY(player.getCentreOfObject().getY() + event.getMoveAmountY());
     }
     
-    public void update(PlayerShootEvent event)
+    public void update(ShootEvent event)
     {
         Bullet bullet = event.getBullet();
         bullets.add(bullet);

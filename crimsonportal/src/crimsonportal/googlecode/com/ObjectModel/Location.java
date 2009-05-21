@@ -9,7 +9,7 @@ package crimsonportal.googlecode.com.ObjectModel;
  *
  * @author dagwud
  */
-public class Location 
+public class Location
 {
     public Location(double x, double y)
     {

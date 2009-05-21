@@ -14,7 +14,7 @@ public abstract class GameObject
     public GameObject(double size, Location location)
     {
         this.size = size;
-        this.location = location;
+        this.location = location.clone();
     }
     
     public Location getCentreOfObject()

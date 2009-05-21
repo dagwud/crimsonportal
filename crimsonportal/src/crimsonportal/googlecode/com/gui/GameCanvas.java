@@ -10,12 +10,16 @@ import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.PlayerTurnEvent;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.Observer;
+import crimsonportal.googlecode.com.Observer.ObserverGroup;
+import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.PlayerShootObservable;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.swing.JPanel;
@@ -25,7 +29,7 @@ import javax.swing.JPanel;
  * @author dagwud
  */
 public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent>, 
-                                                    Runnable
+        PlayerShootObservable, Runnable
 {
     public GameCanvas(GameController gameController)
     {
@@ -36,17 +40,6 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         spriteProxy = new SpriteProxy();
         setSize(800, 600);
         setOpaque(false);
-        addMouseListener(new MouseListener() {
-            public void mousePressed(MouseEvent e) 
-            {
-                // create playershoot event
-            }
-            
-            public void mouseClicked(MouseEvent e) {}
-            public void mouseReleased(MouseEvent e) {}
-            public void mouseEntered(MouseEvent e) {}
-            public void mouseExited(MouseEvent e) {}
-        });
     }
     
     @Override
@@ -68,16 +61,22 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                 
                 // Draw the GameObject: 
                 double scale = gameObject.getSize() / img.toImage().getWidth();
-                g2.translate(Math.round(gameObject.getCentreOfObject().getX()), Math.round(gameObject.getCentreOfObject().getY()));
+                double translateX = gameObject.getCentreOfObject().getX();
+                double translateY = gameObject.getCentreOfObject().getY();
+                double translateSize = -gameObject.getSize() / 2.0;
+                g2.translate(translateX, translateY);
                    g2.rotate(rotate);
-                      g2.translate(Math.round(-gameObject.getSize() / 2.0), Math.round(-gameObject.getSize() / 2.0));
+                      g2.translate(translateSize, translateSize);
                          g2.scale(scale, scale);
                             g.drawImage(img.toImage(), 0, 0, null);
                          g2.scale(1.0 / scale, 1.0 / scale);
-                      g2.translate(Math.round(gameObject.getSize() / 2.0), Math.round(gameObject.getSize() / 2.0));
+                      g2.translate(-translateSize, -translateSize);
                    g2.rotate(-rotate);
-                g2.translate(Math.round(-gameObject.getCentreOfObject().getX()), Math.round(-gameObject.getCentreOfObject().getY()));
+                g2.translate(-translateX, -translateY);
             }
+            
+            // Repaint the canvas with the new objects' positions:
+            repaint();
         }
         catch (ConcurrentModificationException e)
         {
@@ -115,4 +114,31 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         
     protected SpriteProxy spriteProxy;
     private GameController gameController;
+
+    public void notifyObservers(ShootEvent event)
+    {
+        shootObservers.notifyObservers(event);
+    }
+
+    public boolean addObserver(Observer<ShootEvent> observer)
+    {
+        return shootObservers.addObserver(observer);
+    }
+
+    public boolean removeObserver(Observer<ShootEvent> observer)
+    {
+        return shootObservers.removeObserver(observer);
+    }
+
+    public void removeAllObservers()
+    {
+        shootObservers.removeAllObservers();
+    }
+
+    public int countObservers()
+    {
+        return shootObservers.countObservers();
+    }
+    
+    private ObserverGroup<ShootEvent> shootObservers;
 }

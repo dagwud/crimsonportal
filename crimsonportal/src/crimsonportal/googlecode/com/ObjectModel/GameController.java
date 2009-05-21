@@ -6,15 +6,19 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Controller.KeyController;
+import crimsonportal.googlecode.com.Controller.ShootListener;
 import crimsonportal.googlecode.com.Controller.TurnListener;
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.GameSettings.Enemies;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
+import crimsonportal.googlecode.com.Observer.Player.ShootObserver;
 import crimsonportal.googlecode.com.Observer.Player.PlayerTurnObserver;
+import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import java.awt.Dimension;
@@ -45,18 +49,28 @@ public class GameController implements Observable<GameStateChangedEvent>,
         frame.setPreferredSize(new Dimension(mapWidth, mapHeight));
         frame.pack();
 
-
+        PlayerUnit controlledPlayer = gameState.getPlayers().next();
         // Add a controller for player 1:
-        KeyController player1Controller = new KeyController(gameState.getPlayers().next());
+        KeyController player1Controller = new KeyController(controlledPlayer);
         frame.addKeyListener(player1Controller);
         
         // Add a turn listener for player 1:
-        TurnListener l = new TurnListener(gameState.getPlayers().next());
+        TurnListener l = new TurnListener(controlledPlayer);
         gameCanvas.addMouseMotionListener(l);
-        PlayerTurnObserver observer = new PlayerTurnObserver(gameState.getPlayers().next());
+        PlayerTurnObserver observer = new PlayerTurnObserver(controlledPlayer);
         l.addObserver(observer);
-        //player1Controller.addObserver(gameState);
         
+        // Add a PlayerShoot listener for player 1:
+        ShootListener s = new ShootListener(controlledPlayer);
+        gameCanvas.addMouseListener(s);
+        Observer<ShootEvent> obs = new Observer<ShootEvent>() {
+            public void update(ShootEvent event)
+            {
+                gameState.update(event);
+            }
+        };
+        s.addObserver(obs);
+       
         // Start the GUI running in a separate thread, so that it does not slow
         // down this process: 
         Thread guiThread = new Thread(gameCanvas);
@@ -79,26 +93,27 @@ public class GameController implements Observable<GameStateChangedEvent>,
     {
         // Determine the size of the new enemy to spawn:
         // Note: this will be replaced with a factory later
-        int size, moveSpeed;
+        double size;
+        int moveSpeed;
         if (gameState.getNumEnemies() < 15) 
         {
-            size = ObjectSizes.ENEMY_SIZE_TINY;
-            moveSpeed = 1;
+            size = Enemies.ENEMY_SIZE_TINY;
+            moveSpeed = Enemies.ENEMY_SPEED_TINY;
         }
         else if (gameState.getNumEnemies() < 30)
         {
-            size = ObjectSizes.ENEMY_SIZE_SMALL;
-            moveSpeed = 2;
+            size = Enemies.ENEMY_SIZE_SMALL;
+            moveSpeed = Enemies.ENEMY_SPEED_SMALL;
         }
         else if (gameState.getNumEnemies() < 60)
         {
-            size = ObjectSizes.ENEMY_SIZE_LARGE;
-            moveSpeed = 3;
+            size = Enemies.ENEMY_SIZE_LARGE;
+            moveSpeed = Enemies.ENEMY_SPEED_LARGE;
         }
         else
         {
-            size = ObjectSizes.ENEMY_SIZE_HUGE;
-            moveSpeed = 5;
+            size = Enemies.ENEMY_SIZE_HUGE;
+            moveSpeed = Enemies.ENEMY_SPEED_HUGE;
         }
         
         // Choose (randomly) where to spawn the enemy:
@@ -153,29 +168,11 @@ public class GameController implements Observable<GameStateChangedEvent>,
                     }
                 }
                 
+                moveBullets(loopCount);
+                
                 if (loopCount % Timers.MOVE_ENEMIES == 0)
                 {
-                    Iterator<EnemyUnit> enemies = gameState.getEnemies();
-                    while (enemies.hasNext())
-                    {
-                        EnemyUnit enemy = enemies.next();
-                        enemy.move();
-                        Iterator<PlayerUnit> players = gameState.getPlayers();
-                        while (players.hasNext())
-                        {
-                            PlayerUnit player = players.next();
-                            // Check if the enemy's bounding circle overlaps with
-                            // the player's bounding circle: 
-                            double distX = Math.abs(player.getCentreOfObject().getX() - enemy.getCentreOfObject().getX());
-                            double distY = Math.abs(player.getCentreOfObject().getY() - enemy.getCentreOfObject().getY());
-                            double distSquared = (distX * distX) + (distY * distY);
-                            double dist = Math.sqrt(distSquared);
-                            if (dist - (enemy.getSize() / 2) - (player.getSize() / 2) <= 0)
-                            {
-                                enemy.attack(player);
-                            }
-                        }
-                    }
+                    moveEnemies();
                 }
                 
                 observers.notifyObservers(new GameStateChangedEvent(gameState));
@@ -230,4 +227,85 @@ public class GameController implements Observable<GameStateChangedEvent>,
     private final int mapWidth = 800, mapHeight = 600;
     private int loopCount = 0;
 
+    private void moveEnemies()
+    {
+        Iterator<EnemyUnit> enemies = gameState.getEnemies();
+        while (enemies.hasNext())
+        {
+            EnemyUnit enemy = enemies.next();
+            enemy.move();
+            Iterator<PlayerUnit> players = gameState.getPlayers();
+            while (players.hasNext())
+            {
+                PlayerUnit player = players.next();
+                // Check if the enemy's bounding circle overlaps with
+                // the player's bounding circle: 
+                double distX = Math.abs(player.getCentreOfObject().getX() - enemy.getCentreOfObject().getX());
+                double distY = Math.abs(player.getCentreOfObject().getY() - enemy.getCentreOfObject().getY());
+                double distSquared = (distX * distX) + (distY * distY);
+                double dist = Math.sqrt(distSquared);
+                if (dist - (enemy.getSize() / 2) - (player.getSize() / 2) <= 0)
+                {
+                    enemy.attack(player);
+                }
+            }
+        }
+    }
+    
+    private void moveBullets(int loopCount) 
+    {
+        Iterator<Bullet> bullets = gameState.getBullets();
+        while (bullets.hasNext())
+        {
+            Bullet bullet = bullets.next();
+            if (loopCount % Timers.MOVE_BULLET_PISTOL == 0)
+            {
+                bullet.move();
+                Location loc = bullet.getCentreOfObject();
+                if (loc.getX() < gameState.getMap().getOffsetX())
+                {
+                    bullets.remove();
+                }
+                else if (loc.getX() > gameState.getMap().getOffsetX() + gameState.getMap().getWidth())
+                {
+                    bullets.remove();
+                }
+                else if (loc.getY() < gameState.getMap().getOffsetY())
+                {
+                    bullets.remove();
+                }
+                else if (loc.getY() > gameState.getMap().getOffsetY() + gameState.getMap().getHeight())
+                {
+                    bullets.remove();
+                }
+                
+                Iterator<EnemyUnit> enemies = gameState.getEnemies();
+                while (enemies.hasNext())
+                {
+                    EnemyUnit enemy = enemies.next();
+                    // Check if the enemy's bounding circle overlaps with
+                    // the bullet's bounding circle: 
+                    double distX = Math.abs(bullet.getCentreOfObject().getX() - enemy.getCentreOfObject().getX());
+                    double distY = Math.abs(bullet.getCentreOfObject().getY() - enemy.getCentreOfObject().getY());
+                    double distSquared = (distX * distX) + (distY * distY);
+                    double dist = Math.sqrt(distSquared);
+                    if (dist - (enemy.getSize() / 2) - (bullet.getSize() / 2) <= 0)
+                    {
+                        // Attack the enemy:
+                        bullet.attack(enemy);
+                        
+                        // Remove the enemy if it's dead:
+                        if (enemy.getHealth() <= 0)
+                        {
+                            enemies.remove();
+                        }
+                        
+                        // Destroy the bullet:
+                        bullets.remove();
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

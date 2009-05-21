@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.Controller;
+package crimsonportal.googlecode.com.Observer.MoveTimer;
 
 import crimsonportal.googlecode.com.Observer.Player.MoveTimerEvent;
 import crimsonportal.googlecode.com.Observer.Observable;

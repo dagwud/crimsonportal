@@ -11,7 +11,7 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class EnemyUnit extends Unit
 {
-    public EnemyUnit(int size, int attackDamage, int moveSpeed, Location location, GameObject target)
+    public EnemyUnit(double size, int attackDamage, int moveSpeed, Location location, GameObject target)
     {
         super(size, location, new Strategy(target));
         this.attackDamage = attackDamage;
@@ -46,7 +46,11 @@ public class EnemyUnit extends Unit
     @Override
     public EnemyUnit clone()
     {
-        EnemyUnit e = new EnemyUnit(size, attackDamage, moveSpeed, getCentreOfObject(), getStrategy().getTarget());
+        EnemyUnit e = new EnemyUnit(size, 
+                attackDamage, 
+                moveSpeed, 
+                getCentreOfObject(), 
+                getStrategy().getTarget());
         return e;
     }
     
@@ -116,5 +120,4 @@ public class EnemyUnit extends Unit
     }
     private int attackDamage;
     private int moveSpeed;
-    private int size;
 }

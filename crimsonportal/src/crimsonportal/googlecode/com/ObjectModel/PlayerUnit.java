@@ -11,7 +11,7 @@ import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.PlayerMoveObservable;
-import crimsonportal.googlecode.com.Observer.Player.PlayerTurnObservable;
+import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
 
 /**
  *
@@ -118,7 +118,7 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     {
         this.setRotation(e.getRotation());
     }
-
+    
     /*public boolean addObserver(Observer<PlayerTurnEvent> observer)
     {
         return turnObservers.addObserver(observer);

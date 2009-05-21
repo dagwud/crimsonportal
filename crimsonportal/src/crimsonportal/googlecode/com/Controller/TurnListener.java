@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.Controller;
 
+import crimsonportal.googlecode.com.Observer.MoveTimer.MoveTimer;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.PlayerTurnEvent;
