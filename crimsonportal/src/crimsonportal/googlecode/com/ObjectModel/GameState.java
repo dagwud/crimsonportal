@@ -5,7 +5,6 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
-import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
@@ -123,6 +122,19 @@ public class GameState implements PlayerMoveObserver
         PlayerUnit player = (PlayerUnit)event.getSource();
         player.getCentreOfObject().setX(player.getCentreOfObject().getX() + event.getMoveAmountX());
         player.getCentreOfObject().setY(player.getCentreOfObject().getY() + event.getMoveAmountY());
+        
+        // Check if the player is on a pickup:
+        Iterator<Pickup> it_pickups = pickups.iterator();
+        while (it_pickups.hasNext()) 
+        {
+            Pickup pickup = it_pickups.next();
+            if (player.testOverlapsWith(pickup))
+            {
+                // Pickup the object:
+                pickup.applyTo(player);
+                it_pickups.remove();
+            }
+        }
     }
     
     public void update(ShootEvent event)

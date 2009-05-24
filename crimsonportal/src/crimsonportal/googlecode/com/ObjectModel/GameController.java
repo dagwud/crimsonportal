@@ -10,15 +10,14 @@ import crimsonportal.googlecode.com.Controller.ShootListener;
 import crimsonportal.googlecode.com.Controller.TurnListener;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.GameSettings.EnemyStats;
-import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
-import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootObserver;
 import crimsonportal.googlecode.com.Observer.Player.Turn.PlayerTurnObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootObserver;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import java.awt.Dimension;
@@ -70,7 +69,6 @@ public class GameController implements Observable<GameStateChangedEvent>,
                 gameState.update(event);
             }
         };
-        s.addObserver(obs);
        
         // Start the GUI running in a separate thread, so that it does not slow
         // down this process: 
@@ -249,11 +247,7 @@ public class GameController implements Observable<GameStateChangedEvent>,
                 PlayerUnit player = players.next();
                 // Check if the enemy's bounding circle overlaps with
                 // the player's bounding circle: 
-                double distX = Math.abs(player.getCentreOfObject().getX() - enemy.getCentreOfObject().getX());
-                double distY = Math.abs(player.getCentreOfObject().getY() - enemy.getCentreOfObject().getY());
-                double distSquared = (distX * distX) + (distY * distY);
-                double dist = Math.sqrt(distSquared);
-                if (dist - (enemy.getSize() / 2) - (player.getSize() / 2) <= 0)
+                if (player.testOverlapsWith(enemy))
                 {
                     enemy.attack(player);
                 }

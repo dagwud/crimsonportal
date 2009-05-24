@@ -5,7 +5,7 @@
 
 package crimsonportal.googlecode.com.Controller;
 
-import crimsonportal.googlecode.com.Observer.MoveTimer.MoveTimer;
+import crimsonportal.googlecode.com.Observer.Player.Move.MoveTimer;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.ObjectModel.Bullet;

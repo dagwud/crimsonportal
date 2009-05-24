@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.Observer.MoveTimer;
+package crimsonportal.googlecode.com.Observer.Player.Move;
 
-import crimsonportal.googlecode.com.Observer.Player.MoveTimerEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.MoveTimerEvent;
 import crimsonportal.googlecode.com.Observer.Observable;
 
 /**

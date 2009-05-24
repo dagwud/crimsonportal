@@ -46,5 +46,10 @@ public abstract class Pickup extends GameObject
         return loc;
     }
     
+    public void applyTo(Unit unit)
+    {
+        // TODO: Implement
+    }
+    
     protected GameTime expirationTime;
 }

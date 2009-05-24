@@ -42,6 +42,16 @@ public abstract class GameObject
         this.location = location;
     }
     
+    public boolean testOverlapsWith(GameObject obj)
+    {
+        double xdiff = obj.getCentreOfObject().getX() - getCentreOfObject().getX();
+        double ydiff = obj.getCentreOfObject().getY() - getCentreOfObject().getY();
+        double overlapMaxDistance = (obj.getSize() / 2) + (getSize() / 2);
+        
+        double distBetweenObjs = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
+        return (distBetweenObjs <= overlapMaxDistance);
+    }
+    
     public abstract String getSpriteFilename();
     
     protected Location location;
