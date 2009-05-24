@@ -6,9 +6,9 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Observer.Observer;
-import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
-import crimsonportal.googlecode.com.Observer.Player.PlayerMoveObserver;
-import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
+import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;

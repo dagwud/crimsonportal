@@ -6,7 +6,7 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Observer.Observer;
-import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 
 /**
  *

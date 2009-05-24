@@ -6,7 +6,7 @@
 package crimsonportal.googlecode.com.Observer.MoveTimer;
 
 import crimsonportal.googlecode.com.Debug;
-import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import java.util.TimerTask;
 

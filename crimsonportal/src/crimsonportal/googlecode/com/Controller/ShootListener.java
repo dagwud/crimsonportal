@@ -19,7 +19,7 @@ import crimsonportal.googlecode.com.ObjectModel.Unit;
 import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
-import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

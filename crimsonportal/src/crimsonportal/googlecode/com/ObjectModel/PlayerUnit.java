@@ -9,9 +9,9 @@ import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
-import crimsonportal.googlecode.com.Observer.Player.PlayerMoveEvent;
-import crimsonportal.googlecode.com.Observer.Player.PlayerMoveObservable;
-import crimsonportal.googlecode.com.Observer.Player.ShootEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
+import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 
 /**
  *

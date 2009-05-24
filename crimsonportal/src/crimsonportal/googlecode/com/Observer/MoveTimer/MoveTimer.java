@@ -8,10 +8,10 @@ package crimsonportal.googlecode.com.Observer.MoveTimer;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.Observer.KeyPress.KeyPressObserver;
-import crimsonportal.googlecode.com.Observer.Player.MoveTimerEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.MoveTimerEvent;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
-import crimsonportal.googlecode.com.Observer.Player.PlayerMoveObservable;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
 import java.awt.event.KeyEvent;
 import java.util.Timer;
 

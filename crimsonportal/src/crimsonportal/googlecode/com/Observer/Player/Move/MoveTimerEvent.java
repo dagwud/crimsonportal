@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.Observer.Player;
+package crimsonportal.googlecode.com.Observer.Player.Move;
 
 import crimsonportal.googlecode.com.Observer.MoveTimer.MoveTimer;
 import java.util.EventObject;
