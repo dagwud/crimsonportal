@@ -16,5 +16,5 @@ public abstract class ObjectSizes
 
     public static final double BULLET_SIZE_PISTOL = 4;
     public static final double BULLET_SPEED_PISTOL = 10;
-    public static int BULLET_DAMAGE_PISTOL = 10;
+    public static int BULLET_DAMAGE_PISTOL = 1;
 }

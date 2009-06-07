@@ -53,9 +53,9 @@ public class GameState implements PlayerMoveObserver
         return bullets.size();
     }
     
-    protected void spawnEnemy(double size, int attackDamage, int moveSpeed, Location location, GameObject target)
+    protected void spawnEnemy(EnemyUnit enemyUnit)
     {
-        enemies.add(new EnemyUnit(size, attackDamage, moveSpeed, location, target));
+        enemies.add(enemyUnit);
     }
     
     protected void killEnemy(EnemyUnit enemy)
@@ -73,7 +73,7 @@ public class GameState implements PlayerMoveObserver
         return pickups.iterator();
     }
     
-    public Iterator<GameObject> getGameObjects()
+    public synchronized Iterator<GameObject> getGameObjects()
     {
         Collection<GameObject> gameObjects = new LinkedList<GameObject>(pickups);
         gameObjects.addAll(enemies);

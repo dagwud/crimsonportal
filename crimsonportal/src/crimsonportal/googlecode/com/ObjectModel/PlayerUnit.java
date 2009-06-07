@@ -20,12 +20,15 @@ import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 public class PlayerUnit extends Unit implements PlayerMoveObservable, 
         Observer<PlayerTurnEvent>
 {
+    protected double DEFAULT_HEALTH = 100;
+    
     public PlayerUnit(Location location, int moveSpeed)
     {
         super(ObjectSizes.PLAYER_SIZE, location, null);
         observers = new ObserverGroup<PlayerMoveEvent>();
         turnObservers = new ObserverGroup<PlayerTurnEvent>();
         this.moveSpeed = moveSpeed;
+        setHealth(DEFAULT_HEALTH);
     }
     
     public PlayerUnit(Location location, int moveSpeed, Weapon weapon)
@@ -118,14 +121,4 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     {
         this.setRotation(e.getRotation());
     }
-    
-    /*public boolean addObserver(Observer<PlayerTurnEvent> observer)
-    {
-        return turnObservers.addObserver(observer);
-    }
-
-    public boolean removeObserver(Observer<PlayerTurnEvent> observer)
-    {
-        return turnObservers.removeObserver(observer);
-    }*/
 }

@@ -9,7 +9,7 @@ import crimsonportal.googlecode.com.Controller.KeyController;
 import crimsonportal.googlecode.com.Controller.ShootListener;
 import crimsonportal.googlecode.com.Controller.TurnListener;
 import crimsonportal.googlecode.com.Debug;
-import crimsonportal.googlecode.com.GameSettings.EnemyStats;
+import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.Observable;
@@ -17,7 +17,6 @@ import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Turn.PlayerTurnObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
-import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootObserver;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import java.awt.Dimension;
@@ -69,6 +68,7 @@ public class GameController implements Observable<GameStateChangedEvent>,
                 gameState.update(event);
             }
         };
+        s.addObserver(obs);
        
         // Start the GUI running in a separate thread, so that it does not slow
         // down this process: 
@@ -90,31 +90,6 @@ public class GameController implements Observable<GameStateChangedEvent>,
     
     public void spawnEnemy()
     {
-        // Determine the size of the new enemy to spawn:
-        // Note: this will be replaced with a factory later
-        double size;
-        int moveSpeed;
-        int enemyType = 0;
-        if (gameState.getNumEnemies() < 15) 
-        {
-            enemyType = EnemyStats.ENEMY_TINY;
-        }
-        else if (gameState.getNumEnemies() < 30)
-        {
-            enemyType = EnemyStats.ENEMY_SMALL;
-        }
-        else if (gameState.getNumEnemies() < 60)
-        {
-            enemyType = EnemyStats.ENEMY_MEDIUM;
-        }
-        else
-        {
-            enemyType = EnemyStats.ENEMY_LARGE;
-        }
-        EnemyStats enemy = EnemyStats.getEnemyStats(enemyType);
-        size = enemy.getSize();
-        moveSpeed = enemy.getMoveSpeed();
-        
         // Choose (randomly) where to spawn the enemy:
         int side = (int) Math.round(Math.random() * 4);
         int locationX = 100, locationY = 100;
@@ -142,11 +117,30 @@ public class GameController implements Observable<GameStateChangedEvent>,
                 break;
         }
         
+        // Choose what type of enemy to spawn
+        Location location = new Location(locationX, locationY);
+        PlayerUnit target = gameState.getPlayers().next();
         if (gameState.getNumPlayers() > 0)
         {
-            gameState.spawnEnemy(size, 1, moveSpeed, 
-                    new Location(locationX, locationY), 
-                    gameState.getPlayers().next());
+            EnemyUnitFactory.enemyType enemyType;
+            if (gameState.getNumEnemies() < 15) 
+            {
+                enemyType = EnemyUnitFactory.enemyType.ENEMY_TINY;
+            }
+            else if (gameState.getNumEnemies() < 30)
+            {
+                enemyType = EnemyUnitFactory.enemyType.ENEMY_SMALL;
+            }
+            else if (gameState.getNumEnemies() < 60)
+            {
+                enemyType = EnemyUnitFactory.enemyType.ENEMY_MEDIUM;
+            }
+            else
+            {
+                enemyType = EnemyUnitFactory.enemyType.ENEMY_LARGE;
+            }
+            EnemyUnit enemy = EnemyUnitFactory.createEnemyUnit(enemyType, location, target);
+            gameState.spawnEnemy(enemy);
         }
         
         observers.notifyObservers(new GameStateChangedEvent(gameState));

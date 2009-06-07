@@ -11,12 +11,13 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class Bullet extends GameObject
 {
-    public Bullet(double size, Location location, Strategy strategy, double moveSpeed, int attackDamage)
+    public Bullet(double size, GameObject shooter, Location location, Strategy strategy, double moveSpeed, int attackDamage)
     {
         super(size, location);
         this.strategy = strategy;
         this.moveSpeed = moveSpeed;
         this.attackDamage = attackDamage;
+        this.shooter = shooter;
     }
     
     public double getMoveSpeed()
@@ -81,18 +82,19 @@ public class Bullet extends GameObject
         
     public Bullet clone()
     {
-        Bullet bullet = new Bullet(size, location.clone(), 
+        Bullet bullet = new Bullet(size, shooter, shooter.getCentreOfObject(), 
                 strategy.clone(), moveSpeed, attackDamage);
         return bullet;
     }
     
     protected Strategy strategy;
     protected double moveSpeed;
-    private int attackDamage;
+    protected int attackDamage;
+    protected GameObject shooter;
 
     void attack(EnemyUnit enemy)
     {
-        int health = enemy.getHealth();
+        double health = enemy.getHealth();
         health = health - attackDamage;
         enemy.setHealth(health);
     }

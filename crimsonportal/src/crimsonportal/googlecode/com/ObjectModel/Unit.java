@@ -30,16 +30,16 @@ public abstract class Unit extends GameObject
         this.strategy = strategy;
     }
     
-    public int getHealth()
+    public double getHealth()
     {
         return health;
     }
     
-    protected void setHealth(int health)
+    protected void setHealth(double health)
     {
         this.health = health;
     }
     
-    private Strategy strategy;
-    private int health;
+    protected Strategy strategy;
+    protected double health;
 }

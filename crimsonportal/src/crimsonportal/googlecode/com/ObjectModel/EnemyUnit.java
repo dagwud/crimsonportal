@@ -9,13 +9,15 @@ package crimsonportal.googlecode.com.ObjectModel;
  *
  * @author dagwud
  */
-public class EnemyUnit extends Unit
+public abstract class EnemyUnit extends Unit
 {
-    public EnemyUnit(double size, int attackDamage, int moveSpeed, Location location, GameObject target)
+    protected EnemyUnit(double size, double startingHealth, int attackDamage, double attackSpeed, int moveSpeed, Location location, GameObject target)
     {
         super(size, location, new Strategy(target));
         this.attackDamage = attackDamage;
         this.moveSpeed = moveSpeed;
+        this.attackSpeed = attackSpeed;
+        this.health = startingHealth;
     }
     
     public int getAttackDamage()
@@ -38,21 +40,29 @@ public class EnemyUnit extends Unit
         this.moveSpeed = moveSpeed;
     }
     
+    public double getAttackSpeed()
+    {
+        return attackSpeed;
+    }
+    
+    protected void setAttackSpeed(double attackSpeed)
+    {
+        this.attackSpeed = attackSpeed;
+    }
+    
     public void attack(PlayerUnit player)
     {
-        player.setHealth(player.getHealth() - attackDamage);
+        long timeSinceLastAttackMS = System.currentTimeMillis() - lastAttackTime;
+        double attackDurationMS = 1000.0 / attackSpeed;
+        if (timeSinceLastAttackMS >= attackDurationMS)
+        {
+            lastAttackTime = System.currentTimeMillis();
+            player.setHealth(player.getHealth() - attackDamage);
+        }
     }
     
     @Override
-    public EnemyUnit clone()
-    {
-        EnemyUnit e = new EnemyUnit(size, 
-                attackDamage, 
-                moveSpeed, 
-                getCentreOfObject(), 
-                getStrategy().getTarget());
-        return e;
-    }
+    public abstract EnemyUnit clone();
     
     protected void move()
     {
@@ -114,10 +124,10 @@ public class EnemyUnit extends Unit
         return rotate;
     }
     
-    public String getSpriteFilename()
-    {
-        return "enemy.gif";
-    }
-    private int attackDamage;
-    private int moveSpeed;
+    public abstract String getSpriteFilename();
+            
+    protected int attackDamage;
+    protected int moveSpeed;
+    protected double attackSpeed;
+    private long lastAttackTime;
 }
