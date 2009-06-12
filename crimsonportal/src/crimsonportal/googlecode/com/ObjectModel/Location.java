@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author dagwud
@@ -51,6 +53,11 @@ public class Location
             return true;
         }
         return false;
+    }
+    
+    public String toString() 
+    {
+        return "Location[" + y + "," + x + "]";
     }
     
     private double x;

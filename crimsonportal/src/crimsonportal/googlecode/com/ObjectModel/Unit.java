@@ -14,10 +14,11 @@ import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
  */
 public abstract class Unit extends GameObject
 {
-    public Unit(double size, Location location, Strategy strategy)
+    public Unit(double size, Location location, Strategy strategy, GameState gameState)
     {
         super(size, location);
         this.strategy = strategy;
+        this.gameState = gameState;
     }
     
     public Strategy getStrategy()
@@ -40,6 +41,22 @@ public abstract class Unit extends GameObject
         this.health = health;
     }
     
+    public void moveTo(Location newLocation) 
+    {
+        //System.out.println((moveFromX + moveX) + "  " + (moveFromY + moveY));
+        Location moveTo = gameState.getTerrain().getMoveWithGradient(
+                getCentreOfObject(), 
+                newLocation, gameState.getMap());
+        
+        /*double moveToX = moveTo.getX(),
+                moveToY = moveTo.getY();
+        //System.out.println(moveToX + "  " + moveToY + "\n");
+        moveX = moveToX - moveFromX;
+        moveY = moveToY - moveFromY;*/
+        setCentreOfObject(moveTo);
+    }
+    
     protected Strategy strategy;
     protected double health;
+    protected GameState gameState;
 }

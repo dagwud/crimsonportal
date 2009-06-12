@@ -19,6 +19,8 @@ import crimsonportal.googlecode.com.Observer.Player.Turn.PlayerTurnObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
+import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
+import crimsonportal.googlecode.com.terrain.Terrain;
 import java.awt.Dimension;
 import java.util.Iterator;
 
@@ -34,22 +36,33 @@ public class GameController implements Observable<GameStateChangedEvent>,
         super();
         // Initialise the game state: 
         gameState = new GameState();
-        gameState.spawnPlayer(new Location(mapWidth / 2, mapHeight / 2));
+        gameState.spawnPlayer(new Location(gameState.getMap().getWidth() / 2, 
+                gameState.getMap().getHeight() / 2));
         gameState.spawnPickup();
         
         observers = new ObserverGroup<GameStateChangedEvent>();
 
+        String terrainFilename = "terrains/terrain.raw";
+        try {
+            gameState.loadTerrain(terrainFilename);
+        }
+        catch (InvalidTerrainException e) {
+            System.err.println("Terrain data file " + terrainFilename + " is invalid or corrupt");
+            System.exit(2);
+        }
+        
         // Initialise the game GUI: 
         gameCanvas = new GameCanvas(this);
         GameFrame frame = new GameFrame(gameCanvas, gameState.getMap());
         
         // Set up the size of the frame: 
-        frame.setPreferredSize(new Dimension(mapWidth, mapHeight));
+        frame.setPreferredSize(new Dimension(gameState.getMap().getWidth(),
+                gameState.getMap().getHeight()));
         frame.pack();
-
+        
         PlayerUnit controlledPlayer = gameState.getPlayers().next();
         // Add a controller for player 1:
-        KeyController player1Controller = new KeyController(controlledPlayer);
+        KeyController player1Controller = new KeyController(controlledPlayer, gameState);
         frame.addKeyListener(player1Controller);
         
         // Add a turn listener for player 1:
@@ -89,31 +102,36 @@ public class GameController implements Observable<GameStateChangedEvent>,
     }
     
     public void spawnEnemy()
-    {
+    {//if (true) return;
         // Choose (randomly) where to spawn the enemy:
         int side = (int) Math.round(Math.random() * 4);
         int locationX = 100, locationY = 100;
+        int mapWidth = gameState.getMap().getWidth(),
+                mapHeight = gameState.getMap().getHeight();
         switch (side)
         {
             case 0:
                 // Spawn on left side:
-                locationX = 0;
-                locationY = (int) (Math.random() * mapWidth);
-                break;
+                locationX = 10;
+                locationY = (int) (Math.random() * (mapHeight-10));
+        break;
             case 1:
                 // Spawn on top:
-                locationX = (int) (Math.random() * mapWidth);
-                locationY = 0;
+                locationX = (int) (Math.random() * (mapWidth-10));
+                locationY = 10;
+        
                 break;
             case 2:
                 // Spawn on right:
-                locationX = mapWidth;
-                locationY = (int) (Math.random() * mapHeight);
+                locationX = mapWidth - 10;
+                locationY = (int) (Math.random() * (mapHeight-10));
+        
                 break;
             case 3:
                 // Spawn on bottom:
-                locationX = (int) (Math.random() * mapWidth);
-                locationY = mapHeight;
+                locationX = (int) (Math.random() * (mapWidth-10));
+                locationY = mapHeight - 10;
+        
                 break;
         }
         
@@ -139,7 +157,7 @@ public class GameController implements Observable<GameStateChangedEvent>,
             {
                 enemyType = EnemyUnitFactory.enemyType.ENEMY_LARGE;
             }
-            EnemyUnit enemy = EnemyUnitFactory.createEnemyUnit(enemyType, location, target);
+            EnemyUnit enemy = EnemyUnitFactory.createEnemyUnit(enemyType, location, target, gameState);
             gameState.spawnEnemy(enemy);
         }
         
@@ -220,14 +238,6 @@ public class GameController implements Observable<GameStateChangedEvent>,
         return observers.countObservers();
     }
     
-    protected GameState gameState;
-    protected GameCanvas gameCanvas;
-    
-    private ObserverGroup<GameStateChangedEvent> observers;
-    
-    private final int mapWidth = 800, mapHeight = 600;
-    private int loopCount = 0;
-
     private void moveEnemies()
     {
         Iterator<EnemyUnit> enemies = gameState.getEnemies();
@@ -308,4 +318,11 @@ public class GameController implements Observable<GameStateChangedEvent>,
             }
         }
     }
+    
+    protected GameState gameState;
+    protected GameCanvas gameCanvas;
+    
+    private ObserverGroup<GameStateChangedEvent> observers;
+    
+    private int loopCount = 0;
 }

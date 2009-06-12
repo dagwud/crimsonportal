@@ -7,6 +7,7 @@ package crimsonportal.googlecode.com.ObjectModel.EnemyUnits;
 
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 
 /**
@@ -21,15 +22,15 @@ public class EnemyUnitLarge extends EnemyUnit {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy.gif";
     
-    public EnemyUnitLarge(Location location, GameObject target)
+    public EnemyUnitLarge(Location location, GameObject target, GameState gameState)
     {
-        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target);
+        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
     }
     
     @Override
     public EnemyUnit clone()
     {
-        return new EnemyUnitLarge(location, strategy.getTarget());
+        return new EnemyUnitLarge(location, strategy.getTarget(), gameState);
     }
 
     @Override

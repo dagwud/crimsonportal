@@ -7,6 +7,7 @@ package crimsonportal.googlecode.com.Controller;
 
 import crimsonportal.googlecode.com.Observer.Player.Move.MoveTimer;
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.Observer.KeyPress.KeyPressObservable;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -20,11 +21,11 @@ import java.awt.event.KeyListener;
  */
 public class KeyController implements KeyListener, KeyPressObservable
 {
-    public KeyController(PlayerUnit controlledPlayer)
+    public KeyController(PlayerUnit controlledPlayer, GameState gameState)
     {
         Debug.logMethod("Initialising KeyController for player " + controlledPlayer);
         observers = new ObserverGroup<KeyEvent>();
-        moveTimer = new MoveTimer(controlledPlayer);
+        moveTimer = new MoveTimer(controlledPlayer, gameState);
         addObserver(moveTimer);
     }
     

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.Observer.Player.Move;
 
+import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import java.util.EventObject;
 
@@ -14,11 +15,17 @@ import java.util.EventObject;
  */
 public class PlayerMoveEvent extends EventObject
 {
-    public PlayerMoveEvent(PlayerUnit playerToMove, double moveAmountX, double moveAmountY)
+    public PlayerMoveEvent(PlayerUnit playerToMove, GameState gameState, double moveAmountX, double moveAmountY)
     {
         super(playerToMove);
+        this.gameState = gameState;
         this.moveAmountX = moveAmountX;
         this.moveAmountY = moveAmountY;
+    }
+    
+    public GameState getGameState() 
+    {
+        return gameState;
     }
     
     public double getMoveAmountX()
@@ -33,4 +40,5 @@ public class PlayerMoveEvent extends EventObject
     
     private double moveAmountX;
     private double moveAmountY;
+    private GameState gameState;
 }

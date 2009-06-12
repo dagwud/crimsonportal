@@ -18,9 +18,10 @@ public class GameFrame extends JFrame
 {
     public GameFrame(GameCanvas canvas, Map map)
     {
-        JLabel background = new JLabel(new ImageIcon(canvas.spriteProxy.get("background.jpg").toImage()));
-        background.setSize(map.getWidth(), map.getHeight());
+        JLabel background = new JLabel(new ImageIcon(canvas.spriteProxy.get("terrain.jpg").toImage()));
+        background.setSize(map.getSize());
         background.setOpaque(true);
+        background.setLocation(0, 0);
         getLayeredPane().add(background, new Integer(0));
         
         getLayeredPane().add(canvas, new Integer(1));
@@ -30,6 +31,7 @@ public class GameFrame extends JFrame
         hud.setLocation(0, background.getHeight() - hud.getHeight());
         getLayeredPane().add(hud, new Integer(2));
         
+        setSize(background.getSize());
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

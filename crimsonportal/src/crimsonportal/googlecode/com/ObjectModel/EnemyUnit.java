@@ -11,9 +11,9 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public abstract class EnemyUnit extends Unit
 {
-    protected EnemyUnit(double size, double startingHealth, int attackDamage, double attackSpeed, int moveSpeed, Location location, GameObject target)
+    protected EnemyUnit(double size, double startingHealth, int attackDamage, double attackSpeed, int moveSpeed, Location location, GameObject target, GameState gameState)
     {
-        super(size, location, new Strategy(target));
+        super(size, location, new Strategy(target), gameState);
         this.attackDamage = attackDamage;
         this.moveSpeed = moveSpeed;
         this.attackSpeed = attackSpeed;
@@ -109,8 +109,10 @@ public abstract class EnemyUnit extends Unit
             moveY = 0.0;
         }
         
-        getCentreOfObject().setX( getCentreOfObject().getX() + moveX);
-        getCentreOfObject().setY( getCentreOfObject().getY() + moveY);
+        Location newLocation = new Location(
+            getCentreOfObject().getX() + moveX,
+            getCentreOfObject().getY() + moveY);
+        moveTo(newLocation);
     }
     
      // This moves to EnemyUnit.getRotation:

@@ -6,6 +6,7 @@
 package crimsonportal.googlecode.com.Observer.Player.Move;
 
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.Observer.KeyPress.KeyPressObserver;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -19,12 +20,12 @@ import java.util.Timer;
  */
 public class MoveTimer extends Timer implements MoveTimerObservable, KeyPressObserver
 {
-    public MoveTimer(PlayerUnit playerToMove)
+    public MoveTimer(PlayerUnit playerToMove, GameState gameState)
     {
         super();
         Debug.logMethod("Creating move timer for player " + playerToMove);
         timerObservers = new ObserverGroup<MoveTimerEvent>();
-        timerTask = new MoveTimerTask(playerToMove);
+        timerTask = new MoveTimerTask(playerToMove, gameState);
         this.scheduleAtFixedRate(timerTask, 100, 100);
     }
 

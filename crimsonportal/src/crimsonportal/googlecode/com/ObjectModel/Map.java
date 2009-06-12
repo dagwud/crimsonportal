@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author dagwud
@@ -33,6 +35,11 @@ public class Map
     public int getHeight()
     {
         return height;
+    }
+    
+    public Dimension getSize() 
+    {
+        return new Dimension(width, height);
     }
     
     protected void setWidth(int width)

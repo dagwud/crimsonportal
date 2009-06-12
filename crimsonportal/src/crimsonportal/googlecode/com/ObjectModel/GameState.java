@@ -8,6 +8,8 @@ package crimsonportal.googlecode.com.ObjectModel;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
+import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
+import crimsonportal.googlecode.com.terrain.Terrain;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,7 +27,22 @@ public class GameState implements PlayerMoveObserver
         pickups = new LinkedList<Pickup>();
         bullets = new LinkedList<Bullet>();
         elapsedGameTime = new GameTime(true);
-        map = new Map(800, 600);
+        map = new Map(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+    }
+    
+    public void loadTerrain(String terrainFilename) throws InvalidTerrainException {
+        terrain = new Terrain(513, 513);
+        try {
+            terrain.loadTerrain(terrainFilename);
+        }
+        catch (Exception e) {
+            throw new InvalidTerrainException(e.getMessage());
+        }
+        
+    }
+    
+    public Terrain getTerrain() {
+        return terrain;
     }
     
     public Iterator<PlayerUnit> getPlayers()
@@ -85,7 +102,7 @@ public class GameState implements PlayerMoveObserver
     
     protected void spawnPlayer(Location location)
     {
-        PlayerUnit player = new PlayerUnit(location, 4);
+        PlayerUnit player = new PlayerUnit(location, 4, this);
         players.add(player);
         player.addObserver(this);
     }
@@ -120,8 +137,10 @@ public class GameState implements PlayerMoveObserver
     public void update(PlayerMoveEvent event)
     {
         PlayerUnit player = (PlayerUnit)event.getSource();
-        player.getCentreOfObject().setX(player.getCentreOfObject().getX() + event.getMoveAmountX());
-        player.getCentreOfObject().setY(player.getCentreOfObject().getY() + event.getMoveAmountY());
+                
+        Location newLocation = new Location(player.getCentreOfObject().getX() + event.getMoveAmountX(),
+                player.getCentreOfObject().getY() + event.getMoveAmountY());
+        player.moveTo(newLocation);
         
         // Check if the player is on a pickup:
         Iterator<Pickup> it_pickups = pickups.iterator();
@@ -165,4 +184,8 @@ public class GameState implements PlayerMoveObserver
     }
     
     private Bullet spawningBullets = null;
+    protected Terrain terrain;
+    
+    public static final int BACKGROUND_WIDTH = 640,
+            BACKGROUND_HEIGHT = 480;
 }

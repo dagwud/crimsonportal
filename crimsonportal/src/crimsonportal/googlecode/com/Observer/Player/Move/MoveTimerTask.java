@@ -6,6 +6,9 @@
 package crimsonportal.googlecode.com.Observer.Player.Move;
 
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.ObjectModel.GameState;
+import crimsonportal.googlecode.com.ObjectModel.Location;
+import crimsonportal.googlecode.com.ObjectModel.Map;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import java.util.TimerTask;
@@ -16,10 +19,11 @@ import java.util.TimerTask;
  */
 class MoveTimerTask extends TimerTask
 {
-    public MoveTimerTask(PlayerUnit controlledPlayer)
+    public MoveTimerTask(PlayerUnit controlledPlayer, GameState gameState)
     {
         super();
         this.controlledPlayer = controlledPlayer;
+        this.gameState = gameState;
     }
 
     public void run()
@@ -35,11 +39,16 @@ class MoveTimerTask extends TimerTask
         }
         else
         {
-            moveX = moveX * 1.4;
-            moveY = moveY * 1.4;
+            moveX = moveX * 1.25;
+            moveY = moveY * 1.25;
         }
 
-        PlayerMoveEvent event = new PlayerMoveEvent(controlledPlayer, moveX, moveY);
+        // Adjust the movement amount to cater for the terrain gradient:
+        double moveFromX = controlledPlayer.getCentreOfObject().getX();
+        double moveFromY = controlledPlayer.getCentreOfObject().getY();
+        Map map = gameState.getMap();
+        
+        PlayerMoveEvent event = new PlayerMoveEvent(controlledPlayer, gameState, moveX, moveY);
         if (controlledPlayer.countObservers() > 0)
         {
             Debug.logMethod("MoveTimerTask is notifying observers of player " + controlledPlayer);
@@ -54,4 +63,5 @@ class MoveTimerTask extends TimerTask
     protected double moveAmountX = 0;
     protected double moveAmountY = 0;
     private PlayerUnit controlledPlayer;
+    private GameState gameState;
 }

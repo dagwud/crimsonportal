@@ -12,6 +12,7 @@ import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
+import java.awt.Dimension;
 
 /**
  *
@@ -22,18 +23,18 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
 {
     protected double DEFAULT_HEALTH = 100;
     
-    public PlayerUnit(Location location, int moveSpeed)
+    public PlayerUnit(Location location, int moveSpeed, GameState gameState)
     {
-        super(ObjectSizes.PLAYER_SIZE, location, null);
+        super(ObjectSizes.PLAYER_SIZE, location, null, gameState);
         observers = new ObserverGroup<PlayerMoveEvent>();
         turnObservers = new ObserverGroup<PlayerTurnEvent>();
         this.moveSpeed = moveSpeed;
         setHealth(DEFAULT_HEALTH);
     }
     
-    public PlayerUnit(Location location, int moveSpeed, Weapon weapon)
+    public PlayerUnit(Location location, int moveSpeed, Weapon weapon, GameState gameState)
     {
-        super(ObjectSizes.PLAYER_SIZE, location, null);
+        super(ObjectSizes.PLAYER_SIZE, location, null, gameState);
         this.weapon = weapon;
         this.moveSpeed = moveSpeed;
     }
@@ -61,7 +62,7 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     @Override
     public PlayerUnit clone()
     {
-        PlayerUnit p = new PlayerUnit(getCentreOfObject(), moveSpeed, weapon);
+        PlayerUnit p = new PlayerUnit(getCentreOfObject(), moveSpeed, weapon, gameState);
         return p;
     }
     
@@ -78,8 +79,6 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     public void notifyObservers(PlayerMoveEvent event)
     {
         Debug.logMethod("Player " + this + " has received a notification and is moving");
-        this.getCentreOfObject().setX(getCentreOfObject().getX() + event.getMoveAmountX());
-        this.getCentreOfObject().setY(getCentreOfObject().getY() + event.getMoveAmountY());
         
         if (observers.countObservers() > 0)
         {

@@ -6,10 +6,15 @@
 package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.GameController;
+import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
+import crimsonportal.googlecode.com.ObjectModel.Location;
+import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedObservable;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedObserver;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
+import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -42,7 +47,8 @@ public class HUDPanel extends JPanel implements GameStateChangedObserver
         
         setVisible(true);
         
-        gameController.addObserver(this);
+        this.gameController = gameController;
+        this.gameController.addObserver(this);
     }
     
     public void update(GameStateChangedEvent event)
@@ -50,8 +56,14 @@ public class HUDPanel extends JPanel implements GameStateChangedObserver
         GameState gameState = (GameState)event.getSource();
         lblHealth.setText("Health: " + gameState.getPlayers().next().getHealth());
         lblEnemies.setText("Enemies: " + gameState.getNumEnemies());
+        
+        Location l = gameState.getPlayers().next().getCentreOfObject();
+        int height = gameState.getTerrain().getHeightAt(l.getY(), l.getX(), 
+                gameState.getMap().getHeight(), gameState.getMap().getWidth());
+        lblHealth.setText(lblHealth.getText() + "  [Height = " + height + "]");
     }
     
     private JLabel lblHealth;
     private JLabel lblEnemies;
+    private GameController gameController;
 }

@@ -7,6 +7,7 @@ package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.GameController;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.PlayerTurnEvent;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -38,7 +39,8 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         gameController.addObserver(this);
         setDoubleBuffered(true);
         spriteProxy = new SpriteProxy();
-        setSize(800, 600);
+        setSize(gameController.getGameState().getMap().getSize());
+        setPreferredSize(gameController.getGameState().getMap().getSize());
         setOpaque(false);
     }
     
@@ -59,16 +61,25 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                 // Calculate the angle this gameobject is facing:
                 double rotate = gameObject.getRotation();
                 
+                Location objectLoc = gameObject.getCentreOfObject();
+                double height = gameController.getGameState().getTerrain().getHeightAt(objectLoc.getY(), objectLoc.getX(), gameController.getGameState().getMap());
+                
                 // Draw the GameObject: 
                 double scale = gameObject.getSize() / img.toImage().getWidth();
                 double translateX = gameObject.getCentreOfObject().getX();
                 double translateY = gameObject.getCentreOfObject().getY();
                 double translateSize = -gameObject.getSize() / 2.0;
+                height = (height + 400.0) / 5.0 / 100.0;
+                double heightScale = height;//Math.round(height / 100.0 * 100.0) / 100.0;
+                //if (heightScale > 1.0) heightScale = 1.0;
+                double iHeightScale = 1.0 / heightScale;
                 g2.translate(translateX, translateY);
                    g2.rotate(rotate);
                       g2.translate(translateSize, translateSize);
                          g2.scale(scale, scale);
-                            g.drawImage(img.toImage(), 0, 0, null);
+                            g2.scale(heightScale, heightScale);
+                              g.drawImage(img.toImage(), 0, 0, null);
+                            g2.scale(iHeightScale, iHeightScale);
                          g2.scale(1.0 / scale, 1.0 / scale);
                       g2.translate(-translateSize, -translateSize);
                    g2.rotate(-rotate);
