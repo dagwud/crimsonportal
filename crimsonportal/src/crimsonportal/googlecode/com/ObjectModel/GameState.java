@@ -110,6 +110,14 @@ public class GameState implements PlayerMoveObserver
     protected void spawnPickup()
     {
         Location location = Pickup.generateLocation(map);
+        double yPerc = getTerrain().highestY / (double)map.getHeight();
+        double xPerc = getTerrain().highestX / (double)map.getWidth();
+        double yRelative = yPerc * (double)map.getHeight();
+        double xRelative = xPerc * (double)map.getWidth();
+        int yIndex = (int)Math.floor(yRelative);
+        int xIndex = (int)Math.floor(xRelative);
+        
+        location = new Location(xIndex, yIndex);
         Weapon weapon = new Weapon(10, 1);
         WeaponPickup pickup = new WeaponPickup(5.0, location, 
                                                 new GameTime(elapsedGameTime), 
@@ -186,6 +194,8 @@ public class GameState implements PlayerMoveObserver
     private Bullet spawningBullets = null;
     protected Terrain terrain;
     
-    public static final int BACKGROUND_WIDTH = 640,
-            BACKGROUND_HEIGHT = 480;
+    public static final int BACKGROUND_WIDTH = 513,
+            BACKGROUND_HEIGHT = 513;
+    
+    public static final String landscapeName = "terrain_d";
 }

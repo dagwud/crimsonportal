@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  *
@@ -39,20 +40,35 @@ public class Terrain {
                     int h = (int)(((double)x / (double)width) * 256.0);
                     h = (int)(double)(-1.0/300.0 * y * y + 250.0);
                     h = (int)(((double)y / (double)height) * 256.0);
-                    h = (x < width / 2) ? 0 : 255;
+                    h = (x < width / 2) ? 0 : 127;
                     data[y][x] = (byte)h;
                 }
             }
-            return;
         }
-        
-        FileInputStream fstream = new FileInputStream(new File(filename));
-        for (int y = 0; y < height; y++) {
-            int bytesRead = fstream.read(data[y]);
-            if (bytesRead == -1) {
-                throw new InvalidTerrainException("Premature end of data");
+        else {
+            FileInputStream fstream = new FileInputStream(new File(filename));
+            for (int y = height - 1; y >= 0; y--) {
+                int bytesRead = fstream.read(data[y]);
+                if (bytesRead == -1) {
+                    throw new InvalidTerrainException("Premature end of data");
+                }
             }
         }
+        
+        highestX = 0; highestY = 0;
+        int lowestX = 0; int lowestY = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (getHeightAt(y, x) >= getHeightAt(highestY,highestX)) {
+                    highestY = y; highestX = x;
+                }
+                if (getHeightAt(y, x) < getHeightAt(lowestY,lowestX)) {
+                    lowestY = y; lowestX = x;
+                }
+            }
+        }
+        System.out.println("Peak is " + getHeightAt(highestY, highestX) +" at " + highestY + "/" + height + ", " + highestX + "/" + width);
+        System.out.println("Trough is " + getHeightAt(lowestY, lowestX) +" at " + lowestY + "/" + height + ", " + lowestX + "/" + width);
     }
     
     protected int getHeightAt(int y, int x) {
@@ -66,11 +82,21 @@ public class Terrain {
     }
     
     public int getHeightAt(double y, double x, int mapHeight, int mapWidth) {
-        if (y < 0 || y >= mapHeight) {
-            throw new IllegalArgumentException("Y-value " + y + " exceeds given map range 0-" + (mapHeight - 1));
+        if (y < 0) {
+            System.out.println("Y-value " + y + " exceeds given map range 0-" + (mapHeight - 1));
+            y = 0;
         }
-        if (x < 0 || x >= mapWidth) {
-            throw new IllegalArgumentException("X-value " + x + " exceeds given map range 0-" + (mapWidth - 1));
+        if (y >= mapHeight) {
+            System.out.println("Y-value " + y + " exceeds given map range 0-" + (mapHeight - 1));
+            y = mapHeight - 1;
+        }
+        if (x < 0) {
+            System.out.println("X-value " + x + " exceeds given map range 0-" + (mapWidth - 1));
+            x = 0;
+        }
+        if (x >= mapWidth) {
+            System.out.println("X-value " + x + " exceeds given map range 0-" + (mapWidth - 1));
+            x = mapWidth - 1;
         }
         double yPerc = y / (double)mapHeight;
         double xPerc = x / (double)mapWidth;
@@ -85,13 +111,9 @@ public class Terrain {
         return getHeightAt(y, x, map.getHeight(), map.getWidth());
     }
     protected static int unsignedByteToInt(byte b) {
-        return (int) b & 0xFF;
+        return (int) (b & 0xFF);
     }
     
-    static final double sin90 = 1; // Constant
-    static final double const180deg = Math.toRadians(180.0);
-    static final double const90deg = Math.toRadians(90.0);
-    static final double HEIGHT_SCALE = 0.8;
     public Location getMoveWithGradient(Location fromPoint, Location toPoint, Map map)
     {
         double toY = toPoint.getY(), fromY = fromPoint.getY(),
@@ -176,9 +198,23 @@ public class Terrain {
         double deg = degrees;
         while (deg < 0) deg += 360;
         while (deg >= 360) deg -= 360;
-        return deg;
-        
+        return deg;   
+    }
+    
+    public Location convertTerrainToMapLocation(int y, int x, Map map) {
+        double yPerc = y / (double)map.getHeight();
+        double xPerc = x / (double)map.getWidth();
+        double yRelative = yPerc * (double)height;
+        double xRelative = xPerc * (double)width;
+        int yIndex = (int)Math.floor(yRelative);
+        int xIndex = (int)Math.floor(xRelative);
+        return new Location(xIndex, yIndex);
     }
     
     private boolean loadTestTerrain = !true;
+    public int highestY = 0, highestX = 0;
+    static final double sin90 = 1; // Constant
+    static final double const180deg = Math.toRadians(180.0);
+    static final double const90deg = Math.toRadians(90.0);
+    static final double HEIGHT_SCALE = 0.4;
 }

@@ -36,13 +36,9 @@ public class GameController implements Observable<GameStateChangedEvent>,
         super();
         // Initialise the game state: 
         gameState = new GameState();
-        gameState.spawnPlayer(new Location(gameState.getMap().getWidth() / 2, 
-                gameState.getMap().getHeight() / 2));
-        gameState.spawnPickup();
         
         observers = new ObserverGroup<GameStateChangedEvent>();
 
-        String terrainFilename = "terrains/terrain.raw";
         try {
             gameState.loadTerrain(terrainFilename);
         }
@@ -54,11 +50,16 @@ public class GameController implements Observable<GameStateChangedEvent>,
         // Initialise the game GUI: 
         gameCanvas = new GameCanvas(this);
         GameFrame frame = new GameFrame(gameCanvas, gameState.getMap());
+        frame.initBGImage();
         
         // Set up the size of the frame: 
         frame.setPreferredSize(new Dimension(gameState.getMap().getWidth(),
                 gameState.getMap().getHeight()));
         frame.pack();
+        
+        gameState.spawnPlayer(new Location(gameState.getMap().getWidth() / 2, 
+                gameState.getMap().getHeight() / 2));
+        gameState.spawnPickup();
         
         PlayerUnit controlledPlayer = gameState.getPlayers().next();
         // Add a controller for player 1:
@@ -102,7 +103,8 @@ public class GameController implements Observable<GameStateChangedEvent>,
     }
     
     public void spawnEnemy()
-    {//if (true) return;
+    {
+        if (Debug.DISABLE_ENEMYSPAWNING) { return; }
         // Choose (randomly) where to spawn the enemy:
         int side = (int) Math.round(Math.random() * 4);
         int locationX = 100, locationY = 100;
@@ -325,4 +327,6 @@ public class GameController implements Observable<GameStateChangedEvent>,
     private ObserverGroup<GameStateChangedEvent> observers;
     
     private int loopCount = 0;
+    
+    String terrainFilename = "terrains/" + GameState.landscapeName + ".raw";
 }

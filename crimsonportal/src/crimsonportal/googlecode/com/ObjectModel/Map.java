@@ -5,7 +5,9 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Dimension;
+import java.awt.Image;
 
 /**
  *
@@ -15,8 +17,10 @@ public class Map
 {
     public Map(int width, int height)
     {
-        this.width = width;
-        this.height = height;
+        SpriteProxy spriteProxy = new SpriteProxy();
+        bgImage = spriteProxy.get(GameState.landscapeName + ".jpg").toImage();
+        this.height = bgImage.getHeight(null);
+        this.width = bgImage.getWidth(null);
     }
     
     public Map(int width, int height, int offsetX, int offsetY)
@@ -72,8 +76,20 @@ public class Map
         this.offsetY = offsetY;
     }
     
+    public String getImageFilename()
+    {
+        return GameState.landscapeName + ".jpg";
+    }
+    
+    public Image getBGImage()
+    {
+        return bgImage;
+    }
+    
     protected int width;
     protected int height;
     protected int offsetX;
     protected int offsetY;
+    protected Image bgImage;
+        
 }

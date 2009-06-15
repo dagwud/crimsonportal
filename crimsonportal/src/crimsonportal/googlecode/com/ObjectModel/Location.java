@@ -5,8 +5,6 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
-import java.awt.Dimension;
-
 /**
  *
  * @author dagwud
