@@ -120,46 +120,60 @@ public class Terrain {
                 toX = toPoint.getX(), fromX = fromPoint.getX();
         double heightFrom = getHeightAt(fromY, fromX, map);
         double heightTo = getHeightAt(toY, toX, map);
+        double heightDiff = Math.abs((heightTo - heightFrom)) * HEIGHT_SCALE;
         
+        boolean isAscending = (heightFrom < heightTo);
         double dist = Math.sqrt((toY - fromY)*(toY - fromY) + (toX - fromX) * (toX - fromX));
+        
         if (Double.isNaN(dist) || dist == 0.0) {
             // not moving:
             return toPoint;
         }
+        
+        double newDist;
+        
+        System.out.println("height " + heightFrom + " -> " + heightTo);
+        if (isAscending) {
 
-        double heightDiff = (heightTo - heightFrom) * HEIGHT_SCALE;
-        //System.out.println("heightDiff = " + heightDiff);
-        double gradient = Math.tan( heightDiff / dist );
-        if (gradient > Math.toRadians(180)) {
-            // Descending:
-            gradient -= Math.toRadians(180);
+            System.out.println("ascending");
+            double gradient = Math.tan( heightDiff / dist );
+
+            double h = dist * Math.sin(gradient);
+            newDist = Math.sqrt( (dist * dist) - (h * h) );
         }
-        
-        double h = dist * Math.sin(gradient);
-        double newDist = Math.sqrt( (dist * dist) - (h * h) );
-        //System.out.println(newDist);
-        
+        else {
+            // Descending:
+            System.out.println("descending");
+            newDist = Math.sqrt( (dist * dist) - (heightDiff * heightDiff) );
+            if (Double.isNaN(newDist) || newDist < HEIGHT_SCALE) {
+                // heightDiff^2 and dist^2 are too close together; move dist:
+                newDist = dist;
+            }
+        }
+        System.out.println("dist " + dist + "  heightDiff " + heightDiff);
+        System.out.println("newDist is " + newDist);
+
         // Resolve newDist to X and Y components:
         double moveY = toY - fromY, moveX = toX - fromX;
         double turn = Math.asin( moveY / dist );
         if (moveX < 0) {
             turn = Math.PI - turn;
         }
-        
+
         double sinTurn;
         if (turn == Math.toRadians(90)) {
             sinTurn = 1; // Java doesn't do sin(90) very well
         } else {
             sinTurn = Math.sin(turn);
         }
-        
+
         double sin90MinusTurn;
         if (turn == 0) {
             sin90MinusTurn = 1; // Java doesn't do sin(90) very well
         } else {
             sin90MinusTurn = Math.sin(Math.toRadians(90) - turn);
         }
-        
+
         // Calculate the new distance to be moved in X and Y directions:
         double newDistY = (newDist * sinTurn) / sin90;
         double newDistX = (newDist * sin90MinusTurn) / sin90;
@@ -216,5 +230,5 @@ public class Terrain {
     static final double sin90 = 1; // Constant
     static final double const180deg = Math.toRadians(180.0);
     static final double const90deg = Math.toRadians(90.0);
-    static final double HEIGHT_SCALE = 0.4;
+    static final double HEIGHT_SCALE = 0.5;
 }
