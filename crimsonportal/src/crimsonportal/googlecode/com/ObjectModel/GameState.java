@@ -5,6 +5,11 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
+import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedObservable;
+import crimsonportal.googlecode.com.Observer.Observer;
+import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
@@ -18,7 +23,7 @@ import java.util.LinkedList;
  *
  * @author dagwud
  */
-public class GameState implements PlayerMoveObserver
+public class GameState implements PlayerMoveObserver, GameStateChangedObservable
 {
     public GameState()
     {
@@ -28,6 +33,7 @@ public class GameState implements PlayerMoveObserver
         bullets = new LinkedList<Bullet>();
         elapsedGameTime = new GameTime(true);
         map = new Map();
+        observers = new ObserverGroup<GameStateChangedEvent>();
     }
     
     public void loadTerrain(String terrainFilename) throws InvalidTerrainException {
@@ -157,6 +163,7 @@ public class GameState implements PlayerMoveObserver
                 it_pickups.remove();
             }
         }
+        notifyObservers(new GameStateChangedEvent(this));
     }
     
     public void update(ShootEvent event)
@@ -189,5 +196,33 @@ public class GameState implements PlayerMoveObserver
     private Bullet spawningBullets = null;
     protected Terrain terrain;
     
-    public static final String landscapeName = "terrain_ice";
+    public static final String landscapeName = "terrain_peak";
+
+    public void removeAllObservers()
+    {
+        observers.removeAllObservers();
+    }
+    
+    public void notifyObservers(GameStateChangedEvent event)
+    {
+        Debug.logMethod("GameState is notifying observers");
+        observers.notifyObservers(event);
+    }
+
+    public boolean addObserver(Observer<GameStateChangedEvent> observer)
+    {
+        return observers.addObserver(observer);
+    }
+
+    public boolean removeObserver(Observer<GameStateChangedEvent> observer)
+    {
+        return observers.removeObserver(observer);
+    }
+    
+    public int countObservers()
+    {
+        return observers.countObservers();
+    }
+    
+    ObserverGroup<GameStateChangedEvent> observers;
 }

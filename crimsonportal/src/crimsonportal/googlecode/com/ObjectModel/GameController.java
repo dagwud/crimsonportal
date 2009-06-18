@@ -20,7 +20,6 @@ import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
-import crimsonportal.googlecode.com.terrain.Terrain;
 import java.awt.Dimension;
 import java.util.Iterator;
 
@@ -28,7 +27,7 @@ import java.util.Iterator;
  *
  * @author dagwud
  */
-public class GameController implements Observable<GameStateChangedEvent>,
+public class GameController implements Observer<GameStateChangedEvent>,
                                         Runnable
 {
     public GameController()
@@ -89,6 +88,7 @@ public class GameController implements Observable<GameStateChangedEvent>,
         Thread guiThread = new Thread(gameCanvas);
         guiThread.start();
         
+        gameState.addObserver(this);
         observers.notifyObservers(new GameStateChangedEvent(gameState));
     }
     
@@ -104,7 +104,8 @@ public class GameController implements Observable<GameStateChangedEvent>,
     
     public void spawnEnemy()
     {
-        if (Debug.DISABLE_ENEMYSPAWNING) { return; }
+        if (Debug.checkFlag(Debug.flagKey.DISABLE_ENEMY_SPAWNING)) { return; }
+        
         // Choose (randomly) where to spawn the enemy:
         int side = (int) Math.round(Math.random() * 4);
         int locationX = 100, locationY = 100;
@@ -329,4 +330,9 @@ public class GameController implements Observable<GameStateChangedEvent>,
     private int loopCount = 0;
     
     String terrainFilename = "terrains/" + GameState.landscapeName + ".raw";
+
+    public void update(GameStateChangedEvent event)
+    {
+        notifyObservers(event);
+    }
 }

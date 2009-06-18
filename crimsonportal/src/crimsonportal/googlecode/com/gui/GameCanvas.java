@@ -16,6 +16,7 @@ import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.PlayerShootObservable;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
+import crimsonportal.googlecode.com.terrain.Terrain;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -51,6 +52,8 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         
         g2.drawImage(gameController.getGameState().getMap().getBGImage(), 0, 0, null);
         
+        Terrain terrain = gameController.getGameState().getTerrain();
+        
         try
         {
             // Draw objects:
@@ -60,29 +63,37 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                 GameObject gameObject = gameObjects.next();
                 Sprite img = spriteProxy.get(gameObject.getSpriteFilename()); 
                 
-                // Calculate the angle this gameobject is facing:
-                double rotate = gameObject.getRotation();
-                
+                // Cache the scaling, rotation, etc. values in case they're changed
+                // by another thread while we're drawing:
                 Location objectLoc = gameObject.getCentreOfObject();
-                float height = 
-                        gameController.getGameState().getTerrain().getHeightAt(
-                            objectLoc.getY(), objectLoc.getX(), gameController.getGameState().getMap()
-                        );
-                height = height / getGameController().getGameState().getTerrain().getPeakHeight();
+                double translateX = objectLoc.getX();
+                double translateY = objectLoc.getY();
+                double rotation = gameObject.getRotation();
+                double imgRadius = gameObject.getSize() / 2.0;
+                
+                double heightPerc = (double)terrain.getHeightAt(objectLoc, 
+                        gameController.getGameState().getMap()) / (double)terrain.getPeakHeight();
+                double heightScale = (heightPerc * 0.7) + 0.8;
+                double imgScale = (double)gameObject.getSize() / (double)img.toImage().getHeight();
                 
                 // Draw the GameObject: 
-                float scale = (float)gameObject.getSize() / (float)img.toImage().getWidth();
-                scale = scale * ((height * 0.7f) + 0.8f);
-                double translateX = gameObject.getCentreOfObject().getX();
-                double translateY = gameObject.getCentreOfObject().getY();
+                
+                // Move to centre of object:
                 g2.translate(translateX, translateY);
-                   g2.rotate(rotate);
-                      g2.scale(scale, scale);
-                         g2.translate(-gameObject.getSize(), -gameObject.getSize());
-                            g.drawImage(img.toImage(), 0, 0, null);
-                         g2.translate(gameObject.getSize(), gameObject.getSize());
-                      g2.scale(1.0 / scale, 1.0 / scale);
-                  g2.rotate(-rotate);
+                  // Rotate around the centre of the object:
+                  g2.rotate(rotation);
+                    // Scale to show height:
+                    g2.scale(heightScale, heightScale);
+                      // Move to the top-left corner of the object:
+                      g2.translate(-imgRadius, -imgRadius);
+                        // Scale to the image's size:
+                        g2.scale(imgScale, imgScale);
+                          // Draw the image:
+                          g2.drawImage(img.toImage(), 0, 0, null);
+                        g2.scale(1.0 / imgScale, 1.0 / imgScale);
+                      g2.translate(imgRadius, imgRadius);
+                    g2.scale(1.0 / heightScale, 1.0 / heightScale);
+                  g2.rotate(-rotation);
                 g2.translate(-translateX, -translateY);
             }
             

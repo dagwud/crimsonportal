@@ -56,7 +56,13 @@ public class KeyController implements KeyListener, KeyPressObservable
                 
             // Debugging keys:
             case KeyEvent.VK_F2:
-                Debug.DISABLE_ENEMYSPAWNING = !Debug.DISABLE_ENEMYSPAWNING;
+                if (Debug.checkFlag(Debug.flagKey.DISABLE_ENEMY_SPAWNING)) {
+                    Debug.setFlag(Debug.flagKey.DISABLE_ENEMY_SPAWNING, Debug.flagValue.FALSE);
+                }
+                else {
+                    Debug.setFlag(Debug.flagKey.DISABLE_ENEMY_SPAWNING, Debug.flagValue.TRUE);
+                }
+                
         }
         notifyObservers(e);
     }

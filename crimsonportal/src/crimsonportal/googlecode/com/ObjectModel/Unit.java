@@ -43,16 +43,10 @@ public abstract class Unit extends GameObject
     
     public void moveTo(Location newLocation) 
     {
-        //System.out.println((moveFromX + moveX) + "  " + (moveFromY + moveY));
         Location moveTo = gameState.getTerrain().getMoveWithGradient(
                 getCentreOfObject(), 
                 newLocation, gameState.getMap());
         
-        /*double moveToX = moveTo.getX(),
-                moveToY = moveTo.getY();
-        //System.out.println(moveToX + "  " + moveToY + "\n");
-        moveX = moveToX - moveFromX;
-        moveY = moveToY - moveFromY;*/
         setCentreOfObject(moveTo);
     }
     

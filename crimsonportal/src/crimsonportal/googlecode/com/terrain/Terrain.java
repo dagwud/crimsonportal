@@ -5,15 +5,13 @@
 
 package crimsonportal.googlecode.com.terrain;
 
+import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Map;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Vector;
 
 /**
  *
@@ -67,8 +65,6 @@ public class Terrain {
                 }
             }
         }
-        System.out.println("Peak is " + getHeightAt(highestY, highestX) +" at " + highestY + "/" + height + ", " + highestX + "/" + width);
-        System.out.println("Trough is " + getHeightAt(lowestY, lowestX) +" at " + lowestY + "/" + height + ", " + lowestX + "/" + width);
     }
     
     protected int getHeightAt(int y, int x) {
@@ -83,27 +79,23 @@ public class Terrain {
     
     public int getHeightAt(double y, double x, int mapHeight, int mapWidth) {
         if (y < 0) {
-            System.out.println("Y-value " + y + " exceeds given map range 0-" + (mapHeight - 1));
             y = 0;
         }
         if (y >= mapHeight) {
-            System.out.println("Y-value " + y + " exceeds given map range 0-" + (mapHeight - 1));
             y = mapHeight - 1;
         }
         if (x < 0) {
-            System.out.println("X-value " + x + " exceeds given map range 0-" + (mapWidth - 1));
             x = 0;
         }
         if (x >= mapWidth) {
-            System.out.println("X-value " + x + " exceeds given map range 0-" + (mapWidth - 1));
             x = mapWidth - 1;
         }
         double yPerc = y / (double)mapHeight;
         double xPerc = x / (double)mapWidth;
         double yRelative = yPerc * (double)height;
         double xRelative = xPerc * (double)width;
-        int yIndex = (int)Math.round(yRelative);
-        int xIndex = (int)Math.round(xRelative);
+        int yIndex = (int)Math.floor(yRelative);
+        int xIndex = (int)Math.floor(xRelative);
         return getHeightAt(yIndex, xIndex);
     }
     
@@ -114,6 +106,11 @@ public class Terrain {
     public int getHeightAt(double y, double x, Map map) {
         return getHeightAt(y, x, map.getHeight(), map.getWidth());
     }
+    
+    public int getHeightAt(Location location, Map map) {
+        return getHeightAt(location.getY(), location.getX(), map.getHeight(), map.getWidth());
+    }
+    
     protected static int unsignedByteToInt(byte b) {
         return (int) (b & 0xFF);
     }
@@ -136,10 +133,7 @@ public class Terrain {
         
         double newDist;
         
-        System.out.println("height " + heightFrom + " -> " + heightTo);
         if (isAscending) {
-
-            System.out.println("ascending");
             double gradient = Math.tan( heightDiff / dist );
 
             double h = dist * Math.sin(gradient);
@@ -147,16 +141,13 @@ public class Terrain {
         }
         else {
             // Descending:
-            System.out.println("descending");
             newDist = Math.sqrt( (dist * dist) - (heightDiff * heightDiff) );
             if (Double.isNaN(newDist) || newDist < HEIGHT_SCALE) {
                 // heightDiff^2 and dist^2 are too close together; move dist:
                 newDist = dist;
             }
         }
-        System.out.println("dist " + dist + "  heightDiff " + heightDiff);
-        System.out.println("newDist is " + newDist);
-
+        
         // Resolve newDist to X and Y components:
         double moveY = toY - fromY, moveX = toX - fromX;
         double turn = Math.asin( moveY / dist );

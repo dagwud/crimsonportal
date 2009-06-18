@@ -11,8 +11,6 @@ import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
-import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
-import java.awt.Dimension;
 
 /**
  *
@@ -85,6 +83,7 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
             Debug.logMethod("Player " + this + " is notifying observers");
             observers.notifyObservers(event);
         }
+        gameState.update(event);
     }
 
     public boolean addObserver(Observer<PlayerMoveEvent> observer)
@@ -114,6 +113,26 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
             Debug.logMethod("Player " + this + " is notifying observers");
             turnObservers.notifyObservers(event);
         }
+    }
+    
+    @Override
+    public void moveTo(Location location)
+    {
+        if (location.equals(this.location)) return;
+        int heightFrom = gameState.getTerrain().getHeightAt(this.location, gameState.getMap());
+        int heightTo = gameState.getTerrain().getHeightAt(location, gameState.getMap());
+        
+        if (heightFrom < heightTo) {
+            Debug.setFlag(Debug.flagKey.PLAYER_MOVEMENT_VERTICAL, Debug.flagValue.ASCENDING);
+        }
+        else if (heightFrom > heightTo) {
+            Debug.setFlag(Debug.flagKey.PLAYER_MOVEMENT_VERTICAL, Debug.flagValue.DESCENDING);
+        }
+        else {
+            Debug.setFlag(Debug.flagKey.PLAYER_MOVEMENT_VERTICAL, Debug.flagValue.LEVEL);
+        }
+        
+        super.moveTo(location);
     }
     
     public void update(PlayerTurnEvent e) 

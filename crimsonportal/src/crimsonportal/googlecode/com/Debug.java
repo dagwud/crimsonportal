@@ -5,6 +5,9 @@
 
 package crimsonportal.googlecode.com;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author dagwud
@@ -16,8 +19,6 @@ public abstract class Debug
     public static final int DEBUG_WARNINGS = 2;
     public static final int DEBUG_INFO = 1;
     public static final int DEBUG_NONE = 0;
-    
-    public static boolean DISABLE_ENEMYSPAWNING = true;
     
     public static final int enabledLevel = DEBUG_WARNINGS;
     
@@ -47,4 +48,44 @@ public abstract class Debug
         }
         System.out.print(string);
     }
+    
+    public static void setFlag(flagKey flag, flagValue value) {
+        //if (getFlagValue(flag) != value) System.out.println(flag + " --> " + value);
+        flags.put(flag, value);
+    }
+    
+    public static flagValue getFlagValue(flagKey flag) {
+        flagValue v = flags.get(flag);
+        if (v == null) {
+            v = Debug.flagValue.NOT_SET;
+        }
+        return v;
+    }
+    
+    public static boolean checkFlag(flagKey flag) {
+        flagValue v = getFlagValue(flag);
+        if (v == flagValue.NOT_SET) return false;
+        return (v == flagValue.TRUE);
+    }
+    
+    protected static Map<flagKey, flagValue> flags;
+    static {
+        flags = new HashMap<Debug.flagKey, Debug.flagValue>();
+    }
+    
+    public static enum flagKey {
+        DISABLE_ENEMY_SPAWNING,
+        PLAYER_MOVEMENT_VERTICAL
+    };
+    
+    public static enum flagValue {
+        TRUE,
+        FALSE,
+        
+        ASCENDING,
+        DESCENDING,
+        LEVEL,
+        
+        NOT_SET
+    };
 }
