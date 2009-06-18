@@ -29,7 +29,7 @@ public class GameFrame extends JFrame
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        //setUndecorated(true);
+        setUndecorated(true);
         getLayeredPane().add(canvas, new Integer(1));
         
         HUDPanel hud = new HUDPanel(canvas.getGameController(), map.getWidth());

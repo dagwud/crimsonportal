@@ -50,6 +50,13 @@ public class KeyController implements KeyListener, KeyPressObservable
             case KeyEvent.VK_RIGHT:
                 moveTimer.setMovementX(1);
                 break;
+                
+            case KeyEvent.VK_ESCAPE:
+                System.exit(0);
+                
+            // Debugging keys:
+            case KeyEvent.VK_F2:
+                Debug.DISABLE_ENEMYSPAWNING = !Debug.DISABLE_ENEMYSPAWNING;
         }
         notifyObservers(e);
     }

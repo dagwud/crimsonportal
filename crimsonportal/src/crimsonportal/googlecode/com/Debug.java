@@ -17,7 +17,7 @@ public abstract class Debug
     public static final int DEBUG_INFO = 1;
     public static final int DEBUG_NONE = 0;
     
-    public static final boolean DISABLE_ENEMYSPAWNING = true;
+    public static boolean DISABLE_ENEMYSPAWNING = true;
     
     public static final int enabledLevel = DEBUG_WARNINGS;
     

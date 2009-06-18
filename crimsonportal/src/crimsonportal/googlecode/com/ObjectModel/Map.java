@@ -15,20 +15,12 @@ import java.awt.Image;
  */
 public class Map 
 {
-    public Map(int width, int height)
+    public Map()
     {
         SpriteProxy spriteProxy = new SpriteProxy();
         bgImage = spriteProxy.get(GameState.landscapeName + ".jpg").toImage();
         this.height = bgImage.getHeight(null);
         this.width = bgImage.getWidth(null);
-    }
-    
-    public Map(int width, int height, int offsetX, int offsetY)
-    {
-        this.width = width;
-        this.height = height;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
     }
     
     public int getWidth()

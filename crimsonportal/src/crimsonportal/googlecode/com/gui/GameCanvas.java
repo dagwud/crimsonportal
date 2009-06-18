@@ -64,26 +64,25 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                 double rotate = gameObject.getRotation();
                 
                 Location objectLoc = gameObject.getCentreOfObject();
-                double height = gameController.getGameState().getTerrain().getHeightAt(objectLoc.getY(), objectLoc.getX(), gameController.getGameState().getMap());
+                float height = 
+                        gameController.getGameState().getTerrain().getHeightAt(
+                            objectLoc.getY(), objectLoc.getX(), gameController.getGameState().getMap()
+                        );
+                height = height / getGameController().getGameState().getTerrain().getPeakHeight();
                 
                 // Draw the GameObject: 
-                double scale = gameObject.getSize() / img.toImage().getWidth();
+                float scale = (float)gameObject.getSize() / (float)img.toImage().getWidth();
+                scale = scale * ((height * 0.7f) + 0.8f);
                 double translateX = gameObject.getCentreOfObject().getX();
                 double translateY = gameObject.getCentreOfObject().getY();
-                double translateSize = -gameObject.getSize() / 2.0;
-                height = (height + 400.0) / 5.0 / 100.0;
-                double heightScale = height;
-                double iHeightScale = 1.0 / heightScale;
                 g2.translate(translateX, translateY);
                    g2.rotate(rotate);
-                      g2.translate(translateSize, translateSize);
-                         g2.scale(scale, scale);
-                            //g2.scale(heightScale, heightScale);
-                              g.drawImage(img.toImage(), 0, 0, null);
-                            //g2.scale(iHeightScale, iHeightScale);
-                         g2.scale(1.0 / scale, 1.0 / scale);
-                      g2.translate(-translateSize, -translateSize);
-                   g2.rotate(-rotate);
+                      g2.scale(scale, scale);
+                         g2.translate(-gameObject.getSize(), -gameObject.getSize());
+                            g.drawImage(img.toImage(), 0, 0, null);
+                         g2.translate(gameObject.getSize(), gameObject.getSize());
+                      g2.scale(1.0 / scale, 1.0 / scale);
+                  g2.rotate(-rotate);
                 g2.translate(-translateX, -translateY);
             }
             

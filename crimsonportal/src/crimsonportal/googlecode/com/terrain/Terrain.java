@@ -102,9 +102,13 @@ public class Terrain {
         double xPerc = x / (double)mapWidth;
         double yRelative = yPerc * (double)height;
         double xRelative = xPerc * (double)width;
-        int yIndex = (int)Math.floor(yRelative);
-        int xIndex = (int)Math.floor(xRelative);
+        int yIndex = (int)Math.round(yRelative);
+        int xIndex = (int)Math.round(xRelative);
         return getHeightAt(yIndex, xIndex);
+    }
+    
+    public int getPeakHeight() {
+        return unsignedByteToInt(data[highestY][highestX]);
     }
     
     public int getHeightAt(double y, double x, Map map) {
@@ -216,10 +220,11 @@ public class Terrain {
     }
     
     public Location convertTerrainToMapLocation(int y, int x, Map map) {
-        double yPerc = y / (double)map.getHeight();
-        double xPerc = x / (double)map.getWidth();
-        double yRelative = yPerc * (double)height;
-        double xRelative = xPerc * (double)width;
+        double yPerc = (double)y / (double)height;
+        double xPerc = (double)x / (double)width;
+        System.out.println("Perc: " + yPerc + "  " + xPerc);
+        double yRelative = yPerc * (double)map.getHeight();
+        double xRelative = xPerc * (double)map.getWidth();
         int yIndex = (int)Math.floor(yRelative);
         int xIndex = (int)Math.floor(xRelative);
         return new Location(xIndex, yIndex);
