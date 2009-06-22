@@ -33,7 +33,7 @@ unzip netbeans-opengl-pack_0.5.2.zip -d ~/.netbeans/6.1/
 == Checkout ==
  * Launch Netbeans, click Versioning > Subversion > Checkout
  * Provide the following details:
-   * Repository URL: https://crimsonportal.googlecode.com/svn/crimsonportal/
+   * Repository URL: https://crimsonportal.googlecode.com/svn/trunk/
    * User: your gmail user, without the @gmail.com
    * Password: Your SVN password (see http://code.google.com/hosting/settings) - Note: this is not your gmail password
  * Click Next
@@ -45,6 +45,6 @@ unzip netbeans-opengl-pack_0.5.2.zip -d ~/.netbeans/6.1/
  * Click "Open Project"
 
 == Commit ==
- * Click Versining > Subversion > Commit...
+ * Click Versioning > Subversion > Commit...
  * Verify the files to be committed, and provide a commit comment
  * Click Commit
