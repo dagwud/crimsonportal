@@ -38,8 +38,10 @@
     * Can be disabled by user
  * 3D Terrain
     * players and enemies move faster downhill and slower uphill
+       * implemented :)
     * grenades etc. roll downhill
     * bullets travel faster downhill, etc.
+       * do we actually want this? then bullet speed would fluctuate with terrain! <:-/
 
 === Weapons ===
   * Weapon Skill Upgrade
@@ -56,6 +58,7 @@
 === Classes of Enemy ===
   * Various levels of standard enemies 
     * Just move towards you and attack, but with differing stats (movement speed, attack damage, strength/armour, etc)
+       * implemented :)
   * Bombers (explode when shot, or when near player, causing damage to all nearby units)
     * Player can then shoot bombers in order to destroy other enemies ;)
   * Tsotsies 
@@ -111,14 +114,4 @@
 
 === Linking Player and Weapon  ===
  * Idea on how to draw player and weapon ( including accurate rotate )
-   * Using pivots to link player and weapon together
-   * pivot 1 will be the player's 90{{{*}}} angle
-   * pivot 2 will be the weapon's 270{{{*}}} angle
-   * rotate the player and the weapon to the desired angle
-   * get the (x,y) coordinates for player 
-   * get the player's radius
-   * take the player's 90{{{*}}} angle and assign it to the weapon's 270{{{*}}} after drawing the player
-   * that way the when the player rotates, the weapon will always be on the same rotation without colliding
-
-  
- *
+   * Simply render weapon image after rendering player, using same matrix transformations as for player
