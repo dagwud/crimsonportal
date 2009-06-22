@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
@@ -20,11 +15,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- *
+ * Represents the culmination of all aspects of the current state of a game.
  * @author dagwud
  */
 public class GameState implements PlayerMoveObserver, GameStateChangedObservable
 {
+    /**
+     * Creates a new GameState. This game state will have all the relevant 
+     * GameObjects collections (players, enemies, pickups, etc) as well as helper
+     * class instances (such as a map, a game time and observers) initialised, but
+     * it will not have its terrain loaded and the terrain must be loaded 
+     * separately by a subsequent call to {@link #loadTerrain}.
+     * This is done to maintain best-practices of not allowing exceptions to be
+     * thrown from constructors, which could conceivably happen while loading a 
+     * terrain from an external file.
+     */
     public GameState()
     {
         players = new LinkedList<PlayerUnit>();
@@ -36,6 +41,19 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         observers = new ObserverGroup<GameStateChangedEvent>();
     }
     
+    /**
+     * Loads a terrain model (that is, the 3D model of the terrain being used
+     * in this game) from a given external file.
+     * @param terrainFilename the absolute or relative name of the file to be
+     * used to load the terrain. This method simply wraps a call to 
+     * {@link crimsonportal.googlecode.com.terrain.Terrain#loadTerrain}
+     * and so the terrain filename provided must conform to the requirements
+     * dictated by that method.
+     * @throws crimsonportal.googlecode.com.terrain.InvalidTerrainException if
+     * the terrain file indicated by <code>terrainFilename</code> is invalid, 
+     * could not be read, or does not contain a valid terrain.
+     * @see crimsonportal.googlecode.com.terrain.Terrain#loadTerrain
+     */
     public void loadTerrain(String terrainFilename) throws InvalidTerrainException {
         terrain = new Terrain(513, 513);
         try {
@@ -47,55 +65,150 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         
     }
     
+    /**
+     * Returns the terrain which is being used for the current GameState, which
+     * includes details about the physical 3D terrain over which GameObjects in 
+     * this GameState are positioned
+     * @return the terrain which was created for this GameState during initialization
+     * and which models the 3D terrain of the environment of this GameState
+     * @see #loadTerrain
+     */
     public Terrain getTerrain() {
         return terrain;
     }
     
+    /** 
+     * Retrieves an Iterator which allows access to details of the players in this 
+     * GameState. This includes all friendly and opposition human-controlled units
+     * @return a templatized Iterator which will traverse through each of the players
+     * in the current GameState
+     */
     public Iterator<PlayerUnit> getPlayers()
     {
         return players.iterator();
     }
     
+    //TODO: Implement a getCurrentPlayer() method - or should this be getCurrentPlayers()?
+    
+    /**
+     * Returns the number of players active in the current GameState. This 
+     * includes both friendly and opposition human-controlled players.
+     * @return The size of the internal players Collection, which represents all
+     * the players in the current GameState
+     * @see #getPlayers()
+     */
     public int getNumPlayers()
     {
         return players.size();
     }
     
+    /** 
+     * Retrieves an Iterator which allows access to details of all the enemy units
+     * in this GameState. Note that this iterator will not include enemy players,
+     * but will only include computer-controlled enemy units.
+     * @return a templatized Iterator which will traverse through each 
+     * of the enemy units in the current GameState
+     * @see #getNumEnemies()
+     * @see #spawnEnemy(EnemyUnit)
+     */
     public Iterator<EnemyUnit> getEnemies()
     {
         return enemies.iterator();
     }
     
-    public Iterator<Bullet> getBullets()
-    {
-        return bullets.iterator();
-    }
-    
-    public int getNumBullets()
-    {
-        return bullets.size();
-    }
-    
-    protected void spawnEnemy(EnemyUnit enemyUnit)
-    {
-        enemies.add(enemyUnit);
-    }
-    
-    protected void killEnemy(EnemyUnit enemy)
-    {
-        enemies.remove(enemy);
-    }
-    
+    /**
+     * Returns the number of enemy units active in the current GameState. Note 
+     * that this does not refer to all enemies (including enemy players) of the
+     * current player, but rather to all computer-controlled enemy units.
+     * @return the number of computer-controlled enemy units in the current
+     * GameState
+     * @see #getEnemies()
+     */
     public int getNumEnemies()
     {
         return enemies.size();
     }
     
+    /**
+     * Retrieves an Iterator which allows access to details of all bullets which
+     * are active in this GameState. This refers to all bullets (including those 
+     * which are controlled by the all players, as well as computer-controlled
+     * enemy units)
+     * @return a templatized Iterator which will traverse through each of the 
+     * bullets in the current GameState
+     * @see #getNumBullets()
+     */
+    public Iterator<Bullet> getBullets()
+    {
+        return bullets.iterator();
+    }
+    
+    /**
+     * Returns the number of bullets which are active in this GameState. This 
+     * refers to all bullets (including those which are controlled by the all 
+     * players, as well as computer-controlled enemy units)
+     * @return the number of bullets in the current GameState
+     * @see #getBullets()
+     */
+    public int getNumBullets()
+    {
+        return bullets.size();
+    }
+    
+    /**
+     * Spawns (creates) an enemy unit in the current GameState. Immediately
+     * prior to calling this method, the enemyUnit will be available through 
+     * calls to methods such as {@link #getEnemies()} and {@link #getGameObjects}
+     * @param enemyUnit the enemy unit to be registered with this GameState
+     * @see #getEnemies()
+     */
+    protected void spawnEnemy(EnemyUnit enemyUnit)
+    {
+        enemies.add(enemyUnit);
+    }
+    
+    /**
+     * Removes an enemy unit from the current GameState. This method will not
+     * affect the enemy provided, but will simply remove it from the internal
+     * list of enemy unit, preventing it from being tracked further by this 
+     * GameState, and thus by any classes which use this GameState to determine
+     * the active enemy units. If the given EnemyUnit is not in the current GameState,
+     * the method will simply return.
+     * @param enemy the enemy unit to be removed from this GameState.
+     * @see #getEnemies()
+     * @see #spawnEnemy(EnemyUnit)
+     */
+    protected void killEnemy(EnemyUnit enemy)
+    {
+        enemies.remove(enemy);
+    }
+    
+    /**
+     * Retrieves an Iterator which allows access to details of all pickups which
+     * are active in this GameState. This refers to all pickups which have not been
+     * collected (that is, only those that are "lying on the ground").
+     * @return a templatized Iterator which will traverse through each of the 
+     * bullets in the current GameState
+     * @see #getNumBullets()
+     */
     public Iterator<Pickup> getPickups()
     {
         return pickups.iterator();
     }
     
+    /**
+     * Retrieves an Iterator which allows access to details of all Game Objects
+     * in this GameState. This refers to all instances of each of the following
+     * types of GameObject:
+     * <ul>
+     *   <li>Pickups (see {@link #getPickups()}</li>
+     *   <li>Enemy units (see {@link #getEnemies()}</li>
+     *   <li>Bullets (see {@link #getBullets()}</li>
+     *   <li>Player units (see {@link #getPlayers})</li>
+     * </ul>
+     * @return a templatized Iterator which will traverse through each of the 
+     * bullets in the current GameState
+     */
     public synchronized Iterator<GameObject> getGameObjects()
     {
         Collection<GameObject> gameObjects = new LinkedList<GameObject>(pickups);
@@ -105,7 +218,12 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         return gameObjects.iterator();
     }
             
-    
+    /**
+     * Spawns (creates) a PlayerUnit at a given location, and adds it to the 
+     * GameState. This can be either a friendly player or an opposition-controlled player.
+     * @param location the location at which the player should be created.
+     * @see #getPlayers
+     */
     protected void spawnPlayer(Location location)
     {
         PlayerUnit player = new PlayerUnit(location, 4, this);
@@ -113,8 +231,15 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         player.addObserver(this);
     }
     
+    /**
+     * Spawns (creates) a pickup, and adds it to the GameState. The details of 
+     * the pickup which will be spawned are controlled by the PickupFactory - 
+     * that is, the caller cannot choose the type or location of the pickup 
+     * which will be spawned.
+     */
     protected void spawnPickup()
     {
+        //TODO: Create PickupFactory and call it from here, to generate random types
         Location location = Pickup.generateLocation(map);
         location = getTerrain().convertTerrainToMapLocation(getTerrain().highestY, 
                 getTerrain().highestX, map);
@@ -126,23 +251,27 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         pickups.add(pickup);
     }
     
+    /**
+     * Gets details about the current game time in this game state.
+     * @return this GameState's GameTime
+     */
     public GameTime getGameTime()
     {
         return elapsedGameTime;
     }
     
+    /**
+     * Returns the map which is being used for the current GameState, which includes 
+     * details about the logical 2D environment over which GameObjects in 
+     * this GameState are positioned
+     * @return the Map which was created for this GameState during initialization
+     * and which represents the 2D environment of this GameState
+     */
     public Map getMap()
     {
         return map;
     }
     
-    private Collection<PlayerUnit> players;
-    private Collection<EnemyUnit> enemies;
-    private Collection<Pickup> pickups;
-    private Collection<Bullet> bullets;
-    private GameTime elapsedGameTime;
-    private Map map;
-
     public void update(PlayerMoveEvent event)
     {
         PlayerUnit player = (PlayerUnit)event.getSource();
@@ -188,16 +317,17 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         bullets.add(bullet);
     }
     
+    /**
+     * Determines whether or not there is an active unit which is busy firing,
+     * and by implication whether or not another bullet should be fired
+     * @return true if there is a GameObject in the current GameState which is
+     * firing bullets, false if there is not
+     */
     public boolean isSpawningBullets()
     {
         return (spawningBullets != null);
     }
     
-    private Bullet spawningBullets = null;
-    protected Terrain terrain;
-    
-    public static final String landscapeName = "terrain_peak";
-
     public void removeAllObservers()
     {
         observers.removeAllObservers();
@@ -225,4 +355,81 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     }
     
     ObserverGroup<GameStateChangedEvent> observers;
+    
+    /**
+     * The collection which stores the details of all Players in this GameState.
+     * @see #getPlayers
+     * @see #getNumPlayers
+     * @see #spawnPlayer
+     */
+    private Collection<PlayerUnit> players;
+    
+    /**
+     * The collection which stores the details of all computer-controlled enemies
+     * in this GameState
+     * @see #getEnemies
+     * @see #getNumEnemies
+     */
+    private Collection<EnemyUnit> enemies;
+    
+    /**
+     * The collection which stores the details of all pickups which are available
+     * (that is, those which have not been collected) in the current GameState
+     * @see #getPickups
+     * @see #spawnPickup
+     */
+    private Collection<Pickup> pickups;
+    
+    /**
+     * The collection which stores the details of all bullets which are active 
+     * in the current GameState
+     * @see #getBullets
+     * @see #getNumBullets
+     */
+    private Collection<Bullet> bullets;
+    
+    /**
+     * The GameTime which is tracking the current GameState.
+     * @see #getGameTime
+     */
+    private GameTime elapsedGameTime;
+    
+    /**
+     * The map which is being used for the current GameState. This includes 
+     * details about the logical 2D environment over which GameObjects in 
+     * this GameState are positioned
+     * @see #getMap
+     */
+    private Map map;
+    
+    /** 
+     * The model of the physical 3D terrain over which GameObjects in 
+     * this GameState are positioned
+     * @see #getTerrain()
+     */
+    protected Terrain terrain;
+    
+    /**
+     * Stores the details of the last bullet which was spawned (fired), and
+     * which is also used to determine whether that same player is still firing
+     * (and therefore, whether more bullets should be fired). This is done by 
+     * means of the following convention: <br>
+     * <code>
+     *    &nbsp;&nbsp;if (spawningBullets != null) {<br>
+     *    &nbsp;&nbsp;&nbsp;&nbsp;// the player is still firing; the last bullet<br>
+     *    &nbsp;&nbsp;&nbsp;&nbsp;// fired is spawningBullets<br>
+     *    &nbsp;&nbsp;} else {<br>
+     *    &nbsp;&nbsp;&nbsp;&nbsp;// the player has stopped firing<br>
+     *    &nbsp;&nbsp;}<br>
+     * </code>
+     */
+    private Bullet spawningBullets = null;
+    
+    /**
+     * The name of the landscape to be used (which is independant of the name
+     * used to load the Map)
+     * TODO: Replace this with a better option than a static constant, which ties
+     * together better with the name used for loading the Map
+     */
+    public static final String landscapeName = "terrain_peak";
 }
