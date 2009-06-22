@@ -1,13 +1,13 @@
-/*
- * An abstract class from which all game objects will inherit, which provides 
- * storage for core properties as well as functionality common to all objects 
- * within the game scope.
+/**
+ * Contains all classes relating to the logical structure of the Game and the 
+ * logical elements active in it, such as the players, units, pickups, etc.
  */
-
 package crimsonportal.googlecode.com.ObjectModel;
 
 /**
- *
+ * An abstract class which all game objects must extend, which provides 
+ * storage for core properties as well as functionality common to all objects 
+ * within the game scope.
  * @author dagwud
  */
 public abstract class GameObject
@@ -40,6 +40,7 @@ public abstract class GameObject
      * logical size, and is not necessarily the physical size which the game
      * object may be rendered by any particular GUI element.
      * @return the diameter of the game object
+     * @see #GameObject(double, Location)
      */
     public double getSize()
     {
