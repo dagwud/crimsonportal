@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package crimsonportal.googlecode.com.ObjectModel;
 
 /**
- *
+ * A wrapper class which encapsulates a {@link Location} within a
+ * {@link GameObject} to allow 
  * @author dagwud
  */
 public class LocationObject extends GameObject 

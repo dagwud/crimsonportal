@@ -23,7 +23,7 @@ public class GameTime implements Comparable<GameTime>
     public GameTime(long numSeconds)
     {
         startTimer();
-        this.previousRunTime = numSeconds;
+        this.previousRunTime = numSeconds * 1000;
     }
     
     public GameTime(GameTime gameTime)
@@ -55,6 +55,10 @@ public class GameTime implements Comparable<GameTime>
         {
             return previousRunTime + System.currentTimeMillis() - lastStartTime;
         }
+    }
+    
+    public int getNumSeconds() {
+        return (int)(Math.floor(getNumMilliseconds() / 1000));
     }
     
     protected void resetTime()
@@ -91,6 +95,16 @@ public class GameTime implements Comparable<GameTime>
         {
             return 0;
         }
+    }
+    
+    public boolean isAfter(GameTime rhs) {
+        long rhsTime = rhs.getNumMilliseconds();
+        return (getNumMilliseconds() > rhsTime);
+    }
+    
+    @Override
+    public String toString() {
+        return "GameTime[" + getNumSeconds() + "s" + (isPaused ? " Paused" : "") + "]";
     }
     
     private long lastStartTime;

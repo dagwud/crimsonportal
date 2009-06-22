@@ -11,9 +11,9 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public class WeaponPickup extends Pickup
 {
-    public WeaponPickup(double size, Location location, GameTime expirationTime, Weapon weapon)
+    public WeaponPickup(Location location, GameTime expirationTime, Weapon weapon)
     {
-        super(size, location, expirationTime);
+        super(location, expirationTime);
         this.weapon = weapon;
     }
     
@@ -27,10 +27,20 @@ public class WeaponPickup extends Pickup
         this.weapon = weapon;
     }
     
+    public void applyTo(GameTime elapseGameTime, Unit unit)
+    {
+        
+    }
+    
+    public void unapplyTo(Unit unit)
+    {
+        
+    }
+    
     @Override
     public WeaponPickup clone()
     {
-        return new WeaponPickup(size, location, expirationTime, weapon);
+        return new WeaponPickup(location, expirationTime, weapon);
     }
     
     public String getSpriteFilename()

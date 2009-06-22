@@ -14,9 +14,9 @@ import java.util.Random;
  */
 public abstract class Pickup extends GameObject
 {   
-    public Pickup(double size, Location location, GameTime expirationTime)
+    public Pickup(Location location, GameTime expirationTime)
     {
-        super(size, location);
+        super(5.0, location);
         this.expirationTime = expirationTime;
     }
     
@@ -39,17 +39,16 @@ public abstract class Pickup extends GameObject
     {
         Random randomGenerator = new Random();
         
-        double randomX = randomGenerator.nextDouble() * (map.height - ObjectSizes.PICKUP_SIZE);
-        double randomY = randomGenerator.nextDouble() * (map.width - ObjectSizes.PICKUP_SIZE);
+        double randomY = randomGenerator.nextDouble() * (map.height - ObjectSizes.PICKUP_SIZE);
+        double randomX = randomGenerator.nextDouble() * (map.width - ObjectSizes.PICKUP_SIZE);
         
         Location loc = new Location(randomX, randomY);
         return loc;
     }
     
-    public void applyTo(Unit unit)
-    {
-        // TODO: Implement
-    }
+    public abstract void applyTo(GameTime gameTime, Unit unit);
+    public abstract void unapplyTo(Unit unit);
     
     protected GameTime expirationTime;
+    protected int effectDurationSeconds;
 }

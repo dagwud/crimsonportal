@@ -5,8 +5,9 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
-import crimsonportal.googlecode.com.Observer.Observer;
-import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  *
@@ -19,6 +20,7 @@ public abstract class Unit extends GameObject
         super(size, location);
         this.strategy = strategy;
         this.gameState = gameState;
+        pickups = new LinkedList<Pickup>();
     }
     
     public Strategy getStrategy()
@@ -41,6 +43,16 @@ public abstract class Unit extends GameObject
         this.health = health;
     }
     
+    public double getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+    
+    protected void setMoveSpeed(double moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+    
     public void moveTo(Location newLocation) 
     {
         Location moveTo = gameState.getTerrain().getMoveWithGradient(
@@ -50,7 +62,15 @@ public abstract class Unit extends GameObject
         setCentreOfObject(moveTo);
     }
     
+    public void addPickup(Pickup pickup)
+    {
+        pickups.add(pickup);
+        pickup.applyTo(gameState.getGameTime(), this);
+    }
+    
     protected Strategy strategy;
     protected double health;
+    protected double moveSpeed;
     protected GameState gameState;
+    protected Collection<Pickup> pickups;
 }
