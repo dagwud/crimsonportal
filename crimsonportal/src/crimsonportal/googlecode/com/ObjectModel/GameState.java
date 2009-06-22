@@ -37,6 +37,8 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         pickups = new LinkedList<Pickup>();
         bullets = new LinkedList<Bullet>();
         elapsedGameTime = new GameTime(true);
+        Thread gameTimer = GameTimer.getInstance(elapsedGameTime);
+        gameTimer.start();
         map = new Map();
         observers = new ObserverGroup<GameStateChangedEvent>();
     }
@@ -240,15 +242,13 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     protected void spawnPickup()
     {
         //TODO: Create PickupFactory and call it from here, to generate random types
-        Location location = Pickup.generateLocation(map);
-        location = getTerrain().convertTerrainToMapLocation(getTerrain().highestY, 
-                getTerrain().highestX, map);
-        
-        Weapon weapon = new Weapon(10, 1);
-        WeaponPickup pickup = new WeaponPickup(5.0, location, 
-                                                new GameTime(elapsedGameTime), 
-                                                weapon);
-        pickups.add(pickup);
+        for (int i = 1; i < 2; i++) {
+            Location location = Pickup.generateLocation(map);
+
+            GameTime expireTime = new GameTime(elapsedGameTime.getNumSeconds() + 5);
+            Pickup pickup = new SpeedPickup(location, expireTime, 2);
+            pickups.add(pickup);
+        }
     }
     
     /**
@@ -288,7 +288,9 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
             if (player.testOverlapsWith(pickup))
             {
                 // Pickup the object:
-                pickup.applyTo(player);
+                player.addPickup(pickup);
+                
+                // Remove the pickup from the list of available pickups:
                 it_pickups.remove();
             }
         }

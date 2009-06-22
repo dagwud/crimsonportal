@@ -30,16 +30,6 @@ public abstract class EnemyUnit extends Unit
         this.attackDamage = attackDamage;
     }
     
-    public int getMoveSpeed()
-    {
-        return moveSpeed;
-    }
-    
-    protected void setMoveSpeed(int moveSpeed)
-    {
-        this.moveSpeed = moveSpeed;
-    }
-    
     public double getAttackSpeed()
     {
         return attackSpeed;
@@ -66,8 +56,10 @@ public abstract class EnemyUnit extends Unit
     
     protected void move()
     {
-        double diffY = getStrategy().getTarget().getCentreOfObject().getY() - this.getCentreOfObject().getY();
-        double diffX = getStrategy().getTarget().getCentreOfObject().getX() - this.getCentreOfObject().getX();
+        Location targetLoc = getStrategy().getTarget().getCentreOfObject();
+        Location thisLoc = getCentreOfObject();
+        double diffY = targetLoc.getY() - thisLoc.getY();
+        double diffX = targetLoc.getX() - thisLoc.getX();
         double moveAmount = moveSpeed;
         double distBeforeMove = Math.sqrt((diffY * diffY) + (diffX * diffX));
         if (getSize() / 2.0 + getStrategy().getTarget().getSize() / 2.0 >= distBeforeMove )
@@ -115,8 +107,6 @@ public abstract class EnemyUnit extends Unit
         moveTo(newLocation);
     }
     
-     // This moves to EnemyUnit.getRotation:
-    
     @Override 
     public double getRotation()
     {
@@ -129,7 +119,6 @@ public abstract class EnemyUnit extends Unit
     public abstract String getSpriteFilename();
             
     protected int attackDamage;
-    protected int moveSpeed;
     protected double attackSpeed;
     private long lastAttackTime;
 }

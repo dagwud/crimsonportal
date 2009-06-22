@@ -30,7 +30,7 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
         setHealth(DEFAULT_HEALTH);
     }
     
-    public PlayerUnit(Location location, int moveSpeed, Weapon weapon, GameState gameState)
+    public PlayerUnit(Location location, double moveSpeed, Weapon weapon, GameState gameState)
     {
         super(ObjectSizes.PLAYER_SIZE, location, null, gameState);
         this.weapon = weapon;
@@ -47,16 +47,6 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
         this.weapon = weapon;
     }
     
-    public int getMoveSpeed()
-    {
-        return moveSpeed;
-    }
-    
-    protected void setMoveSpeed(int moveSpeed)
-    {
-        this.moveSpeed = moveSpeed;
-    }
-    
     @Override
     public PlayerUnit clone()
     {
@@ -70,7 +60,6 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     }
     
     private Weapon weapon;
-    private int moveSpeed;
     private ObserverGroup<PlayerMoveEvent> observers;
     private ObserverGroup<PlayerTurnEvent> turnObservers;
 
