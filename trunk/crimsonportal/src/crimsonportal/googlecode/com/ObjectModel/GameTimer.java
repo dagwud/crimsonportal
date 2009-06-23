@@ -5,9 +5,7 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Vector;
 
 /**

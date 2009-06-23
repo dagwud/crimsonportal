@@ -13,29 +13,25 @@ public class SpeedPickup extends TimedPickup
 {
     public SpeedPickup(Location location, GameTime expirationTime, 
             double speedMultiplier) {
-        super(location, expirationTime, 3);
+        super(location, expirationTime);
         this.speedMultiplier = speedMultiplier;
     }
     
     public void applyTo(GameTime gameTime, Unit unit)
     {
+        startExpirationTimer(gameTime, unit);
         double moveSpeed = (double)unit.getMoveSpeed() * speedMultiplier;
         unit.setMoveSpeed( moveSpeed );
-        // Create the timeout:
-        GameTimerAction action = new PickupExpirationAction(this, unit);
-        double numMillisecondsActive = gameTime.getNumMilliseconds() + (effectDurationSeconds * 1000.0);
-        System.out.println(numMillisecondsActive);
-        int numSecondsActive = (int) Math.floor(numMillisecondsActive / 1000.0);
-        System.out.println(numSecondsActive);
-        GameTime effectEndTime = new GameTime( numSecondsActive );
-        System.out.println("end time is " + effectEndTime);
-        GameTimer.getInstance().addTimer(effectEndTime, action);
     }
     
     public void unapplyTo(Unit unit)
     {
         double moveSpeed = (double)unit.getMoveSpeed() / speedMultiplier;
         unit.setMoveSpeed( moveSpeed );
+    }
+    
+    public int getEffectDurationSeconds() {
+        return EFFECT_DURATION_SECONDS;
     }
     
     @Override
@@ -54,4 +50,5 @@ public class SpeedPickup extends TimedPickup
     }
     
     protected double speedMultiplier;
+    protected static final int EFFECT_DURATION_SECONDS = 10;
 }

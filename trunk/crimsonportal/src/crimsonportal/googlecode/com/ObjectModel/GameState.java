@@ -242,13 +242,15 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     protected void spawnPickup()
     {
         //TODO: Create PickupFactory and call it from here, to generate random types
-        for (int i = 1; i < 2; i++) {
-            Location location = Pickup.generateLocation(map);
-
-            GameTime expireTime = new GameTime(elapsedGameTime.getNumSeconds() + 5);
-            Pickup pickup = new SpeedPickup(location, expireTime, 2);
-            pickups.add(pickup);
-        }
+        GameTime expireTime = new GameTime(elapsedGameTime.getNumSeconds() + 5);
+        
+        Location location = Pickup.generateLocation(map);
+        Pickup pickup = new SpeedPickup(location, expireTime, 2);
+        pickups.add(pickup);
+        
+        Location location2 = Pickup.generateLocation(map);
+        Pickup pickup2 = new SizeChangePickup(location2, expireTime, 3);
+        pickups.add(pickup2);
     }
     
     /**

@@ -10,10 +10,8 @@ package crimsonportal.googlecode.com.ObjectModel;
  * @author dagwud
  */
 public abstract class TimedPickup extends Pickup {
-    public TimedPickup(Location location, GameTime expirationTime, 
-            int effectDurationSeconds) {
+    public TimedPickup(Location location, GameTime expirationTime) {
         super(location, expirationTime);
-        this.effectDurationSeconds = effectDurationSeconds;
     }
     
     @Override
@@ -24,6 +22,17 @@ public abstract class TimedPickup extends Pickup {
 
     @Override
     public abstract String getSpriteFilename();
-
-    protected int effectDurationSeconds;
+    
+    protected final void startExpirationTimer(GameTime gameTime, Unit unitToUnapplyTo)
+    {
+        // Create the timeout:
+        GameTimerAction action = new PickupExpirationAction(this, unitToUnapplyTo);
+        double numMillisecondsActive = gameTime.getNumMilliseconds()
+                + (getEffectDurationSeconds() * 1000.0);
+        int numSecondsActive = (int) Math.floor(numMillisecondsActive / 1000.0);
+        GameTime effectEndTime = new GameTime( numSecondsActive );
+        GameTimer.getInstance().addTimer(effectEndTime, action);
+    }
+    
+    public abstract int getEffectDurationSeconds();
 }
