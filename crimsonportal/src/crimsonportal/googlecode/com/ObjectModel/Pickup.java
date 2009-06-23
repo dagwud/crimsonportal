@@ -32,7 +32,7 @@ public abstract class Pickup extends GameObject
     
     /**
      * This method generates pickupLocation and checks that its within bounds
-     * @param Mam map
+     * @param Map map
      * @return void
      */
     public static Location generateLocation(Map map)
