@@ -4,7 +4,8 @@ public class GameTimerTask
 {
     public GameTimerTask(GameTime triggerTime, GameTimerAction triggerAction)
     {
-        this.triggerTime = triggerTime;
+        this.triggerTime = triggerTime.clone();
+        this.triggerTime.pauseTimer();
         this.triggerAction = triggerAction;
     }
 
@@ -23,7 +24,7 @@ public class GameTimerTask
     }
 
     public String toString() {
-        return "GameTimerTask[trigger=" + triggerAction + " at " + triggerTime + "]";
+        return "GameTimerTask[trigger at " + triggerTime + "]";
     }
 
     protected GameTime triggerTime;
