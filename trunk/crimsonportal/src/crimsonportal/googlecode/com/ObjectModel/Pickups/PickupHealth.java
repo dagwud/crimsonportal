@@ -3,7 +3,9 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.ObjectModel;
+package crimsonportal.googlecode.com.ObjectModel.Pickups;
+
+import crimsonportal.googlecode.com.ObjectModel.*;
 
 /**
  *
@@ -19,7 +21,7 @@ public class PickupHealth extends PickupSingleUse {
     @Override
     public void applyTo(GameTime gameTime, Unit unit)
     {
-        unit.setHealth( unit.getHealth() + healthValue );
+        PickupProxy.increaseUnitHealth(unit, healthValue);
     }
     
     @Override
@@ -28,5 +30,10 @@ public class PickupHealth extends PickupSingleUse {
         return "pickup_health.gif";
     }
 
+    @Override
+    public String toString() {
+        return "PickupHealth[" + healthValue + "]";
+    }
+    
     protected double healthValue;
 }

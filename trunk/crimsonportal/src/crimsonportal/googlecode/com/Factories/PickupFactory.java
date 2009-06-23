@@ -9,9 +9,9 @@ import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Pickup;
-import crimsonportal.googlecode.com.ObjectModel.PickupGrow;
-import crimsonportal.googlecode.com.ObjectModel.PickupHealth;
-import crimsonportal.googlecode.com.ObjectModel.PickupSpeed;
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupGrow;
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupHealth;
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupSpeed;
 import java.util.Random;
 
 /**

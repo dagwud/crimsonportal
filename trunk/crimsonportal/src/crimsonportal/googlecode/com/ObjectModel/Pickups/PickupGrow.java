@@ -1,4 +1,6 @@
-package crimsonportal.googlecode.com.ObjectModel;
+package crimsonportal.googlecode.com.ObjectModel.Pickups;
+
+import crimsonportal.googlecode.com.ObjectModel.*;
 
 /**
  *
@@ -13,12 +15,12 @@ public class PickupGrow extends PickupTimed {
     @Override
     public void applyTo(GameTime expirationTime, Unit unit) {
         startExpirationTimer(expirationTime, unit);
-        unit.setSize( unit.getSize() * sizeMultiplier );
+        PickupProxy.scaleUnitSize(unit, sizeMultiplier);
     }
     
     @Override
     public void unapplyTo(Unit unit) {
-        unit.setSize(unit.getSize() / sizeMultiplier);
+        PickupProxy.scaleUnitSize(unit, 1.0 / sizeMultiplier);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class PickupGrow extends PickupTimed {
     
     @Override
     public String toString() {
-        return "HealthPickup[x" + sizeMultiplier + " for " + getEffectDurationSeconds() + "s]";
+        return "PickupGrow[x" + sizeMultiplier + " for " + getEffectDurationSeconds() + "s]";
     }
     
     protected double sizeMultiplier;
