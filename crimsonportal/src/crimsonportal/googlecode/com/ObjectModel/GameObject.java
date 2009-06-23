@@ -40,11 +40,22 @@ public abstract class GameObject
      * logical size, and is not necessarily the physical size which the game
      * object may be rendered by any particular GUI element.
      * @return the diameter of the game object
-     * @see #GameObject(double, Location)
+     * @see #setSize
      */
     public double getSize()
     {
         return size;
+    }
+    
+    /**
+     * Sets the size (diameter) of the game object. Note that this is the logical
+     * size, and is not necessarily the physical size which the game object may
+     * be rendered by any particular GUI element.
+     * @param size the new diameter of the game object
+     * @see #getSize
+     */
+    protected void setSize(double size) {
+        this.size = size;
     }
     
     /**

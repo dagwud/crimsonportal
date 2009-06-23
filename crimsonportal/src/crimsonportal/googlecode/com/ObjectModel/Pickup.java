@@ -16,7 +16,7 @@ public abstract class Pickup extends GameObject
 {   
     public Pickup(Location location, GameTime expirationTime)
     {
-        super(5.0, location);
+        super(8.0, location);
         this.expirationTime = expirationTime;
     }
     
