@@ -128,4 +128,8 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     {
         this.setRotation(e.getRotation());
     }
+    
+    public String toString() {
+        return "PlayerUnit[]";
+    }
 }

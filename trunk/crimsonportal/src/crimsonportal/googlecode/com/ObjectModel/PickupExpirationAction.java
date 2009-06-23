@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Debug;
+
 /**
  *
  * @author dagwud
@@ -18,6 +20,7 @@ public class PickupExpirationAction extends GameTimerAction {
     @Override
     public void trigger()
     {
+        Debug.logEvent("Pickup expired: Pickup " + this);
         pickup.unapplyTo(unitHoldingPickup);
     }
     

@@ -9,9 +9,9 @@ package crimsonportal.googlecode.com.ObjectModel;
  *
  * @author dagwud
  */
-public class SpeedPickup extends TimedPickup
+public class PickupSpeed extends PickupTimed
 {
-    public SpeedPickup(Location location, GameTime expirationTime, 
+    public PickupSpeed(Location location, GameTime expirationTime, 
             double speedMultiplier) {
         super(location, expirationTime);
         this.speedMultiplier = speedMultiplier;
@@ -35,18 +35,18 @@ public class SpeedPickup extends TimedPickup
     }
     
     @Override
-    public SpeedPickup clone()
+    public PickupSpeed clone()
     {
-        return new SpeedPickup(location, expirationTime, speedMultiplier);
+        return new PickupSpeed(location, expirationTime, speedMultiplier);
     }
     
     public String getSpriteFilename()
     {
-        return "pickup.gif";
+        return "pickup_speed.gif";
     }
     
     public String toString() {
-        return "SpeedPickup[x" + speedMultiplier + " for " + effectDurationSeconds + "s]";
+        return "SpeedPickup[x" + speedMultiplier + " for " + getEffectDurationSeconds() + "s]";
     }
     
     protected double speedMultiplier;

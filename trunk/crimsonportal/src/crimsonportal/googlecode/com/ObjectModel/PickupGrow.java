@@ -1,31 +1,11 @@
-/*
- * File          SizeChangePickup.java
- *
- * Copyright (C) IST Data 2008, all rights reserved.
- *
- * E-mail        data@ist.co.za
- * Address       Garstfontein Road 221 Menlyn, Pretoria South Africa
- * Tel           +27 (0) 12 426 7200
- * Fax           +27 (0) 12 365 1467
- *
- * Project      Network Inventory Management System
- * Author       jdevenish
- * Date         Jun 23, 2009
- *
- * History:
- *   Author      : jdevenish
- *   Date        : Jun 23, 2009
- *   Description : Created
- */
-
 package crimsonportal.googlecode.com.ObjectModel;
 
 /**
  *
  * @author jdevenish
  */
-public class SizeChangePickup extends TimedPickup {
-    public SizeChangePickup(Location location, GameTime expirationTime, double sizeMultiplier) {
+public class PickupGrow extends PickupTimed {
+    public PickupGrow(Location location, GameTime expirationTime, double sizeMultiplier) {
         super(location, expirationTime);
         this.sizeMultiplier = sizeMultiplier;
     }
@@ -43,7 +23,7 @@ public class SizeChangePickup extends TimedPickup {
 
     @Override
     public String getSpriteFilename() {
-        return "pickup.gif";
+        return "pickup_grow.gif";
     }
 
     @Override
@@ -53,7 +33,7 @@ public class SizeChangePickup extends TimedPickup {
     
     @Override
     public String toString() {
-        return "SizeChangePickup[x" + sizeMultiplier + " for " + effectDurationSeconds + "s]";
+        return "HealthPickup[x" + sizeMultiplier + " for " + getEffectDurationSeconds() + "s]";
     }
     
     protected double sizeMultiplier;
