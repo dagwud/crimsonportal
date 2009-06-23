@@ -3,7 +3,9 @@
  * and open the template in the editor.
  */
 
-package crimsonportal.googlecode.com.ObjectModel;
+package crimsonportal.googlecode.com.ObjectModel.Pickups;
+
+import crimsonportal.googlecode.com.ObjectModel.*;
 
 /**
  *
@@ -20,14 +22,12 @@ public class PickupSpeed extends PickupTimed
     public void applyTo(GameTime gameTime, Unit unit)
     {
         startExpirationTimer(gameTime, unit);
-        double moveSpeed = (double)unit.getMoveSpeed() * speedMultiplier;
-        unit.setMoveSpeed( moveSpeed );
+        PickupProxy.scaleUnitMoveSpeed(unit, speedMultiplier);
     }
     
     public void unapplyTo(Unit unit)
     {
-        double moveSpeed = (double)unit.getMoveSpeed() / speedMultiplier;
-        unit.setMoveSpeed( moveSpeed );
+        PickupProxy.scaleUnitMoveSpeed(unit, 1.0 / speedMultiplier);
     }
     
     public int getEffectDurationSeconds() {
