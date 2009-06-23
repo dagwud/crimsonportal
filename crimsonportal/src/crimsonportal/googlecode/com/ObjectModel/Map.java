@@ -8,6 +8,7 @@ package crimsonportal.googlecode.com.ObjectModel;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.Random;
 
 /**
  *
@@ -76,6 +77,17 @@ public class Map
     public Image getBGImage()
     {
         return bgImage;
+    }
+    
+    public Location getRandomLocation()
+    {
+        Random randomGenerator = new Random();
+        
+        double randomY = randomGenerator.nextDouble() * height;
+        double randomX = randomGenerator.nextDouble() * width;
+        
+        Location loc = new Location(randomX, randomY);
+        return loc;
     }
     
     protected int width;

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Debug;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -61,19 +62,19 @@ public class GameTimer extends Thread
         }
         GameTimerTask task = new GameTimerTask(time, action);
         gameTimerTasks.insertElementAt(task, i + 1);
-        System.out.println("Added TimerTask " + task);
+        Debug.logEvent("Added TimerTask for " + action + ": " + task);
     }
     
     public void checkTimers()
     {
-        System.out.println("Checking timers - gameTime = " + gameTime);
+        Debug.logMethod("Checking timers - gameTime = " + gameTime);
         Iterator<GameTimerTask> it = gameTimerTasks.iterator();
         boolean finished = false;
         while (it.hasNext() && !finished) {
             GameTimerTask t = it.next();
-            System.out.println("  Checking " + t);
+            Debug.logMethod("  Checking " + t);
             if (t.checkTriggered(gameTime)) {
-                System.out.println("    Timer has expired");
+                Debug.logMethod("    Timer has expired");
                 it.remove();
             }
             else {

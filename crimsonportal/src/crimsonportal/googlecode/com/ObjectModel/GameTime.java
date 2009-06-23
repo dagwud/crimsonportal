@@ -83,18 +83,12 @@ public class GameTime implements Comparable<GameTime>
     {
         long gTime = g.getNumMilliseconds();
         long thisTime = this.getNumMilliseconds();
-        if (thisTime < gTime)
-        {
-            return -1;
-        }
-        else if (thisTime > gTime)
-        {
-            return 1;
-        }
-        else
+        if (thisTime == gTime)
         {
             return 0;
         }
+        
+        return (this.isAfter(g) ? 1 : -1);
     }
     
     public boolean isAfter(GameTime rhs) {

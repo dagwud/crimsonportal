@@ -31,6 +31,10 @@ public abstract class Debug
         System.out.println(string);
     }
     
+    public static synchronized void logEvent(String string) {
+        System.out.println(string);
+    }
+    
     public static synchronized void logWarning(String string)
     {
         if (enabledLevel < DEBUG_WARNINGS)

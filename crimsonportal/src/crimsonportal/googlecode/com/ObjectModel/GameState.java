@@ -1,6 +1,7 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.Factories.PickupFactory;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedObservable;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -241,16 +242,13 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
      */
     protected void spawnPickup()
     {
-        //TODO: Create PickupFactory and call it from here, to generate random types
         GameTime expireTime = new GameTime(elapsedGameTime.getNumSeconds() + 5);
         
-        Location location = Pickup.generateLocation(map);
-        Pickup pickup = new SpeedPickup(location, expireTime, 2);
-        pickups.add(pickup);
-        
-        Location location2 = Pickup.generateLocation(map);
-        Pickup pickup2 = new SizeChangePickup(location2, expireTime, 3);
-        pickups.add(pickup2);
+        for (int i = 0; i < 8; i++) {
+            Location location = map.getRandomLocation();
+            Pickup pickup = PickupFactory.createRandomPickup(location, expireTime);
+            pickups.add(pickup);
+        }
     }
     
     /**

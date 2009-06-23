@@ -9,8 +9,8 @@ package crimsonportal.googlecode.com.ObjectModel;
  *
  * @author dagwud
  */
-public abstract class TimedPickup extends Pickup {
-    public TimedPickup(Location location, GameTime expirationTime) {
+public abstract class PickupTimed extends Pickup {
+    public PickupTimed(Location location, GameTime expirationTime) {
         super(location, expirationTime);
     }
     
