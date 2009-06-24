@@ -18,6 +18,7 @@ import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import crimsonportal.googlecode.com.terrain.Terrain;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.swing.JPanel;
@@ -47,6 +48,8 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         super.paintComponent(g);
         
         Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                RenderingHints.VALUE_ANTIALIAS_ON);
         
         g2.drawImage(gameController.getGameState().getMap().getBGImage(), 0, 0, null);
         
