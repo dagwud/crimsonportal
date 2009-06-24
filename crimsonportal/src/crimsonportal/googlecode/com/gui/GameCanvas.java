@@ -16,9 +16,13 @@ import crimsonportal.googlecode.com.Observer.Player.Shoot.PlayerShootObservable;
 import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import crimsonportal.googlecode.com.terrain.Terrain;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.swing.JPanel;
@@ -37,8 +41,15 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         gameController.addObserver(this);
         setDoubleBuffered(true);
         spriteProxy = new SpriteProxy();
-        setSize(gameController.getGameState().getMap().getSize());
-        setPreferredSize(gameController.getGameState().getMap().getSize());
+        
+        // Minimum size: a the same size as the map
+        setMinimumSize(gameController.getGameState().getMap().getSize());
+        
+        // Ideal size: full-screen :D
+        Rectangle screenSize = new Rectangle(800,600);
+        setPreferredSize(screenSize.getSize());
+        setSize(getPreferredSize());
+        
         setOpaque(false);
     }
     
@@ -46,67 +57,83 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        //if (1 == 1) return;
         
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
                 RenderingHints.VALUE_ANTIALIAS_ON);
         
-        g2.drawImage(gameController.getGameState().getMap().getBGImage(), 0, 0, null);
-        
         Terrain terrain = gameController.getGameState().getTerrain();
         
         try
         {
-            // Draw objects:
-            Iterator<GameObject> gameObjects = gameController.getGameState().getGameObjects();
-            while (gameObjects.hasNext())
-            {
-                GameObject gameObject = gameObjects.next();
-                Sprite img = spriteProxy.get(gameObject.getSpriteFilename()); 
-                
-                // Cache the scaling, rotation, etc. values in case they're changed
-                // by another thread while we're drawing:
-                Location objectLoc = gameObject.getCentreOfObject();
-                double translateX = objectLoc.getX();
-                double translateY = objectLoc.getY();
-                double rotation = gameObject.getRotation();
-                double imgRadius = gameObject.getSize() / 2.0;
-                
-                double heightPerc = (double)terrain.getHeightAt(objectLoc, 
-                        gameController.getGameState().getMap()) / (double)terrain.getPeakHeight();
-                double heightScale = (heightPerc * 0.7) + 0.8;
-                double imgScale = (double)gameObject.getSize() / (double)img.toImage().getHeight();
-                
-                // Draw the GameObject: 
-                
-                // Move to centre of object:
-                g2.translate(translateX, translateY);
-                  // Rotate around the centre of the object:
-                  g2.rotate(rotation);
-                    // Scale to show height:
-                    g2.scale(heightScale, heightScale);
-                      // Move to the top-left corner of the object:
-                      g2.translate(-imgRadius, -imgRadius);
-                        // Scale to the image's size:
-                        g2.scale(imgScale, imgScale);
-                          // Draw the image:
-                          g2.drawImage(img.toImage(), 0, 0, null);
-                        g2.scale(1.0 / imgScale, 1.0 / imgScale);
-                      g2.translate(imgRadius, imgRadius);
-                    g2.scale(1.0 / heightScale, 1.0 / heightScale);
-                  g2.rotate(-rotation);
-                g2.translate(-translateX, -translateY);
-            }
+            // Scale to convert map sizes to GUI sizes:
+            double xScale = ((double)this.getWidth()
+                    / (double)gameController.getGameState().getMap().getWidth());
+            double yScale = ((double)this.getHeight() 
+                    / (double)gameController.getGameState().getMap().getHeight());
+            g2.scale(xScale, yScale);
             
-            // Draw the animations:
-            Iterator<Animation> animations = gameController.getGameState().getAnimations();
-            while (animations.hasNext()) {
-                Animation anim = animations.next();
-                boolean animActive = anim.drawOnto(g2);
-                if (!animActive) {
-                    animations.remove();
+                // Draw background:
+                g2.drawImage(gameController.getGameState().getMap().getBGImage(), 0, 0, null);
+        
+                // Draw objects:
+                Iterator<GameObject> gameObjects = gameController.getGameState().getGameObjects();
+                while (gameObjects.hasNext())
+                {
+                    GameObject gameObject = gameObjects.next();
+                    Sprite img = spriteProxy.get(gameObject.getSpriteFilename()); 
+
+                    // Cache the scaling, rotation, etc. values in case they're changed
+                    // by another thread while we're drawing:
+                    Location objectLoc = gameObject.getCentreOfObject();
+                    double translateX = objectLoc.getX();
+                    double translateY = objectLoc.getY();
+                    double rotation = gameObject.getRotation();
+                    double imgRadius = gameObject.getSize() / 2.0;
+
+                    double heightPerc = (double)terrain.getHeightAt(objectLoc, 
+                            gameController.getGameState().getMap()) / (double)terrain.getPeakHeight();
+                    double heightScale = (heightPerc * 0.7) + 0.8;
+                    double imgScale = (double)gameObject.getSize() / (double)img.toImage().getHeight();
+
+                    // Draw the GameObject: 
+
+                    // Move to centre of object:
+                    g2.translate(translateX, translateY);
+                      // Rotate around the centre of the object:
+                      g2.rotate(rotation);
+                        // Scale to show height:
+                        g2.scale(heightScale, heightScale);
+                          // Move to the top-left corner of the object:
+                          g2.translate(-imgRadius, -imgRadius);
+                            // Scale to the image's size:
+                            g2.scale(imgScale, imgScale);
+                              // Draw the image:
+                              g2.drawImage(img.toImage(), 0, 0, null);
+                            g2.scale(1.0 / imgScale, 1.0 / imgScale);
+                          g2.translate(imgRadius, imgRadius);
+                        g2.scale(1.0 / heightScale, 1.0 / heightScale);
+                      g2.rotate(-rotation);
+                    g2.translate(-translateX, -translateY);
                 }
-            }
+
+                // Draw the animations:
+                Iterator<Animation> animations = gameController.getGameState().getAnimations();
+                if (animations.hasNext()) {
+
+                    // Draw each animation:
+                    while (animations.hasNext()) {
+                        Animation anim = animations.next();
+                        boolean animActive = anim.drawOnto(g2);
+                        if (!animActive) {
+                            animations.remove();
+                        }
+                    }
+                }
+
+            // Return to normal scale:
+            g2.scale(1.0 / xScale, 1.0 / yScale);
             
             // Repaint the canvas with the new objects' positions:
             repaint();

@@ -21,6 +21,7 @@ import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.Iterator;
 
 /**
@@ -52,8 +53,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
         frame.initBGImage();
         
         // Set up the size of the frame: 
-        frame.setPreferredSize(new Dimension(gameState.getMap().getWidth(),
-                gameState.getMap().getHeight()));
+        frame.setPreferredSize(gameCanvas.getPreferredSize());
         frame.pack();
         
         gameState.spawnPlayer(new Location(gameState.getMap().getWidth() / 2, 

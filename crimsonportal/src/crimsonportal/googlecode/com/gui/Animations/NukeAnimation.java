@@ -1,23 +1,3 @@
-/*
- * File          NukeAnimation.java
- *
- * Copyright (C) IST Data 2008, all rights reserved.
- *
- * E-mail        data@ist.co.za
- * Address       Garstfontein Road 221 Menlyn, Pretoria South Africa
- * Tel           +27 (0) 12 426 7200
- * Fax           +27 (0) 12 365 1467
- *
- * Project      Network Inventory Management System
- * Author       jdevenish
- * Date         Jun 24, 2009
- *
- * History:
- *   Author      : jdevenish
- *   Date        : Jun 24, 2009
- *   Description : Created
- */
-
 package crimsonportal.googlecode.com.gui.Animations;
 
 import crimsonportal.googlecode.com.ObjectModel.Location;

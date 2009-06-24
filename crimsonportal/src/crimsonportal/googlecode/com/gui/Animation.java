@@ -43,6 +43,14 @@ public abstract class Animation {
         return ((int) Math.floor(centreLocation.getY()));
     }
     
+    protected double getXScale(Graphics2D g) {
+        return xScale;
+    }
+    
+    protected double getYScale(Graphics2D g) {
+        return yScale;
+    }
+    
     protected long getElapsedTimeMS() {
         long elapsedTime = System.currentTimeMillis() - startTimer;
         return elapsedTime;
@@ -58,4 +66,5 @@ public abstract class Animation {
     
     private long startTimer;
     private Location centreLocation;
+    private double xScale, yScale;
 }
