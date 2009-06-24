@@ -115,7 +115,7 @@ public class ShootListener implements MouseListener, MouseMotionListener,
         // Create a new bullet based on the last one shot:
         Bullet lastBullet = lastShot.getBullet();
         Strategy strategy = new Strategy(new Location(e.getX(), e.getY()));
-        Bullet bullet = new Bullet(lastBullet.getSize(), controlledUnit,
+        Bullet bullet = new Bullet(lastBullet.getRadius(), controlledUnit,
                 controlledUnit.getCentreOfObject(),
                 strategy, lastBullet.getMoveSpeed(),
                 lastBullet.getAttackDamage());

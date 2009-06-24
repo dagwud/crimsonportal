@@ -27,13 +27,13 @@ import java.awt.Graphics2D;
  *
  * @author jdevenish
  */
-public abstract class Animation {
+public abstract class Animation extends Thread {
     public Animation(Location centreLocation) {
         this.centreLocation = centreLocation;
         startTimer = System.currentTimeMillis();
     }
     
-    public abstract boolean drawOnto(Graphics2D graphics);
+    public abstract void drawAnimation();
     
     protected int getCentreX() {
         return ((int) Math.floor(centreLocation.getX()));
@@ -62,9 +62,30 @@ public abstract class Animation {
         return perc;
     }
     
+    /*protected final void setTargetGraphics2D(Graphics2D targetGraphics) {
+        this.targetGraphics = targetGraphics;
+    }*/
+    
+    public final boolean isAnimationComplete() {
+        return (getPercentageComplete() >= 1);
+    }
+    
+    public final boolean hasStarted() {
+        return (targetGraphics != null);
+    }
+    
+    @Override
+    public final void run()
+    {
+        while ( !isAnimationComplete() ) {
+            drawAnimation();
+        }
+    }
+    
     protected abstract double getTotalAnimationTimeMS();
     
     private long startTimer;
     private Location centreLocation;
     private double xScale, yScale;
+    protected GameCanvas targetGraphics;
 }

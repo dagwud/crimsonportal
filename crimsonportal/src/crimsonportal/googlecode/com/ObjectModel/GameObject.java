@@ -40,9 +40,9 @@ public abstract class GameObject
      * logical size, and is not necessarily the physical size which the game
      * object may be rendered by any particular GUI element.
      * @return the diameter of the game object
-     * @see #setSize
+     * @see #setRadius
      */
-    public double getSize()
+    public double getRadius()
     {
         return size;
     }
@@ -52,9 +52,9 @@ public abstract class GameObject
      * size, and is not necessarily the physical size which the game object may
      * be rendered by any particular GUI element.
      * @param size the new diameter of the game object
-     * @see #getSize
+     * @see #setRadius
      */
-    protected void setSize(double size) {
+    protected void setRadius(double size) {
         this.size = size;
     }
     
@@ -108,7 +108,7 @@ public abstract class GameObject
         // Calculate the maximum Euclidean distance between these objects which 
         // would result in these two objects overlapping. This is the maximum 
         // equivalent of the sum of the two objects' radii:
-        double overlapMaxDistance = (obj.getSize() / 2) + (getSize() / 2);
+        double overlapMaxDistance = obj.getRadius() + getRadius();
         
         // Get the actual Euclidean distance between the two objects:
         double distBetweenObjs = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
@@ -145,7 +145,7 @@ public abstract class GameObject
     
     /**
      * The size (diameter) of this game object
-     * @see #getSize()
+     * @see #setRadius()
      */
     protected double size;
     

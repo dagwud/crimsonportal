@@ -72,6 +72,15 @@ public abstract class Debug
         return (v == flagValue.TRUE);
     }
     
+    public static void toggleFlag(flagKey flag) {
+        if (checkFlag(flag)) {
+            setFlag(flag, Debug.flagValue.FALSE);
+        }
+        else {
+            setFlag(flag, Debug.flagValue.TRUE);
+        }
+    }
+    
     protected static Map<flagKey, flagValue> flags;
     static {
         flags = new HashMap<Debug.flagKey, Debug.flagValue>();
@@ -79,7 +88,8 @@ public abstract class Debug
     
     public static enum flagKey {
         DISABLE_ENEMY_SPAWNING,
-        PLAYER_MOVEMENT_VERTICAL
+        PLAYER_MOVEMENT_VERTICAL,
+        DISABLE_ENEMY_MOVEMENT
     };
     
     public static enum flagValue {
