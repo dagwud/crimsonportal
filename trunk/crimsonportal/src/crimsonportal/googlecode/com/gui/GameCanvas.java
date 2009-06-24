@@ -90,12 +90,12 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                     double translateX = objectLoc.getX();
                     double translateY = objectLoc.getY();
                     double rotation = gameObject.getRotation();
-                    double imgRadius = gameObject.getSize() / 2.0;
+                    double imgRadius = gameObject.getRadius();
 
                     double heightPerc = (double)terrain.getHeightAt(objectLoc, 
                             gameController.getGameState().getMap()) / (double)terrain.getPeakHeight();
                     double heightScale = (heightPerc * 0.7) + 0.8;
-                    double imgScale = (double)gameObject.getSize() / (double)img.toImage().getHeight();
+                    double imgScale = (double)(gameObject.getRadius() * 2.0) / (double)img.toImage().getHeight();
 
                     // Draw the GameObject: 
 
@@ -125,8 +125,12 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                     // Draw each animation:
                     while (animations.hasNext()) {
                         Animation anim = animations.next();
-                        boolean animActive = anim.drawOnto(g2);
-                        if (!animActive) {
+                        if (!anim.hasStarted()) {
+                            anim.targetGraphics = this;
+                            Thread t = anim;
+                            t.start();
+                        }
+                        if (anim.isAnimationComplete()) {
                             animations.remove();
                         }
                     }

@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Debug;
+
 /**
  *
  * @author dagwud
@@ -56,13 +58,14 @@ public abstract class EnemyUnit extends Unit
     
     protected void move()
     {
+        if (Debug.checkFlag(Debug.flagKey.DISABLE_ENEMY_MOVEMENT)) return;
         Location targetLoc = getStrategy().getTarget().getCentreOfObject();
         Location thisLoc = getCentreOfObject();
         double diffY = targetLoc.getY() - thisLoc.getY();
         double diffX = targetLoc.getX() - thisLoc.getX();
         double moveAmount = moveSpeed;
         double distBeforeMove = Math.sqrt((diffY * diffY) + (diffX * diffX));
-        if (getSize() / 2.0 + getStrategy().getTarget().getSize() / 2.0 >= distBeforeMove )
+        if (getRadius() / 2.0 + getStrategy().getTarget().getRadius() / 2.0 >= distBeforeMove )
         {
             return;
         }

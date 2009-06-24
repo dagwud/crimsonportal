@@ -15,15 +15,19 @@ public class NukeAnimation extends Animation {
         this.maxRadius = maxRadius;
     }
     
-    public boolean drawOnto(Graphics2D g) {
+    public void drawAnimation() {
         double dblRadius = getPercentageComplete() * maxRadius;
         int radius = (int)dblRadius;
-        if (radius > maxRadius) return false;
-        Color originalColour = g.getColor();
-            g.setColor(new Color(20, 20, 20, 200));
-            g.fillOval(getCentreX() - (radius/2), getCentreY() - (radius/2), radius, radius);
-        g.setColor(originalColour);
-        return true;
+        if (radius > 0) { 
+            System.out.print("");
+        }
+        Graphics2D targetGraphics = (Graphics2D)super.targetGraphics.getGraphics();
+        Color originalColour = targetGraphics.getColor();
+            targetGraphics.setColor(new Color(255, 128, 64, 80));
+            int startX = getCentreX() - radius,
+                    startY = getCentreY() - radius;
+            targetGraphics.fillOval(startX, startY, radius * 2, radius * 2);
+        targetGraphics.setColor(originalColour);
     }
     
     @Override

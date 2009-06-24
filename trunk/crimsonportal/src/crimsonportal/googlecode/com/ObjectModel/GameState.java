@@ -2,6 +2,7 @@ package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.Factories.PickupFactory;
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupNuke;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedObservable;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -112,6 +113,7 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         while (it_nearbyEnemies.hasNext()) {
             Unit thisEnemy = it_nearbyEnemies.next();
             double dist = location.getDistanceFrom(thisEnemy);
+            dist = dist - thisEnemy.getRadius();
             if (dist > rangeRadius) {
                 it_nearbyEnemies.remove();
             }
@@ -295,7 +297,8 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         
         for (int i = 0; i < 8; i++) {
             Location location = map.getRandomLocation();
-            Pickup pickup = PickupFactory.createRandomPickup(location, expireTime);
+            //Pickup pickup = PickupFactory.createRandomPickup(location, expireTime);
+            Pickup pickup = new PickupNuke(location, expireTime);
             pickups.add(pickup);
         }
     }

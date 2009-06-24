@@ -21,8 +21,8 @@ public class PickupNuke extends PickupSingleUse {
     
     @Override
     public void applyTo(GameTime gameTime, Unit unit) {
-        Iterator<EnemyUnit> units = PickupProxy.getEnemiesNear(unit, NUKE_RADIUS);
-        PickupProxy.addAnimation(new NukeAnimation(unit.getCentreOfObject(), (int)NUKE_RADIUS));
+        Iterator<EnemyUnit> units = PickupProxy.getEnemiesNear(this, NUKE_RADIUS);
+        PickupProxy.addAnimation(new NukeAnimation(this.getCentreOfObject(), (int)NUKE_RADIUS));
         while (units.hasNext()) {
             EnemyUnit enemyUnit = units.next();
             PickupProxy.killUnit(enemyUnit);
@@ -46,5 +46,5 @@ public class PickupNuke extends PickupSingleUse {
         return "pickup_nuke.gif";
     }
 
-    private static final double NUKE_RADIUS = 600;
+    private static final double NUKE_RADIUS = 300;
 }

@@ -24,7 +24,7 @@ public class PickupProxy {
     
     public static void scaleUnitSize(Unit unit, double sizeScale) {
         if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
-        unit.setSize(unit.getSize() * sizeScale);
+        unit.setRadius(unit.getRadius() * sizeScale);
     }
     
     public static void scaleUnitSize(Collection<Unit> units, double sizeScale) {
@@ -102,10 +102,12 @@ public class PickupProxy {
      * @see Location#getDistanceFrom
      */
     public static Iterator<EnemyUnit> getEnemiesNear(GameObject object, double rangeRadius) {
+        if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
         return getEnemiesNear(object.getCentreOfObject(), rangeRadius);
     }
     
     public static void addAnimation(Animation animation) {
+        if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
         gameState.addAnimation(animation);
     }
     
