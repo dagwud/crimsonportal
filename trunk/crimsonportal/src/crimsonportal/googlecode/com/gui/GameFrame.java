@@ -26,12 +26,16 @@ public class GameFrame extends JFrame
         setUndecorated(true);
         getLayeredPane().add(canvas, new Integer(1));
         
+        // Set up the size of the GUI:
+        canvas.setPreferredSize(getGraphicsConfiguration().getBounds().getSize());
+        canvas.setSize(canvas.getPreferredSize());
+        
+        // Create and position the HUD:
         HUDPanel hud = new HUDPanel(canvas.getGameController(), map.getWidth());
-        // Position the HUD:
-        hud.setLocation(0, map.getHeight() - hud.getHeight());
+        hud.setLocation(0, canvas.getHeight() - hud.getHeight());
         getLayeredPane().add(hud, new Integer(2));
         
-        getLayeredPane().setPreferredSize(map.getSize());
+        getLayeredPane().setPreferredSize(canvas.getPreferredSize());
         setVisible(true);
         pack();
     }
@@ -39,9 +43,9 @@ public class GameFrame extends JFrame
     public void initBGImage()
     {
         bgImage = canvas.spriteProxy.get(map.getImageFilename()).toImage();
-        Graphics2D g2 = (Graphics2D)canvas.getGraphics();
-        g2.drawImage(bgImage, 0, 0, null);
-        setSize(bgImage.getWidth(null), bgImage.getHeight(null));
+        //Graphics2D g2 = (Graphics2D)canvas.getGraphics();
+        //g2.drawImage(bgImage, 0, 0, null);
+        //setSize(bgImage.getWidth(null), bgImage.getHeight(null));
     }
     
     protected GameCanvas canvas;
