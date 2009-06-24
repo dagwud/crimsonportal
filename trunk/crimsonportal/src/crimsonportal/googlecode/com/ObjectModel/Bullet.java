@@ -112,6 +112,7 @@ public class Bullet extends GameObject
      * For instances of the Bullet class, this returns the filename representing
      * the image used by GUIs to render a bullet (that is, the filename of the
      * image which looks like a bullet)
+     * <p>
      * Note that the specifics of this rendering process are not defined here, but are 
      * deferred to the presentation-related classes.
      * @return a string representing the filename which is used by GUIs to determine
@@ -206,7 +207,9 @@ public class Bullet extends GameObject
     /**
      * Causes the current bullet to 'attack' (that is, inflict damage upon) a
      * given enemy. The enemy's health will be decreased by the base attack damage
-     * of this bullet. Note that calling this method will modify the given enemy's
+     * of this bullet. 
+     * <p>
+     * Note that calling this method will modify the given enemy's
      * health directly, and that the bullet itself will not be destroyed simply
      * because it attacks an enemy
      * @param enemy the enemy whose health should be reduced as a result of this

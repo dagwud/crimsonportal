@@ -7,7 +7,6 @@ package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.GameController;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
-import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -19,7 +18,6 @@ import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import crimsonportal.googlecode.com.terrain.Terrain;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.swing.JPanel;
@@ -95,6 +93,16 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                     g2.scale(1.0 / heightScale, 1.0 / heightScale);
                   g2.rotate(-rotation);
                 g2.translate(-translateX, -translateY);
+            }
+            
+            // Draw the animations:
+            Iterator<Animation> animations = gameController.getGameState().getAnimations();
+            while (animations.hasNext()) {
+                Animation anim = animations.next();
+                boolean animActive = anim.drawOnto(g2);
+                if (!animActive) {
+                    animations.remove();
+                }
             }
             
             // Repaint the canvas with the new objects' positions:

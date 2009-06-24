@@ -5,12 +5,12 @@
 
 package crimsonportal.googlecode.com.Factories;
 
-import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Pickup;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupGrow;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupHealth;
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupNuke;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupSpeed;
 import java.util.Random;
 
@@ -22,7 +22,8 @@ public class PickupFactory {
  public static enum pickupType {
         PICKUP_SPEEDBOOST,
         PICKUP_SHRINK,
-        PICKUP_HEALTH
+        PICKUP_HEALTH,
+        PICKUP_NUKE
     }
     
     protected static Pickup createPickup(Location location, pickupType pickupType, 
@@ -34,6 +35,8 @@ public class PickupFactory {
                 return new PickupGrow(location, gameTime, 0.5);
             case PICKUP_HEALTH:
                 return new PickupHealth(location, gameTime, 50);
+            case PICKUP_NUKE:
+                return new PickupNuke(location, gameTime);
             default:
                 throw new UnsupportedOperationException("PickupType " + pickupType + " not found");
         }

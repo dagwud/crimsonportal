@@ -40,7 +40,7 @@ public class WeaponPickup extends Pickup
     @Override
     public WeaponPickup clone()
     {
-        return new WeaponPickup(location, expirationTime, weapon);
+        return new WeaponPickup(location, getExpirationTime(), weapon);
     }
     
     public String getSpriteFilename()

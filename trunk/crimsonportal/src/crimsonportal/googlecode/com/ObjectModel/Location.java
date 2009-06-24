@@ -59,6 +59,24 @@ public class Location
     }
     
     /**
+     * Returns the Euclidean (straight-line) distance between this location
+     * and a given GameObject
+     * @param object the object for which the distance from the current location
+     * should be returned
+     * @return the straight-line distance between <code>this</code> and the 
+     * location of <code>object</code>
+     */
+    public double getDistanceFrom(GameObject object) {
+        double objectX = object.getCentreOfObject().x;
+        double objectY = object.getCentreOfObject().y;
+        
+        double distX = Math.abs( x - objectX );
+        double distY = Math.abs( y - objectY );
+        double dist = Math.sqrt( (distX * distX) + (distY * distY) );
+        return dist;
+    }
+    
+    /**
      * Creates a new location which is identical to the current location,
      * that is, it has the same X- and Y-coordinates
      * @return an exact copy of the location <code>this</code>
