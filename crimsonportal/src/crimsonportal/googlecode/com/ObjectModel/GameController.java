@@ -34,7 +34,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
     {
         super();
         // Initialise the game state: 
-        gameState = new GameState();
+        gameState = new GameState(this);
         
         observers = new ObserverGroup<GameStateChangedEvent>();
 

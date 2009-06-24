@@ -37,9 +37,21 @@ public class PickupSpeed extends PickupTimed
     @Override
     public PickupSpeed clone()
     {
-        return new PickupSpeed(location, expirationTime, speedMultiplier);
+        return new PickupSpeed(location, getExpirationTime(), speedMultiplier);
     }
     
+    /**
+     * Specifies the name of the filename which represents the graphical 
+     * representation of this game object. 
+     * For instances of the PickupSpeed class, this returns the filename representing
+     * the image used by GUIs to render a Speed pickup (that is, the filename of the
+     * image which looks like a Speed pickup)
+     * <p>
+     * Note that the specifics of this rendering process are not defined here, but are 
+     * deferred to the presentation-related classes.
+     * @return a string representing the filename which is used by GUIs to determine
+     * the sprite for Speed pickups
+     */
     public String getSpriteFilename()
     {
         return "pickup_speed.gif";

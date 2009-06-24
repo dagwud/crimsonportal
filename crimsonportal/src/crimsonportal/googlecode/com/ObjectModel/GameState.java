@@ -9,6 +9,7 @@ import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
+import crimsonportal.googlecode.com.gui.Animation;
 import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
 import crimsonportal.googlecode.com.terrain.Terrain;
 import java.util.Collection;
@@ -31,12 +32,15 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
      * thrown from constructors, which could conceivably happen while loading a 
      * terrain from an external file.
      */
-    public GameState()
+    public GameState(GameController gameController)
     {
+        this.controller = gameController;
         players = new LinkedList<PlayerUnit>();
         enemies = new LinkedList<EnemyUnit>();
         pickups = new LinkedList<Pickup>();
         bullets = new LinkedList<Bullet>();
+        PickupProxy.setGameState(this);
+        animations = new LinkedList<Animation>();
         elapsedGameTime = new GameTime(true);
         Thread gameTimer = GameTimer.getInstance(elapsedGameTime);
         gameTimer.start();
@@ -89,6 +93,30 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     public Iterator<PlayerUnit> getPlayers()
     {
         return players.iterator();
+    }
+    
+    /**
+     * Returns an iterator which will iterate over all the EnemyUnits within a
+     * given distance of a given location
+     * @param location the location which is being used in comparison against
+     * the enemy units' locations
+     * @param rangeRadius the maximum distance from <code>location</code> which
+     * returned enemies may be
+     * @return an iterator over the collection of EnemyUnits which are within a
+     * distance of <code>rangeRadius</code> of <code>location</code>
+     * @see Location#getDistanceFrom
+     */
+    public Iterator<EnemyUnit> getEnemiesNear(Location location, double rangeRadius) {
+        Collection<EnemyUnit> nearbyEnemies = new LinkedList<EnemyUnit>(enemies);
+        Iterator<EnemyUnit> it_nearbyEnemies = nearbyEnemies.iterator();
+        while (it_nearbyEnemies.hasNext()) {
+            Unit thisEnemy = it_nearbyEnemies.next();
+            double dist = location.getDistanceFrom(thisEnemy);
+            if (dist > rangeRadius) {
+                it_nearbyEnemies.remove();
+            }
+        }
+        return nearbyEnemies.iterator();
     }
     
     //TODO: Implement a getCurrentPlayer() method - or should this be getCurrentPlayers()?
@@ -186,6 +214,14 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         enemies.remove(enemy);
     }
     
+    protected void killUnit(Unit unit) {
+        if (enemies.contains(unit)) {
+            killEnemy((EnemyUnit)unit);
+            return;
+        }
+        throw new IllegalArgumentException("Cannot kill unit type; unit is " + unit);
+    }
+    
     /**
      * Retrieves an Iterator which allows access to details of all pickups which
      * are active in this GameState. This refers to all pickups which have not been
@@ -197,6 +233,10 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     public Iterator<Pickup> getPickups()
     {
         return pickups.iterator();
+    }
+    
+    public GameController getGameController() {
+        return controller;
     }
     
     /**
@@ -219,6 +259,15 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         gameObjects.addAll(bullets);
         gameObjects.addAll(players);
         return gameObjects.iterator();
+    }
+    
+    public synchronized Iterator<Animation> getAnimations()
+    {
+        return animations.iterator();
+    }
+    
+    public synchronized void addAnimation(Animation animation) {
+        animations.add(animation);
     }
             
     /**
@@ -391,6 +440,13 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     private Collection<Bullet> bullets;
     
     /**
+     * The collection which stores the details of all animations which are active
+     * in the current GameState
+     * @see #getAnimations
+     */
+    private Collection<Animation> animations;
+    
+    /**
      * The GameTime which is tracking the current GameState.
      * @see #getGameTime
      */
@@ -434,4 +490,9 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
      * together better with the name used for loading the Map
      */
     public static final String landscapeName = "terrain_peak";
+    
+    /**
+     * The {@link GameController} which controlls this GameState
+     */
+    protected GameController controller;
 }

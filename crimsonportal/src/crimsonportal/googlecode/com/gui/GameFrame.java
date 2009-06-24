@@ -6,15 +6,9 @@
 package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.Map;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
@@ -37,11 +31,8 @@ public class GameFrame extends JFrame
         hud.setLocation(0, map.getHeight() - hud.getHeight());
         getLayeredPane().add(hud, new Integer(2));
         
-        //getLayeredPane().setPreferredSize(map.getSize());
-        getLayeredPane().setPreferredSize(new Dimension(513,513));
-        Dimension d = new Dimension(873, 873);
+        getLayeredPane().setPreferredSize(map.getSize());
         setVisible(true);
-        getContentPane().setMinimumSize(d);
         pack();
     }
     

@@ -14,15 +14,6 @@ public abstract class PickupTimed extends Pickup {
         super(location, expirationTime);
     }
     
-    @Override
-    public abstract void applyTo(GameTime gameTime, Unit unit);
-
-    @Override
-    public abstract void unapplyTo(Unit unit);
-
-    @Override
-    public abstract String getSpriteFilename();
-    
     protected final void startExpirationTimer(GameTime gameTime, Unit unitToUnapplyTo)
     {
         // Create the timeout:
