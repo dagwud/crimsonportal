@@ -298,7 +298,7 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         for (int i = 0; i < 8; i++) {
             Location location = map.getRandomLocation();
             //Pickup pickup = PickupFactory.createRandomPickup(location, expireTime);
-            Pickup pickup = new PickupNuke(location, expireTime);
+            Pickup pickup = new PickupWeaponPistol(location, expireTime);
             pickups.add(pickup);
         }
     }

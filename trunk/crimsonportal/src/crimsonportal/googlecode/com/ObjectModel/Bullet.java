@@ -10,12 +10,12 @@ package crimsonportal.googlecode.com.ObjectModel;
  * the game field)
  * @author dagwud
  */
-public class Bullet extends GameObject
+public abstract class Bullet extends GameObject
 {
     /**
      * Constructs a new bullet with the given minimum parameters
-     * @param size the size (radius) of the bullet. Note that this is the logical
-     * size, and is not necessarily the same size the bullet may be rendered by 
+     * @param radius the radius of the bullet. Note that this is the logical
+     * radius, and is not necessarily the same radius the bullet may be rendered by 
      * any particular GUI element
      * @param shooter the GameObject (typically, but not necessarily, a Unit) which
      * fired the bullet
@@ -24,14 +24,14 @@ public class Bullet extends GameObject
      * @param strategy the {@link Strategy} which defines the way in which the
      * bullet will move
      * @param moveSpeed the speed with which the bullet will travel. Note that
-     * this is the logical size, and is not necessarily the same pixel value used
+     * this is the logical radius, and is not necessarily the same pixel value used
      * when any particular GUI renders the bullet
      * @param attackDamage the base damage this bullet will inflict on a GameObject
      * if it collides with it
     */
-    public Bullet(double size, GameObject shooter, Location location, Strategy strategy, double moveSpeed, int attackDamage)
+    public Bullet(double radius, UnitWithWeapon shooter, Location location, Strategy strategy, double moveSpeed, int attackDamage)
     {
-        super(size, location);
+        super(radius, location);
         this.strategy = strategy;
         this.moveSpeed = moveSpeed;
         this.attackDamage = attackDamage;
@@ -48,6 +48,12 @@ public class Bullet extends GameObject
     {
         return moveSpeed;
     }
+    
+    /**
+     * Returns the logical speed with which thei
+     * @return
+     */
+    public abstract double getDefaultMoveSpeed();
     
     /**
      * Sets the logical speed with which this bullet will move. Note that this
@@ -174,12 +180,7 @@ public class Bullet extends GameObject
      * any way without affecting the current bullet
      */
     @Override
-    public Bullet clone()
-    {
-        Bullet bullet = new Bullet(size, shooter, shooter.getCentreOfObject(), 
-                strategy.clone(), moveSpeed, attackDamage);
-        return bullet;
-    }
+    public abstract Bullet clone();
     
     /**
      * The Strategy used by this bullet, used to define features such as the way
@@ -202,7 +203,7 @@ public class Bullet extends GameObject
      * The GameObject (typically, but not necessarily, a Unit) which fired this
      * bullet
      */
-    protected GameObject shooter;
+    protected UnitWithWeapon shooter;
 
     /**
      * Causes the current bullet to 'attack' (that is, inflict damage upon) a

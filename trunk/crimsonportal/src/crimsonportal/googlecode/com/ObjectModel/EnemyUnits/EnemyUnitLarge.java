@@ -15,7 +15,7 @@ import crimsonportal.googlecode.com.ObjectModel.Location;
  * @author dagwud
  */
 public class EnemyUnitLarge extends EnemyUnit {
-    protected static final double SIZE = 50d;
+    protected static final double SIZE = 35d;
     protected static final int ATTACK_DAMAGE = 5;
     protected static final double ATTACK_SPEED = 1;
     protected static int MOVE_SPEED = 1;

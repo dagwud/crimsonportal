@@ -65,7 +65,7 @@ public abstract class EnemyUnit extends Unit
         double diffX = targetLoc.getX() - thisLoc.getX();
         double moveAmount = moveSpeed;
         double distBeforeMove = Math.sqrt((diffY * diffY) + (diffX * diffX));
-        if (getRadius() / 2.0 + getStrategy().getTarget().getRadius() / 2.0 >= distBeforeMove )
+        if (getRadius() + getStrategy().getTarget().getRadius() >= distBeforeMove )
         {
             return;
         }

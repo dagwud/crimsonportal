@@ -16,6 +16,8 @@ import crimsonportal.googlecode.com.ObjectModel.PlayerTurnEvent;
 import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.ObjectModel.Strategy;
 import crimsonportal.googlecode.com.ObjectModel.Unit;
+import crimsonportal.googlecode.com.ObjectModel.UnitWithWeapon;
+import crimsonportal.googlecode.com.ObjectModel.Weapon;
 import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
@@ -32,7 +34,7 @@ import java.awt.event.MouseMotionListener;
 public class ShootListener implements MouseListener, MouseMotionListener,
         Observable<ShootEvent>
 {
-    public ShootListener(Unit controlledUnit)
+    public ShootListener(UnitWithWeapon controlledUnit)
     {
         Debug.logMethod("Initialising ShootListener for unit " + controlledUnit);
         observers = new ObserverGroup<ShootEvent>();
@@ -69,7 +71,7 @@ public class ShootListener implements MouseListener, MouseMotionListener,
         return observers.removeObserver(observer);
     }
     
-    private Unit controlledUnit;
+    private UnitWithWeapon controlledUnit;
     private ObserverGroup<ShootEvent> observers;
 
     public void mouseClicked(MouseEvent e) {}
@@ -77,13 +79,13 @@ public class ShootListener implements MouseListener, MouseMotionListener,
     {
         GameObject target = new LocationObject(e.getX(), e.getY());
         
-        double bulletSize = ObjectSizes.BULLET_SIZE_PISTOL;
-        double bulletMoveSpeed = ObjectSizes.BULLET_SPEED_PISTOL;
-        int bulletDamage = ObjectSizes.BULLET_DAMAGE_PISTOL;
-        Strategy strategy = new Strategy(target);
-        Bullet bullet = new Bullet(bulletSize, controlledUnit,
-                controlledUnit.getCentreOfObject(), 
-                strategy, bulletMoveSpeed, bulletDamage);
+        Weapon weapon = controlledUnit.getWeapon();
+        if (weapon == null) {
+            // No weapon; cannot shoot.
+            return;
+        }
+        Bullet bullet = weapon.spawnBullet(controlledUnit, target);
+        
         ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
         lastShot = ev;
         notifyObservers(ev);
@@ -113,12 +115,13 @@ public class ShootListener implements MouseListener, MouseMotionListener,
         if (lastShot == null) return;
         if (!lastShot.isStartEvent()) return;
         // Create a new bullet based on the last one shot:
-        Bullet lastBullet = lastShot.getBullet();
-        Strategy strategy = new Strategy(new Location(e.getX(), e.getY()));
-        Bullet bullet = new Bullet(lastBullet.getRadius(), controlledUnit,
-                controlledUnit.getCentreOfObject(),
-                strategy, lastBullet.getMoveSpeed(),
-                lastBullet.getAttackDamage());
+        Weapon weapon = controlledUnit.getWeapon();
+        if (weapon == null) {
+            // No weapon; cannot shoot.
+            return;
+        }
+        GameObject target = lastShot.getBullet().getStrategy().getTarget();
+        Bullet bullet = weapon.spawnBullet(controlledUnit, target);
         ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
         lastShot = ev;
         notifyObservers(ev);

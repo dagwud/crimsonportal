@@ -6,7 +6,6 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
-import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
@@ -16,14 +15,16 @@ import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
  *
  * @author dagwud
  */
-public class PlayerUnit extends Unit implements PlayerMoveObservable, 
+public class PlayerUnit extends UnitWithWeapon implements
+        PlayerMoveObservable, 
         Observer<PlayerTurnEvent>
 {
     protected double DEFAULT_HEALTH = 100;
+    protected static double PLAYER_SIZE = 8;
     
     public PlayerUnit(Location location, int moveSpeed, GameState gameState)
     {
-        super(ObjectSizes.PLAYER_SIZE, location, null, gameState);
+        super(PLAYER_SIZE, location, null, gameState);
         observers = new ObserverGroup<PlayerMoveEvent>();
         turnObservers = new ObserverGroup<PlayerTurnEvent>();
         this.moveSpeed = moveSpeed;
@@ -32,25 +33,15 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
     
     public PlayerUnit(Location location, double moveSpeed, Weapon weapon, GameState gameState)
     {
-        super(ObjectSizes.PLAYER_SIZE, location, null, gameState);
-        this.weapon = weapon;
+        super(PLAYER_SIZE, location, null, gameState);
+        setWeapon(weapon);
         this.moveSpeed = moveSpeed;
-    }
-    
-    public Weapon getWeapon()
-    {
-        return weapon;
-    }
-    
-    protected void setWeapon(Weapon weapon)
-    {
-        this.weapon = weapon;
     }
     
     @Override
     public PlayerUnit clone()
     {
-        PlayerUnit p = new PlayerUnit(getCentreOfObject(), moveSpeed, weapon, gameState);
+        PlayerUnit p = new PlayerUnit(getCentreOfObject(), moveSpeed, getWeapon(), gameState);
         return p;
     }
     
@@ -59,7 +50,6 @@ public class PlayerUnit extends Unit implements PlayerMoveObservable,
         return "player.gif";
     }
     
-    private Weapon weapon;
     private ObserverGroup<PlayerMoveEvent> observers;
     private ObserverGroup<PlayerTurnEvent> turnObservers;
 
