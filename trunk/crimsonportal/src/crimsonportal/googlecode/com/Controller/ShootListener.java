@@ -120,7 +120,8 @@ public class ShootListener implements MouseListener, MouseMotionListener,
             // No weapon; cannot shoot.
             return;
         }
-        GameObject target = lastShot.getBullet().getStrategy().getTarget();
+        //GameObject target = lastShot.getBullet().getStrategy().getTarget();
+        GameObject target = new LocationObject(e.getX(), e.getY());
         Bullet bullet = weapon.spawnBullet(controlledUnit, target);
         ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
         lastShot = ev;
