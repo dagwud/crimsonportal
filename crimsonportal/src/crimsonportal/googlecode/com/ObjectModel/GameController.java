@@ -299,7 +299,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
                     double distY = Math.abs(bullet.getCentreOfObject().getY() - enemy.getCentreOfObject().getY());
                     double distSquared = (distX * distX) + (distY * distY);
                     double dist = Math.sqrt(distSquared);
-                    if (dist - (enemy.getRadius() / 2) - (bullet.getRadius() / 2) <= 0)
+                    if (dist - enemy.getRadius() - bullet.getRadius() <= 0)
                     {
                         // Attack the enemy:
                         bullet.attack(enemy);

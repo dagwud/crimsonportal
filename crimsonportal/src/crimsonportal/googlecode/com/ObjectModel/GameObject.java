@@ -14,15 +14,15 @@ public abstract class GameObject
 {
     /**
      * Constructor which creates a game object with given minimum properties.
-     * @param size the size (diameter) of the game object. Note that this is the
-     * logical size, and is not necessarily the physical size which the game object
+     * @param radius the radius (diameter) of the game object. Note that this is the
+     * logical radius, and is not necessarily the physical radius which the game object
      * may be rendered by any particular GUI element.
      * @param location the location of the game object (given as a Location object
      * which represents the centre of the game object)
      */
     public GameObject(double size, Location location)
     {
-        this.size = size;
+        this.radius = size;
         this.location = location.clone();
     }
     
@@ -36,26 +36,26 @@ public abstract class GameObject
     }
     
     /**
-     * Returns the size (diameter) of the game object. Note that this is the 
-     * logical size, and is not necessarily the physical size which the game
+     * Returns the radius (diameter) of the game object. Note that this is the 
+     * logical radius, and is not necessarily the physical radius which the game
      * object may be rendered by any particular GUI element.
      * @return the diameter of the game object
      * @see #setRadius
      */
     public double getRadius()
     {
-        return size;
+        return radius;
     }
     
     /**
-     * Sets the size (diameter) of the game object. Note that this is the logical
-     * size, and is not necessarily the physical size which the game object may
+     * Sets the radius (diameter) of the game object. Note that this is the logical
+     * radius, and is not necessarily the physical radius which the game object may
      * be rendered by any particular GUI element.
-     * @param size the new diameter of the game object
+     * @param radius the new diameter of the game object
      * @see #setRadius
      */
     protected void setRadius(double size) {
-        this.size = size;
+        this.radius = size;
     }
     
     /**
@@ -144,10 +144,10 @@ public abstract class GameObject
     protected Location location;
     
     /**
-     * The size (diameter) of this game object
+     * The size (radius) of this game object
      * @see #setRadius()
      */
-    protected double size;
+    protected double radius;
     
     /**
      * The rotation of this object (that is, the direction this game object is facing) 

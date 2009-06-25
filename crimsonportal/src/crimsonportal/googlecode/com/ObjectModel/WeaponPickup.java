@@ -9,43 +9,25 @@ package crimsonportal.googlecode.com.ObjectModel;
  *
  * @author dagwud
  */
-public class WeaponPickup extends Pickup
+public abstract class WeaponPickup extends PickupSingleUse
 {
-    public WeaponPickup(Location location, GameTime expirationTime, Weapon weapon)
+    public WeaponPickup(Location location, GameTime expirationTime)
     {
         super(location, expirationTime);
-        this.weapon = weapon;
-    }
-    
-    public Weapon getWeapon()
-    {
-        return weapon;
-    }
-    
-    protected void setWeapon(Weapon weapon)
-    {
-        this.weapon = weapon;
-    }
-    
-    public void applyTo(GameTime elapseGameTime, Unit unit)
-    {
-        
-    }
-    
-    public void unapplyTo(Unit unit)
-    {
-        
     }
     
     @Override
-    public WeaponPickup clone()
+    public final void applyTo(GameTime elapseGameTime, Unit unitWithWeapon)
     {
-        return new WeaponPickup(location, getExpirationTime(), weapon);
+        // Give the unit the weapon:
+        UnitWithWeapon unit;
+        try {
+            unit = (UnitWithWeapon)unitWithWeapon;
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Attempt to apply weapon to unit which is not of type UnitWithWeapon: " + unitWithWeapon);
+        }
+        unit.setWeapon( getWeapon() );
     }
     
-    public String getSpriteFilename()
-    {
-        return "pickup.gif";
-    }
-    private Weapon weapon;
+    public abstract Weapon getWeapon();
 }
