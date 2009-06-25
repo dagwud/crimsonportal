@@ -1,46 +1,55 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package crimsonportal.googlecode.com.ObjectModel.Weapons;
 
 import crimsonportal.googlecode.com.ObjectModel.Bullet;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
-import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Strategy;
 import crimsonportal.googlecode.com.ObjectModel.UnitWithWeapon;
 import crimsonportal.googlecode.com.ObjectModel.Weapon;
 
 /**
  *
- * @author jdevenish
+ * @author dagwud
  */
-public class WeaponPistol extends Weapon {
-
-    public WeaponPistol() {
+public class WeaponUzi extends Weapon {
+    public WeaponUzi() {
         super();
     }
     
-    public WeaponPistol(int clipSize, float firingRate) {
+    public WeaponUzi(int clipSize, float firingRate) {
         super(clipSize, firingRate);
-    }
-    
-    @Override
-    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target) {
-        return new BulletPistol(shooter, target);
     }
 
     @Override
-    public Weapon clone() {
-        return new WeaponPistol(getClipSize(), getFiringRate());
+    public float getDefaultFiringRate()
+    {
+        return 0.2f;
     }
-    
-    public int getDefaultClipSize() {
-        return 10;
+
+    @Override
+    public int getDefaultClipSize()
+    {
+        return 50;
     }
-    
-    public float getDefaultFiringRate() {
-        return 0.003f;
+
+    @Override
+    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target)
+    {
+        return new BulletUzi(shooter, target);
     }
-    
-    class BulletPistol extends Bullet {
-        public BulletPistol(UnitWithWeapon shooter, GameObject target) {
+
+    @Override
+    public Weapon clone()
+    {
+        return new WeaponUzi(getClipSize(), getFiringRate());
+    }
+
+    class BulletUzi extends Bullet {
+        public BulletUzi(UnitWithWeapon shooter, GameObject target) {
             super(bulletRadius, shooter, shooter.getCentreOfObject(), 
                     new Strategy(target), DEFAULT_MOVE_SPEED, attackDamage);
         }
@@ -55,7 +64,7 @@ public class WeaponPistol extends Weapon {
 
         @Override
         public Bullet clone() {
-            return new BulletPistol(shooter, getStrategy().getTarget());
+            return new BulletUzi(shooter, getStrategy().getTarget());
         }
     }
 }
