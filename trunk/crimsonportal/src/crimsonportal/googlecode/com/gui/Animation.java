@@ -27,7 +27,7 @@ import java.awt.Graphics2D;
  *
  * @author jdevenish
  */
-public abstract class Animation extends Thread {
+public abstract class Animation /*extends Thread*/ {
     public Animation(Location centreLocation) {
         this.centreLocation = centreLocation;
         startTimer = System.currentTimeMillis();
@@ -73,19 +73,19 @@ public abstract class Animation extends Thread {
     public final boolean hasStarted() {
         return (targetGraphics != null);
     }
-    
+    /*
     @Override
     public final void run()
     {
         while ( !isAnimationComplete() ) {
             drawAnimation();
         }
-    }
+    }*/
     
     protected abstract double getTotalAnimationTimeMS();
     
     private long startTimer;
     private Location centreLocation;
     private double xScale, yScale;
-    protected GameCanvas targetGraphics;
+    protected Graphics2D targetGraphics;
 }

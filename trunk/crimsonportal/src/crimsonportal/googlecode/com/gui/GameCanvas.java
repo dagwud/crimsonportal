@@ -125,11 +125,13 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                     // Draw each animation:
                     while (animations.hasNext()) {
                         Animation anim = animations.next();
-                        if (!anim.hasStarted()) {
+                        /*if (!anim.hasStarted()) {
                             anim.targetGraphics = this;
                             Thread t = anim;
                             t.start();
-                        }
+                        }*/
+                        anim.targetGraphics = g2;
+                        anim.drawAnimation();
                         if (anim.isAnimationComplete()) {
                             animations.remove();
                         }
