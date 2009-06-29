@@ -27,7 +27,7 @@ import java.awt.Graphics2D;
  *
  * @author jdevenish
  */
-public abstract class Animation /*extends Thread*/ {
+public abstract class Animation extends Thread {
     public Animation(Location centreLocation) {
         this.centreLocation = centreLocation;
         startTimer = System.currentTimeMillis();
@@ -62,9 +62,9 @@ public abstract class Animation /*extends Thread*/ {
         return perc;
     }
     
-    /*protected final void setTargetGraphics2D(Graphics2D targetGraphics) {
+    protected final void setTargetGraphics2D(Graphics2D targetGraphics) {
         this.targetGraphics = targetGraphics;
-    }*/
+    }
     
     public final boolean isAnimationComplete() {
         return (getPercentageComplete() >= 1);
@@ -73,19 +73,27 @@ public abstract class Animation /*extends Thread*/ {
     public final boolean hasStarted() {
         return (targetGraphics != null);
     }
-    /*
+    
     @Override
     public final void run()
     {
         while ( !isAnimationComplete() ) {
             drawAnimation();
+            try {
+                Thread.sleep(100); // avoid monopolising the processor
+            }
+            catch (InterruptedException e) {} // ignore
         }
-    }*/
+    }
+    
+    public Graphics2D getTargetGraphics2D() {
+        return targetGraphics;
+    }
     
     protected abstract double getTotalAnimationTimeMS();
     
     private long startTimer;
     private Location centreLocation;
     private double xScale, yScale;
-    protected Graphics2D targetGraphics;
+    private Graphics2D targetGraphics;
 }

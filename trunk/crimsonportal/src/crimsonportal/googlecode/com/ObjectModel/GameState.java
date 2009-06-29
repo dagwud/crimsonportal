@@ -301,6 +301,10 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
             //Pickup pickup = new PickupWeaponPistol(location, expireTime);
             pickups.add(pickup);
         }
+        Location location = map.getCentreOfMap();
+        location.setX(location.getX() + 100);
+        Pickup pickup = new PickupNuke(location, expireTime);
+        pickups.add(pickup);
     }
     
     /**

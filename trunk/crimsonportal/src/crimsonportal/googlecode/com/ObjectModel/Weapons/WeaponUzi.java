@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package crimsonportal.googlecode.com.ObjectModel.Weapons;
 
 import crimsonportal.googlecode.com.ObjectModel.Bullet;
@@ -13,44 +8,39 @@ import crimsonportal.googlecode.com.ObjectModel.Weapon;
 
 /**
  *
- * @author dagwud
+ * @author jdevenish
  */
 public class WeaponUzi extends Weapon {
+
     public WeaponUzi() {
         super();
     }
-    
+
     public WeaponUzi(int clipSize, float firingRate) {
         super(clipSize, firingRate);
     }
 
     @Override
-    public float getDefaultFiringRate()
-    {
-        return 0.2f;
-    }
-
-    @Override
-    public int getDefaultClipSize()
-    {
-        return 50;
-    }
-
-    @Override
-    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target)
-    {
+    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target) {
         return new BulletUzi(shooter, target);
     }
 
     @Override
-    public Weapon clone()
-    {
+    public Weapon clone() {
         return new WeaponUzi(getClipSize(), getFiringRate());
+    }
+
+    public int getDefaultClipSize() {
+        return 50;
+    }
+
+    public float getDefaultFiringRate() {
+        return 0.003f;
     }
 
     class BulletUzi extends Bullet {
         public BulletUzi(UnitWithWeapon shooter, GameObject target) {
-            super(bulletRadius, shooter, shooter.getCentreOfObject(), 
+            super(bulletRadius, shooter, shooter.getCentreOfObject(),
                     new Strategy(target), DEFAULT_MOVE_SPEED, attackDamage);
         }
         static final double bulletRadius = 4;
