@@ -18,17 +18,18 @@ public class NukeAnimation extends Animation {
     public void drawAnimation() {
         double dblRadius = getPercentageComplete() * maxRadius;
         int radius = (int)dblRadius;
-        Color originalColour = targetGraphics.getColor();
-            targetGraphics.setColor(new Color(255, 128, 64, 80));
+        Graphics2D target = getTargetGraphics2D();
+        Color originalColour = target.getColor();
+            target.setColor(new Color(255, 128, 64, 80));
             int startX = getCentreX() - radius,
                     startY = getCentreY() - radius;
-            targetGraphics.fillOval(startX, startY, radius * 2, radius * 2);
-        targetGraphics.setColor(originalColour);
+            target.fillOval(startX, startY, radius * 2, radius * 2);
+        target.setColor(originalColour);
     }
     
     @Override
     protected double getTotalAnimationTimeMS() {
-        return 100;
+        return 2000;
     }
     
     protected int maxRadius;

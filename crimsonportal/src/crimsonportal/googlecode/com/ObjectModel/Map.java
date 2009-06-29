@@ -90,6 +90,12 @@ public class Map
         return loc;
     }
     
+    public Location getCentreOfMap() {
+        double posY = (double)height / 2.0;
+        double posX = (double)width / 2.0;
+        return new Location(posX, posY);
+    }
+    
     protected int width;
     protected int height;
     protected int offsetX;

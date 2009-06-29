@@ -23,6 +23,8 @@ import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.swing.JPanel;
@@ -53,17 +55,26 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
         setOpaque(false);
     }
     
+    public BufferedImage animationBuffer;
+        
     @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         //if (1 == 1) return;
         
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+        if (animationBuffer == null) {
+             animationBuffer = getGraphicsConfiguration().createCompatibleImage(
+                getGraphicsConfiguration().getBounds().width,
+                getGraphicsConfiguration().getBounds().height,
+                Transparency.TRANSLUCENT);
+        }
+        Graphics2D graphics = (Graphics2D)g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        
+            
         Terrain terrain = gameController.getGameState().getTerrain();
+        
         
         try
         {
@@ -72,10 +83,10 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                     / (double)gameController.getGameState().getMap().getWidth());
             double yScale = ((double)this.getHeight() 
                     / (double)gameController.getGameState().getMap().getHeight());
-            g2.scale(xScale, yScale);
+            graphics.scale(xScale, yScale);
             
                 // Draw background:
-                g2.drawImage(gameController.getGameState().getMap().getBGImage(), 0, 0, null);
+                graphics.drawImage(gameController.getGameState().getMap().getBGImage(), 0, 0, null);
         
                 // Draw objects:
                 Iterator<GameObject> gameObjects = gameController.getGameState().getGameObjects();
@@ -100,46 +111,51 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
                     // Draw the GameObject: 
 
                     // Move to centre of object:
-                    g2.translate(translateX, translateY);
+                    graphics.translate(translateX, translateY);
                       // Rotate around the centre of the object:
-                      g2.rotate(rotation);
+                      graphics.rotate(rotation);
                         // Scale to show height:
-                        g2.scale(heightScale, heightScale);
+                        graphics.scale(heightScale, heightScale);
                           // Move to the top-left corner of the object:
-                          g2.translate(-imgRadius, -imgRadius);
+                          graphics.translate(-imgRadius, -imgRadius);
                             // Scale to the image's size:
-                            g2.scale(imgScale, imgScale);
+                            graphics.scale(imgScale, imgScale);
                               // Draw the image:
-                              g2.drawImage(img.toImage(), 0, 0, null);
-                            g2.scale(1.0 / imgScale, 1.0 / imgScale);
-                          g2.translate(imgRadius, imgRadius);
-                        g2.scale(1.0 / heightScale, 1.0 / heightScale);
-                      g2.rotate(-rotation);
-                    g2.translate(-translateX, -translateY);
+                              graphics.drawImage(img.toImage(), 0, 0, null);
+                            graphics.scale(1.0 / imgScale, 1.0 / imgScale);
+                          graphics.translate(imgRadius, imgRadius);
+                        graphics.scale(1.0 / heightScale, 1.0 / heightScale);
+                      graphics.rotate(-rotation);
+                    graphics.translate(-translateX, -translateY);
                 }
 
-                // Draw the animations:
+                // Start any unstarted animations:
                 Iterator<Animation> animations = gameController.getGameState().getAnimations();
                 if (animations.hasNext()) {
 
-                    // Draw each animation:
+                    // Start new animations, and stop those which are complete:
                     while (animations.hasNext()) {
                         Animation anim = animations.next();
-                        /*if (!anim.hasStarted()) {
-                            anim.targetGraphics = this;
+                        // Start unstarted animations:
+                        if ( !anim.hasStarted() ) {
+                            anim.setTargetGraphics2D(graphics);
                             Thread t = anim;
                             t.start();
-                        }*/
-                        anim.targetGraphics = g2;
-                        anim.drawAnimation();
+                        }
+                        //anim.targetGraphics = bufferedGraphics;
+                        //anim.drawAnimation();
+                        // Remove animations which have finished rendering:
                         if (anim.isAnimationComplete()) {
                             animations.remove();
                         }
                     }
                 }
 
+                // Draw the animations on the graphics buffer:
+                graphics.drawImage(animationBuffer, null, 0, 0);
+            
             // Return to normal scale:
-            g2.scale(1.0 / xScale, 1.0 / yScale);
+            graphics.scale(1.0 / xScale, 1.0 / yScale);
             
             // Repaint the canvas with the new objects' positions:
             repaint();
