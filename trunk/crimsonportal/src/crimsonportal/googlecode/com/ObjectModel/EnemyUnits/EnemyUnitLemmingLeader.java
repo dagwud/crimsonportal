@@ -14,15 +14,15 @@ import crimsonportal.googlecode.com.ObjectModel.Location;
  *
  * @author dagwud
  */
-public class EnemyUnitLarge extends EnemyUnit {
-    protected static final double SIZE = 35d;
-    protected static final int ATTACK_DAMAGE = 5;
-    protected static final double ATTACK_SPEED = 1;
-    protected static int MOVE_SPEED = 1;
+public class EnemyUnitLemmingLeader extends EnemyUnit {
+    protected static final double SIZE = PRESET_SIZE_SMALL;
+    protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_HURT;
+    protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
+    protected static int MOVE_SPEED = PRESET_MOVESPEED_WALK;
     protected static double DEFAULT_HEALTH = 10;
-    private static final String SPRITE_FILENAME = "enemy.gif";
+    private static final String SPRITE_FILENAME = "enemy_lemmingleader.gif";
     
-    public EnemyUnitLarge(Location location, GameObject target, GameState gameState)
+    public EnemyUnitLemmingLeader(Location location, GameObject target, GameState gameState)
     {
         super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
     }
@@ -30,7 +30,7 @@ public class EnemyUnitLarge extends EnemyUnit {
     @Override
     public EnemyUnit clone()
     {
-        return new EnemyUnitLarge(location, strategy.getTarget(), gameState);
+        return new EnemyUnitLemmingLeader(location, strategy.getTarget(), gameState);
     }
 
     @Override

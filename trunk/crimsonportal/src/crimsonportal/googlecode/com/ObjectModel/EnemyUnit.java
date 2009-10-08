@@ -124,4 +124,22 @@ public abstract class EnemyUnit extends Unit
     protected int attackDamage;
     protected double attackSpeed;
     private long lastAttackTime;
+    
+    protected static final int PRESET_MOVESPEED_AMBLE = 1;
+    protected static final int PRESET_MOVESPEED_WALK = 2;
+    protected static final int PRESET_MOVESPEED_TROT = 3;
+    protected static final int PRESET_MOVESPEED_RACE = 4;
+    protected static final int PRESET_ATTACKSPEED_SLOW = 1;
+    protected static final int PRESET_ATTACKSPEED_MODERATE = 2;
+    protected static final int PRESET_ATTACKSPEED_FAST = 3;
+    protected static final int PRESET_ATTACKDAMAGE_ANNOY = 1;
+    protected static final int PRESET_ATTACKDAMAGE_HIT = 2;
+    protected static final int PRESET_ATTACKDAMAGE_HURT = 3;
+    protected static final int PRESET_ATTACKDAMAGE_MAUL = 4;
+    protected static final double PRESET_SIZE_TINY = 10d;
+    protected static final double PRESET_SIZE_SMALL = 14d;
+    protected static final double PRESET_SIZE_MEDIUM = 15d;
+    protected static final double PRESET_SIZE_LARGE = 20d;
+    protected static final double PRESET_SIZE_HUGE = 35d;
+    
 }
