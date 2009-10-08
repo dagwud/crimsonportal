@@ -23,6 +23,9 @@ import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -143,24 +146,35 @@ public class GameController implements Observer<GameStateChangedEvent>,
         PlayerUnit target = gameState.getPlayers().next();
         if (gameState.getNumPlayers() > 0)
         {
-            EnemyUnitFactory.enemyType enemyType;
+            List<EnemyUnitFactory.enemyType> enemyTypes = new LinkedList<EnemyUnitFactory.enemyType>();
             if (gameState.getNumEnemies() < 15) 
             {
-                enemyType = EnemyUnitFactory.enemyType.ENEMY_TINY;
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
             }
             else if (gameState.getNumEnemies() < 30)
             {
-                enemyType = EnemyUnitFactory.enemyType.ENEMY_SMALL;
-            }
-            else if (gameState.getNumEnemies() < 60)
-            {
-                enemyType = EnemyUnitFactory.enemyType.ENEMY_MEDIUM;
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BARBARIAN);
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
             }
             else
             {
-                enemyType = EnemyUnitFactory.enemyType.ENEMY_LARGE;
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
+                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
             }
-            EnemyUnit enemy = EnemyUnitFactory.createEnemyUnit(enemyType, location, target, gameState);
+            
+            enemyTypes.clear();
+            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
+            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
+            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
+            
+            // Choose from the list of spawnable enemy types:
+            int r = random.nextInt(enemyTypes.size());
+            EnemyUnit enemy = EnemyUnitFactory.createEnemyUnit(enemyTypes.get(r), location, target, gameState);
             gameState.spawnEnemy(enemy);
         }
         
@@ -331,6 +345,8 @@ public class GameController implements Observer<GameStateChangedEvent>,
     
     String terrainFilename = "terrains/" + GameState.landscapeName + ".raw";
 
+    private Random random = new Random(System.currentTimeMillis());
+    
     public void update(GameStateChangedEvent event)
     {
         notifyObservers(event);

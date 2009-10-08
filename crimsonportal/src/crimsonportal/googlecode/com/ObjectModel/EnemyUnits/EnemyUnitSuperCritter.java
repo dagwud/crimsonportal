@@ -14,15 +14,15 @@ import crimsonportal.googlecode.com.ObjectModel.Location;
  *
  * @author dagwud
  */
-public class EnemyUnitMedium extends EnemyUnit {
-    protected static final double SIZE = 28d;
-    protected static final int ATTACK_DAMAGE = 1;
-    protected static final double ATTACK_SPEED = 1.5;
-    protected static int MOVE_SPEED = 3;
-    protected static double DEFAULT_HEALTH = 4;
-    private static final String SPRITE_FILENAME = "enemy.gif";
+public class EnemyUnitSuperCritter extends EnemyUnit {
+    protected static final double SIZE = PRESET_SIZE_MEDIUM;
+    protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_ANNOY;
+    protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
+    protected static int MOVE_SPEED = PRESET_MOVESPEED_RACE;
+    protected static double DEFAULT_HEALTH = 10;
+    private static final String SPRITE_FILENAME = "enemy_supercritter.gif";
     
-    public EnemyUnitMedium(Location location, GameObject target, GameState gameState)
+    public EnemyUnitSuperCritter(Location location, GameObject target, GameState gameState)
     {
         super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
     }
@@ -30,7 +30,7 @@ public class EnemyUnitMedium extends EnemyUnit {
     @Override
     public EnemyUnit clone()
     {
-        return new EnemyUnitMedium(location, strategy.getTarget(), gameState);
+        return new EnemyUnitSuperCritter(location, strategy.getTarget(), gameState);
     }
 
     @Override
