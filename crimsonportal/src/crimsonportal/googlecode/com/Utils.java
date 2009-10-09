@@ -43,12 +43,12 @@ public class Utils {
     }
     
     public static double sin(double angleRadians) {
-        if (sinMap == null) initSinMap(5);
+        if (sinMap == null) initSinMap(MAPSIZE);
         
         double angleDegrees = Math.toDegrees(angleRadians);
         
-        // Round degrees to the nearest multiple of 10:
-        angleDegrees = Math.round(angleDegrees / 10) * 10;
+        // Round degrees to the nearest multiple of MAPSIZE:
+        angleDegrees = Math.round(angleDegrees / MAPSIZE) * MAPSIZE;
         angleDegrees = normaliseDegrees(angleDegrees);
                 
         Double ret = sinMap.get(angleDegrees);
@@ -60,12 +60,12 @@ public class Utils {
     }
     
     public static double cos(double angleRadians) {
-        if (cosMap == null) initCosMap(5);
+        if (cosMap == null) initCosMap(MAPSIZE);
         
         double angleDegrees = Math.toDegrees(angleRadians);
         
-        // Round degrees to the nearest multiple of 10:
-        angleDegrees = Math.round(angleDegrees / 10) * 10;
+        // Round degrees to the nearest multiple of MAPSIZE:
+        angleDegrees = Math.round(angleDegrees / MAPSIZE) * MAPSIZE;
         angleDegrees = normaliseDegrees(angleDegrees);
         
         Double ret = cosMap.get(angleDegrees);
@@ -81,4 +81,6 @@ public class Utils {
         while (angleDegrees < 0) angleDegrees += 360;
         return angleDegrees;
     }
+    
+    private static final int MAPSIZE = 5;
 }

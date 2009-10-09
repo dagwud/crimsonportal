@@ -33,19 +33,11 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
         super();
         gameController.addObserver(this);
         
+        setLayout(new BorderLayout());
+        
         // Create the panel to hold the health bars:
-        pnlHealth = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 0));
-        pnlHealth.setOpaque(false);
-        
-        // Create the health bars:
-        lblHealthBar = new JLabel[10];
-        ImageIcon imgHealth = spriteProxy.generateProxyObject("health_good.gif").toImageIcon();
-        for (int h = 0; h < lblHealthBar.length; h++) {
-            lblHealthBar[h] = new JLabel(imgHealth);
-            pnlHealth.add(lblHealthBar[h]);
-        }
-        
-        add(pnlHealth);
+        healthPanel = new HealthPanel();
+        add(healthPanel, BorderLayout.WEST);
         
         setDoubleBuffered(true);
         setOpaque(false);
@@ -58,15 +50,17 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
     
     public void update(GameStateChangedEvent event)
     {
+        if (healthPanel == null) {
+            // Constructor hasn't been called yet, cancel the update:
+            return;
+        }
         GameState gameState = (GameState)event.getSource();
         double health = gameState.getPlayers().next().getHealth();
         double healthPerc = health / gameState.getPlayers().next().getDefaultHealth();
-        int healthBarsToDisplay = (int)Math.floor(healthPerc * lblHealthBar.length);
-        for (int i = 0; i < lblHealthBar.length; i++) {
-            lblHealthBar[i].setVisible(i <= healthBarsToDisplay);
-        }
+        healthPanel.setHealthPercentage(healthPerc);
     }
     
+    @Override
     public void paintComponent(Graphics g) {
         Color c = new Color(0, 0, 0, 200);
         g.setColor(c);
@@ -74,8 +68,44 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
         super.paintComponent(g);
     }
     
-    private JPanel pnlHealth;
+    private HealthPanel healthPanel;
     private GameController gameController;
     private SpriteProxy spriteProxy = new SpriteProxy();
-    private JLabel[] lblHealthBar;
+    
+    private class HealthPanel extends JPanel {
+        public HealthPanel() {
+            super(new FlowLayout(FlowLayout.LEFT, 1, 1));
+            setOpaque(false);
+            
+            // Create the health icon:
+            ImageIcon imgLabel = spriteProxy.generateProxyObject("health.gif").toImageIcon();
+            add(new JLabel(imgLabel));
+
+            // Create the health bars:
+            lblHealthBar = new JLabel[NUMBER_HEALTH_BARS];
+            ImageIcon imgHealthBad = spriteProxy.generateProxyObject("health_bad.gif").toImageIcon();
+            ImageIcon imgHealthMiddle = spriteProxy.generateProxyObject("health_middle.gif").toImageIcon();
+            ImageIcon imgHealthGood = spriteProxy.generateProxyObject("health_good.gif").toImageIcon();
+            for (int h = 0; h < lblHealthBar.length; h++) {
+                if (h <= (lblHealthBar.length / 3)) {
+                    lblHealthBar[h] = new JLabel(imgHealthBad);
+                } else if (h <= 2 * (lblHealthBar.length / 3)) {
+                    lblHealthBar[h] = new JLabel(imgHealthMiddle);
+                } else {
+                    lblHealthBar[h] = new JLabel(imgHealthGood);
+                }
+                add(lblHealthBar[h]);
+            }
+        }
+        
+        public void setHealthPercentage(double healthPerc) {
+            int healthBarsToDisplay = (int)Math.floor(healthPerc * lblHealthBar.length);
+            for (int i = 0; i < lblHealthBar.length; i++) {
+                lblHealthBar[i].setVisible(i <= healthBarsToDisplay);
+            }
+        }
+
+        private JLabel[] lblHealthBar;
+        private static final int NUMBER_HEALTH_BARS = 50;
+    }
 }
