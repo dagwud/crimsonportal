@@ -18,9 +18,16 @@ public class EnemyUnitLemming extends EnemyUnit {
     protected static final double SIZE = PRESET_SIZE_SMALL;
     protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_HIT;
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
-    protected static int MOVE_SPEED = PRESET_MOVESPEED_WALK;
+    protected static int MOVE_SPEED = PRESET_MOVESPEED_TROT;
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_lemming.gif";
+    
+    public EnemyUnitLemming(Location location, GameObject target, GameState gameState,
+            EnemyUnitLemmingLeader leader) {
+        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
+        this.leader = leader;
+        this.setStrategy(new StrategyLemming(target, leader));
+    }
     
     public EnemyUnitLemming(Location location, GameObject target, GameState gameState)
     {
@@ -39,4 +46,5 @@ public class EnemyUnitLemming extends EnemyUnit {
         return SPRITE_FILENAME;
     }
     
+    protected EnemyUnitLemmingLeader leader;
 }

@@ -12,7 +12,6 @@ import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
-import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Turn.PlayerTurnObserver;
@@ -20,8 +19,6 @@ import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
 import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -167,15 +164,22 @@ public class GameController implements Observer<GameStateChangedEvent>,
             }
             
             enemyTypes.clear();
-            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
-            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
-            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BARBARIAN);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
+            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
             
             // Choose from the list of spawnable enemy types:
             int r = random.nextInt(enemyTypes.size());
-            EnemyUnit enemy = EnemyUnitFactory.createEnemyUnit(enemyTypes.get(r), location, target, gameState);
-            gameState.spawnEnemy(enemy);
+            EnemyUnit[] enemy = EnemyUnitFactory.createEnemyUnit(enemyTypes.get(r), location, target, gameState);
+            for (int i = 0; i < enemy.length; i++) {
+                gameState.spawnEnemy(enemy[i]);
+            }
         }
         
         observers.notifyObservers(new GameStateChangedEvent(gameState));

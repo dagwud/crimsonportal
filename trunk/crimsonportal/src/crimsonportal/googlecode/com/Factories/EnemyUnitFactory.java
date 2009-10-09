@@ -37,29 +37,30 @@ public class EnemyUnitFactory
         ENEMY_ZOMBIE
     }
 
-    public static EnemyUnit createEnemyUnit(enemyType enemyType,
+    public static EnemyUnit[] createEnemyUnit(enemyType enemyType,
             Location location, GameObject target, GameState gameState)
     {
         switch (enemyType)
         {
             case ENEMY_BANSHEE:
-                return new EnemyUnitBanshee(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitBanshee(location, target, gameState)};
             case ENEMY_BARBARIAN:
-                return new EnemyUnitBarbarian(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitBarbarian(location, target, gameState)};
             case ENEMY_CRITTER:
-                return new EnemyUnitCritter(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitCritter(location, target, gameState)};
             case ENEMY_FLETCHER:
-                return new EnemyUnitFletcher(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitFletcher(location, target, gameState)};
             case ENEMY_LEECH:
-                return new EnemyUnitLeech(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitLeech(location, target, gameState)};
             case ENEMY_LEMMINGLEADER:
-                return new EnemyUnitLemmingLeader(location, target, gameState);
+                EnemyUnitLemmingLeader leader = new EnemyUnitLemmingLeader(location, target, gameState);
+                return leader.getLeaderAndLemmings();
             case ENEMY_SCUTTLER:
-                return new EnemyUnitScuttler(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitScuttler(location, target, gameState)};
             case ENEMY_SUPERCRITTER:
-                return new EnemyUnitSuperCritter(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitSuperCritter(location, target, gameState)};
             case ENEMY_ZOMBIE:
-                return new EnemyUnitZombie(location, target, gameState);
+                return new EnemyUnit[] {new EnemyUnitZombie(location, target, gameState)};
 
             default:
                 throw new UnsupportedOperationException("EnemyType " + enemyType + " not found");
