@@ -8,6 +8,7 @@ package crimsonportal.googlecode.com.terrain;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Map;
+import crimsonportal.googlecode.com.Utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -136,7 +137,7 @@ public class Terrain {
         if (isAscending) {
             double gradient = Math.tan( heightDiff / dist );
 
-            double h = dist * Math.sin(gradient);
+            double h = dist * Utils.sin(gradient);
             newDist = Math.sqrt( (dist * dist) - (h * h) );
         }
         else {
@@ -156,17 +157,17 @@ public class Terrain {
         }
 
         double sinTurn;
-        if (turn == Math.toRadians(90)) {
+        if (turn == Math.PI / 2.0) { // Using PI/2 is quicker than Math.toRadians(90);
             sinTurn = 1; // Java doesn't do sin(90) very well
         } else {
-            sinTurn = Math.sin(turn);
+            sinTurn = Utils.sin(turn);
         }
 
         double sin90MinusTurn;
         if (turn == 0) {
             sin90MinusTurn = 1; // Java doesn't do sin(90) very well
         } else {
-            sin90MinusTurn = Math.sin(Math.toRadians(90) - turn);
+            sin90MinusTurn = Utils.sin((Math.PI / 2) - turn); // Using PI/2 is quicker than Math.toRadians(90)
         }
 
         // Calculate the new distance to be moved in X and Y directions:
@@ -224,7 +225,7 @@ public class Terrain {
     private boolean loadTestTerrain = !true;
     public int highestY = 0, highestX = 0;
     static final double sin90 = 1; // Constant
-    static final double const180deg = Math.toRadians(180.0);
-    static final double const90deg = Math.toRadians(90.0);
+    static final double const180deg = Math.PI; // Using PI is quicker than Math.toRadians(180);
+    static final double const90deg = Math.PI / 2; // Using PI is quicker than Math.toRadians(90);
     static final double HEIGHT_SCALE = 0.5;
 }

@@ -6,6 +6,7 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.Utils;
 
 /**
  *
@@ -70,7 +71,7 @@ public abstract class EnemyUnit extends Unit
             return;
         }
         
-        double moveAngleRadians = Math.toRadians(0);
+        double moveAngleRadians = 0;
         if (diffX != 0)
         {
             moveAngleRadians = Math.atan2(diffY, diffX);
@@ -79,11 +80,11 @@ public abstract class EnemyUnit extends Unit
         {
             if (diffY > 0) 
             {
-                moveAngleRadians = Math.toRadians(0);
+                moveAngleRadians = 0;
             }
             else if (diffY < 0)
             {
-                moveAngleRadians = Math.toRadians(180);
+                moveAngleRadians = Math.PI; // Using PI is quicker than Math.toRadians(180);
             }
             else
             {
@@ -91,8 +92,8 @@ public abstract class EnemyUnit extends Unit
                 return; 
             }
         }
-        double moveX = (double) Math.round(moveAmount * Math.cos(moveAngleRadians));
-        double moveY = (double) Math.round(moveAmount * Math.sin(moveAngleRadians));
+        double moveX = (double) Math.round(moveAmount * Utils.cos(moveAngleRadians));
+        double moveY = (double) Math.round(moveAmount * Utils.sin(moveAngleRadians));
         
         // Calculate how far from the target the enemyUnit will be after the move: 
         double newDiffY = getStrategy().getTarget().getCentreOfObject().getY() - (this.getCentreOfObject().getY() + moveY);
@@ -115,7 +116,7 @@ public abstract class EnemyUnit extends Unit
     {
         double distY = getCentreOfObject().getY() - getStrategy().getTarget().getCentreOfObject().getY();
         double distX = getCentreOfObject().getX() - getStrategy().getTarget().getCentreOfObject().getX();
-        double rotate = Math.toRadians(180) + Math.atan2(distY, distX);
+        double rotate = Math.atan2(distY, distX) + Math.PI; // Using PI is quicker than Math.toRadians(180);
         return rotate;
     }
     
