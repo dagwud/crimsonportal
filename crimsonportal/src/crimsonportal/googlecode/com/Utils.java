@@ -21,7 +21,7 @@ public class Utils {
             throw new RuntimeException("Cannot initialise SinMap with slices of " + sliceSize + ": 360 cannot be divided by " + sliceSize + " without a remainder");
         }
         int mapSlices = 360 / sliceSize;
-        System.out.println("Initialising SinMap with " + mapSlices + " keys, " + sliceSize + "degrees apart");
+        System.out.println("Initialising SinMap with " + mapSlices + " keys, " + sliceSize + " degrees apart");
         sinMap = new HashMap<Double, Double>();
         for (int d = 0; d < mapSlices; d++) {
             double angle = d * sliceSize;
@@ -34,7 +34,7 @@ public class Utils {
             throw new RuntimeException("Cannot initialise CosMap with slices of " + sliceSize + ": 360 cannot be divided by " + sliceSize + " without a remainder");
         }
         int mapSlices = 360 / sliceSize;
-        System.out.println("Initialising CosMap with " + mapSlices + " keys, " + sliceSize + "degrees apart");
+        System.out.println("Initialising CosMap with " + mapSlices + " keys, " + sliceSize + " degrees apart");
         cosMap = new HashMap<Double, Double>();
         for (int d = 0; d < mapSlices; d++) {
             double angle = d * sliceSize;
@@ -49,11 +49,12 @@ public class Utils {
         
         // Round degrees to the nearest multiple of 10:
         angleDegrees = Math.round(angleDegrees / 10) * 10;
-        while (angleDegrees >= 360) angleDegrees -= 360;
-        
+        angleDegrees = normaliseDegrees(angleDegrees);
+                
         Double ret = sinMap.get(angleDegrees);
         if (ret == null) {
-            throw new RuntimeException("Sin of " + angleDegrees + " degrees is not in sinmap");
+            System.err.println("Sin of " + angleDegrees + " degrees is not in sinmap");
+            return 0;
         }
         return ret;
     }
@@ -65,12 +66,19 @@ public class Utils {
         
         // Round degrees to the nearest multiple of 10:
         angleDegrees = Math.round(angleDegrees / 10) * 10;
-        while (angleDegrees >= 360) angleDegrees -= 360;
+        angleDegrees = normaliseDegrees(angleDegrees);
         
         Double ret = cosMap.get(angleDegrees);
         if (ret == null) {
-            throw new RuntimeException("Cos of " + angleRadians + "rad (approx " + angleDegrees + "deg) is not in cosmap");
+            System.err.println("Cos of " + angleRadians + "rad (approx " + angleDegrees + "deg) is not in cosmap");
+            return 0;
         }
         return ret;
+    }
+    
+    public static double normaliseDegrees(double angleDegrees) {
+        while (angleDegrees >= 360) angleDegrees -= 360;
+        while (angleDegrees < 0) angleDegrees += 360;
+        return angleDegrees;
     }
 }

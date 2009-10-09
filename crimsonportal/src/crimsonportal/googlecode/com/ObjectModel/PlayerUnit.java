@@ -94,6 +94,10 @@ public class PlayerUnit extends UnitWithWeapon implements
         }
     }
     
+    public double getDefaultHealth() {
+        return DEFAULT_HEALTH;
+    }
+    
     @Override
     public void moveTo(Location location)
     {

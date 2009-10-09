@@ -6,6 +6,7 @@
 package crimsonportal.googlecode.com.gui;
 
 import crimsonportal.googlecode.com.ObjectModel.Map;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.JFrame;
@@ -34,6 +35,11 @@ public class GameFrame extends JFrame
         HUDPanel hud = new HUDPanel(canvas.getGameController(), map.getWidth());
         hud.setLocation(0, canvas.getHeight() - hud.getHeight());
         getLayeredPane().add(hud, new Integer(2));
+        
+        // Create and position the Info panel:
+        InfoPanel pnlInfo = new InfoPanel(canvas.getGameController(), map.getWidth());
+        pnlInfo.setLocation(0, 0);
+        getLayeredPane().add(pnlInfo, new Integer(2));
         
         getLayeredPane().setPreferredSize(canvas.getPreferredSize());
         setVisible(true);

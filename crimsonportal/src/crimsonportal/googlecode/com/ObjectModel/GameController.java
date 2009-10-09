@@ -163,7 +163,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
                 enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
             }
             
-            enemyTypes.clear();
+            //enemyTypes.clear();
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
@@ -172,7 +172,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
-            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
             
             // Choose from the list of spawnable enemy types:
             int r = random.nextInt(enemyTypes.size());
