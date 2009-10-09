@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -31,6 +33,10 @@ public class Sprite implements ProxyObject
     public BufferedImage toImage()
     {
         return img;
+    }
+    
+    public ImageIcon toImageIcon() {
+        return new ImageIcon(img);
     }
     
     BufferedImage img;
