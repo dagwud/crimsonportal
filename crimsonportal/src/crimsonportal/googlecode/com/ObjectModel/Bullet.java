@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Utils;
+
 /**
  * Represents a bullet (that is, any bullet fired by any player which moves across
  * the game field)
@@ -139,8 +141,8 @@ public abstract class Bullet extends GameObject
     {
         double moveAmount = moveSpeed;
         double moveAngleRadians = getRotation();
-        double moveX = (double) Math.round(moveAmount * Math.cos(moveAngleRadians));
-        double moveY = (double) Math.round(moveAmount * Math.sin(moveAngleRadians));
+        double moveX = (double) Math.round(moveAmount * Utils.cos(moveAngleRadians));
+        double moveY = (double) Math.round(moveAmount * Utils.sin(moveAngleRadians));
         
         getCentreOfObject().setX( getCentreOfObject().getX() + moveX);
         getCentreOfObject().setY( getCentreOfObject().getY() + moveY);
