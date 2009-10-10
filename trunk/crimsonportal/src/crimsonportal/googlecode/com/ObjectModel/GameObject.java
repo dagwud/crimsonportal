@@ -110,6 +110,12 @@ public abstract class GameObject
         // equivalent of the sum of the two objects' radii:
         double overlapMaxDistance = obj.getRadius() + getRadius();
         
+        // First check if either the horizontal or vertical differences are too
+        // large (avoiding the overhead of sqrt):
+        if (xdiff > overlapMaxDistance || ydiff > overlapMaxDistance) {
+            return false;
+        }
+        
         // Get the actual Euclidean distance between the two objects:
         double distBetweenObjs = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff));
         
