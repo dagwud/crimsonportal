@@ -140,3 +140,6 @@
 === Linking Player and Weapon  ===
  * Idea on how to draw player and weapon ( including accurate rotate )
    * Simply render weapon image after rendering player, using same matrix transformations as for player
+
+=== Performance Improvements ===
+testOverlapsWith function (and all others that calculate distance): return straight away if either horizontal or vertical difference is too great, avoiding unnecessary calculations of exact distances
