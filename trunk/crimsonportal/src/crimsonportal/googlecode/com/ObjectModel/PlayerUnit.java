@@ -6,6 +6,7 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.UnitWithArmour;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
@@ -16,6 +17,7 @@ import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
  * @author dagwud
  */
 public class PlayerUnit extends UnitWithWeapon implements
+        UnitWithArmour,
         PlayerMoveObservable, 
         Observer<PlayerTurnEvent>
 {
@@ -123,7 +125,36 @@ public class PlayerUnit extends UnitWithWeapon implements
         this.setRotation(e.getRotation());
     }
     
+    @Override
     public String toString() {
         return "PlayerUnit[]";
     }
+
+    public double getArmourPercentage()
+    {
+        return armourPerc;
+    }
+
+    public void setArmourPercentage(double perc)
+    {
+        armourPerc = perc;
+    }
+
+    public void reduceArmour(double percentagePoints)
+    {
+        this.armourPerc = Math.max(armourPerc - percentagePoints, 0);
+    }
+
+    public double getArmourStrength()
+    {
+        return armourStrength;
+    }
+
+    public void setArmourStrength(double armourStrength)
+    {
+        this.armourStrength = armourStrength;
+    }
+    
+    protected double armourStrength;
+    protected double armourPerc;
 }
