@@ -9,6 +9,7 @@ import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Pickup;
 import crimsonportal.googlecode.com.ObjectModel.PickupWeaponPistol;
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupArmour;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupGrow;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupHealth;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupNuke;
@@ -26,6 +27,7 @@ public class PickupFactory {
         PICKUP_SPEEDBOOST,
         PICKUP_SHRINK,
         PICKUP_HEALTH,
+        PICKUP_ARMOUR,
         PICKUP_NUKE,
         PICKUP_WEAPON
     }
@@ -44,6 +46,8 @@ public class PickupFactory {
                 return new PickupGrow(location, expirationTime, 0.5);
             case PICKUP_HEALTH:
                 return new PickupHealth(location, expirationTime, 50);
+            case PICKUP_ARMOUR:
+                return new PickupArmour(location, expirationTime);
             case PICKUP_NUKE:
                 return new PickupNuke(location, expirationTime);
             default:

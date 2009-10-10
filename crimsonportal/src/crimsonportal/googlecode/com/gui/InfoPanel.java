@@ -5,19 +5,17 @@
 
 package crimsonportal.googlecode.com.gui;
 
-import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.ObjectModel.GameController;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
-import crimsonportal.googlecode.com.ObjectModel.Location;
+import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.UnitWithArmour;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedObserver;
-import crimsonportal.googlecode.com.Proxy.Sprite;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,11 +31,15 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
         super();
         gameController.addObserver(this);
         
-        setLayout(new BorderLayout());
+        setLayout(new FlowLayout(FlowLayout.LEFT, 5, 1));
         
         // Create the panel to hold the health bars:
         healthPanel = new HealthPanel();
-        add(healthPanel, BorderLayout.WEST);
+        add(healthPanel);
+        
+        // Create the panel to hold the armour bars:
+        armourPanel = new ArmourPanel();
+        add(armourPanel);
         
         setDoubleBuffered(true);
         setOpaque(false);
@@ -50,14 +52,18 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
     
     public void update(GameStateChangedEvent event)
     {
-        if (healthPanel == null) {
+        if (healthPanel == null || armourPanel == null) {
             // Constructor hasn't been called yet, cancel the update:
             return;
         }
         GameState gameState = (GameState)event.getSource();
-        double health = gameState.getPlayers().next().getHealth();
-        double healthPerc = health / gameState.getPlayers().next().getDefaultHealth();
+        
+        PlayerUnit player = gameState.getPlayers().next();
+        double healthPerc = player.getHealth() / player.getDefaultHealth();
         healthPanel.setHealthPercentage(healthPerc);
+        
+        double armourPerc = player.getArmourPercentage();
+        armourPanel.setArmourPercentage(armourPerc);
     }
     
     @Override
@@ -69,6 +75,7 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
     }
     
     private HealthPanel healthPanel;
+    private ArmourPanel armourPanel;
     private GameController gameController;
     private SpriteProxy spriteProxy = new SpriteProxy();
     
@@ -107,5 +114,42 @@ public class InfoPanel extends JPanel implements GameStateChangedObserver
 
         private JLabel[] lblHealthBar;
         private static final int NUMBER_HEALTH_BARS = 50;
+    }
+    
+    private class ArmourPanel extends JPanel {
+        public ArmourPanel() {
+            super(new FlowLayout(FlowLayout.LEFT, 1, 1));
+            setOpaque(false);
+            
+            // Create the health icon:
+            ImageIcon imgLabel = spriteProxy.generateProxyObject("armour.gif").toImageIcon();
+            add(new JLabel(imgLabel));
+
+            // Create the health bars:
+            lblArmourBar = new JLabel[NUMBER_ARMOUR_BARS];
+            ImageIcon imgArmourBad = spriteProxy.generateProxyObject("armour_bad.gif").toImageIcon();
+            ImageIcon imgArmourMiddle = spriteProxy.generateProxyObject("armour_middle.gif").toImageIcon();
+            ImageIcon imgArmourGood = spriteProxy.generateProxyObject("armour_good.gif").toImageIcon();
+            for (int h = 0; h < lblArmourBar.length; h++) {
+                if (h <= (lblArmourBar.length / 3)) {
+                    lblArmourBar[h] = new JLabel(imgArmourBad);
+                } else if (h <= 2 * (lblArmourBar.length / 3)) {
+                    lblArmourBar[h] = new JLabel(imgArmourMiddle);
+                } else {
+                    lblArmourBar[h] = new JLabel(imgArmourGood);
+                }
+                add(lblArmourBar[h]);
+            }
+        }
+        
+        public void setArmourPercentage(double healthPerc) {
+            int armourBarsToDisplay = (int)Math.floor(healthPerc * lblArmourBar.length);
+            for (int i = 0; i < lblArmourBar.length; i++) {
+                lblArmourBar[i].setVisible(i <= armourBarsToDisplay);
+            }
+        }
+
+        private JLabel[] lblArmourBar;
+        private static final int NUMBER_ARMOUR_BARS = 50;
     }
 }

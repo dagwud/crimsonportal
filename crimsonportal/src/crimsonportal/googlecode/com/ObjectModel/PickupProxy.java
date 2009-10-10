@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupArmour;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.UnitWithArmour;
 import crimsonportal.googlecode.com.gui.Animation;
 import java.util.Collection;
 import java.util.Iterator;
@@ -72,6 +74,11 @@ public class PickupProxy {
         while (it_units.hasNext()) {
             killUnit(it_units.next());
         }
+    }
+    
+    public static void setUnitArmour(UnitWithArmour unit, PickupArmour armour) {
+        unit.setArmourPercentage(100.0);
+        unit.setArmourStrength(armour.getStrength());
     }
     
     /**
