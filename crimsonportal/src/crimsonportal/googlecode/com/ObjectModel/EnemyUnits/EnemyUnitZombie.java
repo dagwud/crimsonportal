@@ -22,10 +22,15 @@ public class EnemyUnitZombie extends EnemyUnit {
     protected static int MOVE_SPEED = PRESET_MOVESPEED_AMBLE;
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_zombie.gif";
+    protected static final MovementType MOVEMENT_TYPE = EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
     
     public EnemyUnitZombie(Location location, GameObject target, GameState gameState)
     {
         super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
+    }
+    
+    public MovementType getMovementType() {
+        return MOVEMENT_TYPE;
     }
     
     @Override
