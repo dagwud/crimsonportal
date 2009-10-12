@@ -57,7 +57,21 @@ public abstract class EnemyUnit extends Unit
     @Override
     public abstract EnemyUnit clone();
     
-    protected void move()
+    public abstract MovementType getMovementType();
+    
+    protected void move() {
+        MovementType movetype = getMovementType();
+        switch (movetype) {
+            case MOVEMENT_STRAIGHTLINE:
+                moveStraightLine();
+                break;
+            
+            default:
+                throw new RuntimeException("Unknown movement type " + movetype);
+        }
+    }
+    
+    protected void moveStraightLine()
     {
         if (Debug.checkFlag(Debug.flagKey.DISABLE_ENEMY_MOVEMENT)) return;
         Location targetLoc = getStrategy().getTarget().getCentreOfObject();
@@ -116,8 +130,8 @@ public abstract class EnemyUnit extends Unit
     {
         double distY = getCentreOfObject().getY() - getStrategy().getTarget().getCentreOfObject().getY();
         double distX = getCentreOfObject().getX() - getStrategy().getTarget().getCentreOfObject().getX();
-        double rotate = Math.atan2(distY, distX) + Math.PI; // Using PI is quicker than Math.toRadians(180);
-        return rotate;
+        double rotation = Math.atan2(distY, distX) + Math.PI; // Using PI is quicker than Math.toRadians(180);
+        return rotation;
     }
     
     public abstract String getSpriteFilename();
@@ -142,5 +156,5 @@ public abstract class EnemyUnit extends Unit
     protected static final double PRESET_SIZE_MEDIUM = 15d;
     protected static final double PRESET_SIZE_LARGE = 20d;
     protected static final double PRESET_SIZE_HUGE = 35d;
-    
+    public static enum MovementType {MOVEMENT_STRAIGHTLINE};
 }

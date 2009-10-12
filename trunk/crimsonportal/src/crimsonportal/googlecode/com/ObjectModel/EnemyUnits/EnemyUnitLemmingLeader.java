@@ -25,6 +25,7 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
     protected static int MOVE_SPEED = PRESET_MOVESPEED_WALK;
     protected static double DEFAULT_HEALTH = 10;
+    protected static final MovementType MOVEMENT_TYPE = EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
     private static final String SPRITE_FILENAME = "enemy_lemmingleader.gif";
     
     public EnemyUnitLemmingLeader(Location location, GameObject target, GameState gameState)
@@ -66,6 +67,10 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
             ret[i + 1] = lemmings.get(i);
         }
         return ret;
+    }
+    
+    public MovementType getMovementType() {
+        return MOVEMENT_TYPE;
     }
     
     @Override

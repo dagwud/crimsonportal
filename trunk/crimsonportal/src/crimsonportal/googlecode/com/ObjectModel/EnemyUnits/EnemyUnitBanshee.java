@@ -27,6 +27,10 @@ public class EnemyUnitBanshee extends EnemyUnit {
         super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
     }
     
+    public MovementType getMovementType() {
+        return EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
+    }
+    
     @Override
     public EnemyUnit clone()
     {
