@@ -169,9 +169,9 @@ public class GameController implements Observer<GameStateChangedEvent>,
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BARBARIAN);
-            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
+            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
+            enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
             //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
             
             // Choose from the list of spawnable enemy types:

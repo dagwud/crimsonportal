@@ -20,7 +20,7 @@ public class EnemyUnitFletcher extends EnemyUnit {
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
     protected static int MOVE_SPEED = PRESET_MOVESPEED_TROT;
     protected static double DEFAULT_HEALTH = 10;
-    protected static final MovementType MOVEMENT_TYPE = EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
+    protected static final MovementType MOVEMENT_TYPE = EnemyUnit.MovementType.MOVEMENT_ATTACKANDRETREAT;
     private static final String SPRITE_FILENAME = "enemy_fletcher.gif";
     
     public EnemyUnitFletcher(Location location, GameObject target, GameState gameState)
@@ -30,6 +30,10 @@ public class EnemyUnitFletcher extends EnemyUnit {
     
     public MovementType getMovementType() {
         return MOVEMENT_TYPE;
+    }
+    
+    public Integer getAttackAndRetreat_RetreatDistance() {
+        return 8;
     }
     
     @Override
