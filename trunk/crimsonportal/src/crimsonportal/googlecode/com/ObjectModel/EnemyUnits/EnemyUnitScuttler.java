@@ -18,7 +18,7 @@ import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
  * @author dagwud
  */
 public class EnemyUnitScuttler extends EnemyUnit {
-    protected static final double SIZE = PRESET_SIZE_SMALL;
+    protected static final double SIZE = PRESET_SIZE_MEDIUM;
     protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_HURT;
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
     protected static int MOVE_SPEED = PRESET_MOVESPEED_WALK;
