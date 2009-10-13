@@ -37,6 +37,14 @@ public abstract class EnemyUnitFly extends EnemyUnit {
         this.shiftAngleRadians = shiftAngleRadians;
     }
     
+    @Override
+    public double getRotation() {
+        return super.getRotation() + shiftAngleRadians;
+    }
+    
+    public abstract double getMaxTurnRadians();
+    public abstract double getTurnSpeed();
+    
     protected boolean turningClockwise = true;
     protected double shiftAngleRadians = 0;
 }

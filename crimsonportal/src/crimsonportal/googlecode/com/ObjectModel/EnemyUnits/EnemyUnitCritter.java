@@ -20,8 +20,9 @@ public class EnemyUnitCritter extends EnemyUnitFly {
     protected static final double SIZE = PRESET_SIZE_SMALL;
     protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_ANNOY;
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_FAST;
-    protected static final double TURN_SPEED = Math.toRadians(15);
-    protected static int MOVE_SPEED = PRESET_MOVESPEED_WALK;
+    protected static final double TURN_SPEED = Math.toRadians(5);
+    protected static final double MAX_TURN_RADIANS = Math.toRadians(90);
+    protected static int MOVE_SPEED = PRESET_MOVESPEED_RACE;
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_critter.gif";
     
@@ -42,9 +43,16 @@ public class EnemyUnitCritter extends EnemyUnitFly {
         return SPRITE_FILENAME;
     }
 
+    public double getMaxTurnRadians() {
+        return MAX_TURN_RADIANS;
+    }
+    
+    public double getTurnSpeed() {
+        return TURN_SPEED;
+    }
+    
     @Override
     protected MovementHandler getMovementHandler() {
         return new MovementHandlerFly(MOVE_SPEED, TURN_SPEED);
     }
-    
 }
