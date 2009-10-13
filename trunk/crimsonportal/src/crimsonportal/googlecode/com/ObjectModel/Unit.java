@@ -42,24 +42,7 @@ public abstract class Unit extends GameObject
         this.health = health;
     }
     
-    public double getMoveSpeed()
-    {
-        return moveSpeed;
-    }
-    
-    protected void setMoveSpeed(double moveSpeed)
-    {
-        this.moveSpeed = moveSpeed;
-    }
-    
-    public void moveTo(Location newLocation) 
-    {
-        Location moveTo = gameState.getTerrain().getMoveWithGradient(
-                getCentreOfObject(), 
-                newLocation, gameState.getMap());
-        
-        setCentreOfObject(moveTo);
-    }
+    protected abstract MovementHandler getMovementHandler();
     
     public void addPickup(Pickup pickup)
     {
@@ -69,7 +52,6 @@ public abstract class Unit extends GameObject
     
     protected Strategy strategy;
     protected double health;
-    protected double moveSpeed;
     protected GameState gameState;
     protected Collection<Pickup> pickups;
 }

@@ -10,6 +10,8 @@ import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.LocationObject;
+import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
+import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
 import crimsonportal.googlecode.com.Utils;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +27,6 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
     protected static int MOVE_SPEED = PRESET_MOVESPEED_WALK;
     protected static double DEFAULT_HEALTH = 10;
-    protected static final MovementType MOVEMENT_TYPE = EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
     private static final String SPRITE_FILENAME = "enemy_lemmingleader.gif";
     
     public EnemyUnitLemmingLeader(Location location, GameObject target, GameState gameState)
@@ -69,10 +70,6 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
         return ret;
     }
     
-    public MovementType getMovementType() {
-        return MOVEMENT_TYPE;
-    }
-    
     @Override
     public EnemyUnit clone()
     {
@@ -83,6 +80,11 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
     public String getSpriteFilename()
     {
         return SPRITE_FILENAME;
+    }
+
+    @Override
+    protected MovementHandler getMovementHandler() {
+        return new MovementHandlerStraightLine(MOVE_SPEED);
     }
     
     protected List<EnemyUnitLemming> lemmings;

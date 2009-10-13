@@ -9,6 +9,8 @@ import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
+import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
+import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
 
 /**
  *
@@ -27,10 +29,6 @@ public class EnemyUnitBanshee extends EnemyUnit {
         super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
     }
     
-    public MovementType getMovementType() {
-        return EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
-    }
-    
     @Override
     public EnemyUnit clone()
     {
@@ -41,6 +39,11 @@ public class EnemyUnitBanshee extends EnemyUnit {
     public String getSpriteFilename()
     {
         return SPRITE_FILENAME;
+    }
+
+    @Override
+    protected MovementHandler getMovementHandler() {
+        return new MovementHandlerStraightLine(MOVE_SPEED);
     }
     
 }

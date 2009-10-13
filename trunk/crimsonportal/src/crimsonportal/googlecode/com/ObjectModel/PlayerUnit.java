@@ -23,6 +23,7 @@ public class PlayerUnit extends UnitWithWeapon implements
 {
     protected double DEFAULT_HEALTH = 100;
     protected static double PLAYER_SIZE = 8;
+    protected static double DEFAULT_MOVE_SPEED = 10;
     
     public PlayerUnit(Location location, int moveSpeed, GameState gameState)
     {
@@ -37,7 +38,6 @@ public class PlayerUnit extends UnitWithWeapon implements
     {
         super(PLAYER_SIZE, location, null, gameState);
         setWeapon(weapon);
-        this.moveSpeed = moveSpeed;
     }
     
     @Override
@@ -55,6 +55,10 @@ public class PlayerUnit extends UnitWithWeapon implements
     private ObserverGroup<PlayerMoveEvent> observers;
     private ObserverGroup<PlayerTurnEvent> turnObservers;
 
+    public MovementHandler getMovementHandler() {
+        return new MovementHandlerPlayer(this);
+    }
+    
     public void notifyObservers(PlayerMoveEvent event)
     {
         Debug.logMethod("Player " + this + " has received a notification and is moving");
@@ -100,26 +104,6 @@ public class PlayerUnit extends UnitWithWeapon implements
         return DEFAULT_HEALTH;
     }
     
-    @Override
-    public void moveTo(Location location)
-    {
-        if (location.equals(this.location)) return;
-        int heightFrom = gameState.getTerrain().getHeightAt(this.location, gameState.getMap());
-        int heightTo = gameState.getTerrain().getHeightAt(location, gameState.getMap());
-        
-        if (heightFrom < heightTo) {
-            Debug.setFlag(Debug.flagKey.PLAYER_MOVEMENT_VERTICAL, Debug.flagValue.ASCENDING);
-        }
-        else if (heightFrom > heightTo) {
-            Debug.setFlag(Debug.flagKey.PLAYER_MOVEMENT_VERTICAL, Debug.flagValue.DESCENDING);
-        }
-        else {
-            Debug.setFlag(Debug.flagKey.PLAYER_MOVEMENT_VERTICAL, Debug.flagValue.LEVEL);
-        }
-        
-        super.moveTo(location);
-    }
-    
     public void update(PlayerTurnEvent e) 
     {
         this.setRotation(e.getRotation());
@@ -155,6 +139,7 @@ public class PlayerUnit extends UnitWithWeapon implements
         this.armourStrength = armourStrength;
     }
     
+    protected double moveSpeed;
     protected double armourStrength;
     protected double armourPerc;
 }
