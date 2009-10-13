@@ -331,10 +331,13 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     public void update(PlayerMoveEvent event)
     {
         PlayerUnit player = (PlayerUnit)event.getSource();
-                
+        if (event.getMoveAmountX() == 0 && event.getMoveAmountY() == 0) {
+            return;
+        }        
+        
         Location newLocation = new Location(player.getCentreOfObject().getX() + event.getMoveAmountX(),
                 player.getCentreOfObject().getY() + event.getMoveAmountY());
-        player.moveTo(newLocation);
+        player.getMovementHandler().moveTo(player, newLocation);
         
         // Check if the player is on a pickup:
         Iterator<Pickup> it_pickups = pickups.iterator();

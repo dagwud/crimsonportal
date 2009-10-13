@@ -9,6 +9,8 @@ import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
+import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
+import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
 import java.util.Random;
 
 /**
@@ -22,15 +24,10 @@ public class EnemyUnitZombie extends EnemyUnit {
     protected static int MOVE_SPEED = PRESET_MOVESPEED_AMBLE;
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_zombie.gif";
-    protected static final MovementType MOVEMENT_TYPE = EnemyUnit.MovementType.MOVEMENT_STRAIGHTLINE;
     
     public EnemyUnitZombie(Location location, GameObject target, GameState gameState)
     {
         super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
-    }
-    
-    public MovementType getMovementType() {
-        return MOVEMENT_TYPE;
     }
     
     @Override
@@ -86,6 +83,11 @@ public class EnemyUnitZombie extends EnemyUnit {
     public String getSpriteFilename()
     {
         return SPRITE_FILENAME;
+    }
+
+    @Override
+    protected MovementHandler getMovementHandler() {
+        return new MovementHandlerStraightLine(MOVE_SPEED);
     }
     
     protected double rotationShift = 0.0;

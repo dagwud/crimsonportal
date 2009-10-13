@@ -28,8 +28,12 @@ class MoveTimerTask extends TimerTask
 
     public void run()
     {
-        double moveX = moveAmountX * controlledPlayer.getMoveSpeed();
-        double moveY = moveAmountY * controlledPlayer.getMoveSpeed();
+        if (moveAmountX == 0 && moveAmountY == 0) {
+            return;
+        }
+        
+        double moveX = moveAmountX * controlledPlayer.getMovementHandler().getMoveSpeed();
+        double moveY = moveAmountY * controlledPlayer.getMovementHandler().getMoveSpeed();
         if (moveX != 0 ^ moveY != 0)
         {
             // Increase movement speed when moving up, down, left or right

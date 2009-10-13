@@ -52,7 +52,7 @@ public class PickupProxy {
     
     public static void scaleUnitMoveSpeed(Unit unit, double moveSpeedMultiplier) {
         if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
-        unit.setMoveSpeed(unit.getMoveSpeed() * moveSpeedMultiplier);
+        unit.getMovementHandler().setMoveSpeed(unit.getMovementHandler().getMoveSpeed() * moveSpeedMultiplier);
     }
     
     public static void scaleUnitMoveSpeed(Collection<Unit> units, double moveSpeedMultiplier) {
