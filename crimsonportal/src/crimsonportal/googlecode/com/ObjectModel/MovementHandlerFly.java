@@ -19,6 +19,9 @@ public class MovementHandlerFly extends MovementHandlerStraightLine {
     
     @Override
     public void move(Unit moveObject) {
+        if (moveObject.gameState.getGameTime().isPaused()) {
+            return;
+        }
         EnemyUnitFly f = (EnemyUnitFly) moveObject;
         Location targetLoc = f.getStrategy().getTarget().getCentreOfObject();
         Location thisLoc = f.getCentreOfObject();

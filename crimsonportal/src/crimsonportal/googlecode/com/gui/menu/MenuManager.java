@@ -30,7 +30,7 @@ public class MenuManager {
     }
     
     public void openMenu(Menu menu) {
-        panel.add(menu, 2);
+        panel.add(menu, new Integer(2));
         menuStack.add(menu);
     }
     
