@@ -11,6 +11,7 @@ import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import crimsonportal.googlecode.com.gui.Animation;
+import crimsonportal.googlecode.com.gui.menu.MenuManager;
 import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
 import crimsonportal.googlecode.com.terrain.Terrain;
 import java.util.Collection;
@@ -47,6 +48,7 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         gameTimer.start();
         map = new Map();
         observers = new ObserverGroup<GameStateChangedEvent>();
+        menuManager = new MenuManager();
     }
     
     /**
@@ -415,6 +417,10 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         return observers.countObservers();
     }
     
+    public MenuManager getMenuManager() {
+        return menuManager;
+    }
+    
     ObserverGroup<GameStateChangedEvent> observers;
     
     /**
@@ -502,7 +508,12 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     public static final String landscapeName = "terrain_peak";
     
     /**
-     * The {@link GameController} which controlls this GameState
+     * The {@link GameController} which controls this GameState
      */
     protected GameController controller;
+    
+    /**
+     * The {@link MenuManager} which controls the Menus in this GameState
+     */
+    protected MenuManager menuManager;
 }
