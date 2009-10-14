@@ -18,6 +18,9 @@ public class MovementHandlerStraightLine extends MovementHandler {
     }
     
     public void move(Unit moveObject) {
+        if (moveObject.gameState.getGameTime().isPaused()) {
+            return;
+        }
         move(moveObject, false);
     }
     

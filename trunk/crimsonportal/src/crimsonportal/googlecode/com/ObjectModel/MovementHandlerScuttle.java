@@ -22,7 +22,10 @@ public class MovementHandlerScuttle extends MovementHandlerStraightLine {
     
     @Override
     public void move(Unit moveObject) {
-       // If the target is not in attacking range, rotate until the scuttler
+       if (moveObject.gameState.getGameTime().isPaused()) {
+            return;
+        }
+        // If the target is not in attacking range, rotate until the scuttler
        // is facing side-on to the target. If the scuttler is side-on, then move.
         GameObject target = moveObject.getStrategy().getTarget();
         

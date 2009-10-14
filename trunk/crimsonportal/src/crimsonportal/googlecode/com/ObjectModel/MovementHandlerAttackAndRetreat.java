@@ -18,6 +18,9 @@ public class MovementHandlerAttackAndRetreat extends MovementHandlerStraightLine
     
     @Override
     public void move(Unit moveObject) {
+        if (moveObject.gameState.getGameTime().isPaused()) {
+            return;
+        }
         EnemyUnitFletcher f = (EnemyUnitFletcher)moveObject;
         if (f.isRetreating()) {
             // Retreating:

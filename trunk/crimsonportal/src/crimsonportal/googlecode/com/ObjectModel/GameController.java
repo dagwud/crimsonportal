@@ -268,6 +268,10 @@ public class GameController implements Observer<GameStateChangedEvent>,
     
     private void moveEnemies()
     {
+        if (gameState.getGameTime().isPaused()) {
+            return;
+        }
+        
         Iterator<EnemyUnit> enemies = gameState.getEnemies();
         while (enemies.hasNext())
         {

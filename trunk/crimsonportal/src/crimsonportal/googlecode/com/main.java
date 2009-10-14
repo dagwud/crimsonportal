@@ -21,7 +21,6 @@ public class main
         
         Thread gameControlThread = new Thread(gameController);
         gameControlThread.start();
-        gameController.getGameState().getGameTime().startTimer();
         
         System.out.println("Loaded");
     }
