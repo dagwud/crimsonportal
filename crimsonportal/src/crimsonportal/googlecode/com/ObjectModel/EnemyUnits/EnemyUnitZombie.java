@@ -51,7 +51,7 @@ public class EnemyUnitZombie extends EnemyUnit {
         // that has elapsed compared to the duration of rotation. Use msOffset
         // to randomise the zombie a bit, so that zombies rotate independantly of
         // one another.
-        double ms = (System.currentTimeMillis() + msOffset) % stumbleDurationMS;
+        double ms = (gameState.getGameTime().getNumMilliseconds() + msOffset) % stumbleDurationMS;
         double perc = (ms / stumbleDurationMS);
         
         // Determine the amount of shift to add to the zombie's base rotation. This
