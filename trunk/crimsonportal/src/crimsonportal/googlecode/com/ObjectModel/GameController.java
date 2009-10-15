@@ -12,6 +12,7 @@ import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
+import crimsonportal.googlecode.com.Observer.MenuExit.MenuListenerEvent;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Turn.PlayerTurnObserver;
@@ -24,6 +25,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import javax.swing.event.MenuEvent;
 
 /**
  *
@@ -95,6 +97,17 @@ public class GameController implements Observer<GameStateChangedEvent>,
         gameState.getMenuManager().setCanvas(frame.getLayeredPane());
         gameState.getMenuManager().openMenu(new MenuMainMenu());
         gameState.getGameTime().pauseTimer();
+        Observer<MenuListenerEvent> mnuobs = new Observer<MenuListenerEvent>() {
+            public void update(MenuListenerEvent event)
+            {
+                if (event.getEventType() == MenuListenerEvent.Type.MENU_CLOSED) {
+                    gameState.getGameTime().startTimer();
+                } else {
+                    gameState.getGameTime().pauseTimer();
+                }
+            }
+        };
+        gameState.getMenuManager().addObserver(mnuobs);
     }
     
     public GameState getGameState()
@@ -226,7 +239,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
             }
             else
             {
-                System.out.println("Paused");
+                // Paused
             }
             
             try
@@ -268,10 +281,6 @@ public class GameController implements Observer<GameStateChangedEvent>,
     
     private void moveEnemies()
     {
-        if (gameState.getGameTime().isPaused()) {
-            return;
-        }
-        
         Iterator<EnemyUnit> enemies = gameState.getEnemies();
         while (enemies.hasNext())
         {

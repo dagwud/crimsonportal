@@ -12,6 +12,7 @@ import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.Observer.KeyPress.KeyPressObservable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
+import crimsonportal.googlecode.com.gui.menu.MenuMainMenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -23,9 +24,10 @@ public class KeyController implements KeyListener, KeyPressObservable
 {
     public KeyController(PlayerUnit controlledPlayer, GameState gameState)
     {
+        this.gameState = gameState;
         Debug.logMethod("Initialising KeyController for player " + controlledPlayer);
         observers = new ObserverGroup<KeyEvent>();
-        moveTimer = new MoveTimer(controlledPlayer, gameState);
+        moveTimer = new MoveTimer(controlledPlayer, this.gameState);
         addObserver(moveTimer);
     }
     
@@ -52,7 +54,12 @@ public class KeyController implements KeyListener, KeyPressObservable
                 break;
                 
             case KeyEvent.VK_ESCAPE:
-                System.exit(0);
+                if (gameState.getGameTime().isPaused()) {
+                    gameState.getMenuManager().closeAllMenus();
+                } else {
+                    gameState.getMenuManager().openMenu(MenuMainMenu.createMenu());
+                }
+                break;
                 
             // Debugging keys:
             case KeyEvent.VK_F2:
@@ -123,4 +130,5 @@ public class KeyController implements KeyListener, KeyPressObservable
     
     private ObserverGroup<KeyEvent> observers;
     private MoveTimer moveTimer;
+    private GameState gameState;
 }

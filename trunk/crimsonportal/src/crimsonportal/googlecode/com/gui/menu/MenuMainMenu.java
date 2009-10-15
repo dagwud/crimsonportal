@@ -13,4 +13,13 @@ public class MenuMainMenu extends Menu {
     public MenuMainMenu() {
         super();
     }
+    
+    public static Menu createMenu() {
+        if (instance == null) {
+            instance = new MenuMainMenu();
+        }
+        return instance;
+    }
+    
+    private static MenuMainMenu instance;
 }

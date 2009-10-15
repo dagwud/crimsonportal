@@ -5,33 +5,41 @@
 
 package crimsonportal.googlecode.com.gui.menu;
 
+import crimsonportal.googlecode.com.Observer.MenuExit.MenuListenerEvent;
+import crimsonportal.googlecode.com.Observer.Observable;
+import crimsonportal.googlecode.com.Observer.Observer;
+import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import java.util.Vector;
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 /**
  *
  * @author dagwud
  */
-public class MenuManager {
+public class MenuManager implements Observable<MenuListenerEvent> {
     public MenuManager() {
         menuStack = new Vector<Menu>();
+        observers = new ObserverGroup<MenuListenerEvent>();
     }
     
-    public void hideCurrentMenu() {
+    public void closeCurrentMenu() {
         panel.remove(menuStack.elementAt(menuStack.size() - 1));
         menuStack.removeElementAt(menuStack.size() - 1);
+        if (menuStack.isEmpty()) {
+            notifyObservers(new MenuListenerEvent(MenuListenerEvent.Type.MENU_CLOSED));
+        }
     }
     
     public void closeAllMenus() {
         while (menusOpen()) {
-            hideCurrentMenu();
+            closeCurrentMenu();
         }
     }
     
     public void openMenu(Menu menu) {
         panel.add(menu, new Integer(2));
         menuStack.add(menu);
+        notifyObservers(new MenuListenerEvent(MenuListenerEvent.Type.MENU_OPEN));
     }
     
     public boolean menusOpen() {
@@ -42,6 +50,33 @@ public class MenuManager {
         this.panel = panel;
     }
     
+    
     public Vector<Menu> menuStack;
     protected JLayeredPane panel;
+
+    private ObserverGroup<MenuListenerEvent> observers;
+    public void notifyObservers(MenuListenerEvent event)
+    {
+        observers.notifyObservers(event);
+    }
+
+    public boolean addObserver(Observer<MenuListenerEvent> observer)
+    {
+        return observers.addObserver(observer);
+    }
+
+    public boolean removeObserver(Observer<MenuListenerEvent> observer)
+    {
+        return observers.removeObserver(observer);
+    }
+
+    public void removeAllObservers()
+    {
+        observers.removeAllObservers();
+    }
+
+    public int countObservers()
+    {
+        return observers.countObservers();
+    }
 }
