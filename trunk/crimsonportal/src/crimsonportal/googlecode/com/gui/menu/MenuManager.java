@@ -38,6 +38,7 @@ public class MenuManager implements Observable<MenuListenerEvent> {
     
     public void openMenu(Menu menu) {
         panel.add(menu, new Integer(2));
+        menu.centreOn(panel);
         menuStack.add(menu);
         notifyObservers(new MenuListenerEvent(MenuListenerEvent.Type.MENU_OPEN));
     }
