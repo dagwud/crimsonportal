@@ -95,7 +95,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
         observers.notifyObservers(new GameStateChangedEvent(gameState));
         
         gameState.getMenuManager().setCanvas(frame.getLayeredPane());
-        gameState.getMenuManager().openMenu(new MenuMainMenu());
+        gameState.getMenuManager().openMenu(MenuMainMenu.createMenu());
         gameState.getGameTime().pauseTimer();
         Observer<MenuListenerEvent> mnuobs = new Observer<MenuListenerEvent>() {
             public void update(MenuListenerEvent event)

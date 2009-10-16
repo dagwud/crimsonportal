@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 /**
@@ -35,24 +36,37 @@ public abstract class Menu extends JPanel {
     }
     
     protected void addMenu(String menuTitle) {
+        JPanel pnlMenu = createMenuItem(menuTitle);
+        pnlMenus.add(pnlMenu);
+        add(pnlMenu);
+        setSize(getWidth(), MENU_HEIGHT * pnlMenus.size());
+    }
+    
+    private JPanel createMenuItem(String menuTitle) {
         JPanel pnlMenu = new JPanel();
         pnlMenu.setSize(getWidth(), MENU_HEIGHT);
         pnlMenu.setMinimumSize(new Dimension(getWidth(), MENU_HEIGHT));
         pnlMenu.setPreferredSize(new Dimension(getWidth(), MENU_HEIGHT));
-        pnlMenu.setAlignmentX(pnlMenu.CENTER_ALIGNMENT);
-        //pnlMenu.setOpaque(false);
-        //pnlMenu.setBackground(new java.awt.Color((pnlMenus.size()+1) * 50, 0, 0));
+        pnlMenu.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+        pnlMenu.setOpaque(false);
+        pnlMenu.setBackground(new java.awt.Color((pnlMenus.size()+1) * 50, 0, 0));
+        
         JLabel lblMenu = new JLabel(menuTitle);
+        lblMenu.setForeground(Color.WHITE);
         lblMenu.setHorizontalAlignment(JLabel.CENTER);
         lblMenu.setVerticalAlignment(JLabel.CENTER);
         pnlMenu.add(lblMenu);
-        pnlMenus.add(pnlMenu);
-        add(pnlMenu);
+        
+        return pnlMenu;
+    }   
+    
+    public void centreOn(JLayeredPane panel) {
+        setLocation(0, (panel.getHeight() / 2) - (getHeight() / 2));
     }
     
     @Override
     public void paintComponent(Graphics g) {
-        Color bgColour = new Color(0, 0, 0, 200);
+        Color bgColour = new Color(0, 0, 0, 100);
         g.setColor(bgColour);
         g.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
