@@ -12,8 +12,8 @@ package crimsonportal.googlecode.com.gui.menu;
 public class MenuMainMenu extends Menu {
     public MenuMainMenu() {
         super();
-        addMenu("Start Game");
-        addMenu("Exit");
+        addMenuItem("Start Game");
+        addMenuItem("Exit");
     }
     
     public static Menu createMenu() {
