@@ -5,19 +5,19 @@
 
 package crimsonportal.googlecode.com.gui.menu;
 
-import java.awt.BorderLayout;
+import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.List;
 import java.util.Vector;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.plaf.DimensionUIResource;
 
 /**
  *
@@ -26,10 +26,10 @@ import javax.swing.plaf.DimensionUIResource;
 public abstract class Menu extends JPanel {
     protected Menu() {
         super();
-        setLayout(new GridLayout(3, 1));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         pnlMenuContainer = new JPanel();
         pnlMenuContainer.setLayout(new BoxLayout(pnlMenuContainer, BoxLayout.PAGE_AXIS));
-        pnlMenuContainer.setBackground(Color.red);
+        pnlMenuContainer.setOpaque(false);
         
         menus = new Vector<JPanel>();
 
@@ -42,11 +42,22 @@ public abstract class Menu extends JPanel {
         add(fillerTop);
         add(pnlMenuContainer);
         add(fillerBottom);
-        setSize(1024, 768);
-        setOpaque(false);
-        setVisible(true);
         //setSize(getGraphicsConfiguration().getBounds().width, 
         //        getGraphicsConfiguration().getBounds().height);
+        forceSize(this, 1024, 768);
+        setOpaque(false);
+        setVisible(true);
+        
+        if (!true) {
+            setBackground(Color.blue);
+            setOpaque(true);
+            pnlMenuContainer.setBackground(Color.red);
+            pnlMenuContainer.setOpaque(true);
+            fillerTop.setBackground(Color.green);
+            fillerBottom.setBackground(Color.green);
+            //fillerTop.setOpaque(true);
+            //fillerBottom.setOpaque(true);
+        }
     }
     
     protected void addMenuItem(String menuTitle) {
@@ -54,28 +65,24 @@ public abstract class Menu extends JPanel {
         JPanel pnlMenu = createMenuItem(menuTitle);
         menus.add(pnlMenu);
         pnlMenuContainer.add(pnlMenu);
-        pnlMenuContainer.setSize(new Dimension(getWidth(), MENU_HEIGHT * menus.size()));
         
         // Resize the menu panels:
         int h = MENU_HEIGHT * menus.size();
-        pnlMenuContainer.setSize(getWidth(), h);
-        fillerBottom.setPreferredSize(new Dimension(getWidth(), getHeight() - (h / 2)));
-        fillerTop.setPreferredSize(new Dimension(getWidth(), getHeight() - (h / 2)));
+        int screenHeight = getHeight();
+        forceSize(fillerTop, getWidth(), (screenHeight - h) / 2);
+        forceSize(pnlMenuContainer, getWidth(), h);
+        forceSize(fillerBottom, getWidth(), (screenHeight - h) / 2);
     }
     
     private JPanel createMenuItem(String menuTitle) {
         JPanel pnlMenuItem = new JPanel();
-        pnlMenuItem.setSize(getWidth(), MENU_HEIGHT);
-        pnlMenuItem.setMinimumSize(new Dimension(getWidth(), MENU_HEIGHT));
-        pnlMenuItem.setMaximumSize(new Dimension(getWidth(), MENU_HEIGHT));
-        pnlMenuItem.setPreferredSize(new Dimension(getWidth(), MENU_HEIGHT));
+        forceSize(pnlMenuItem, getWidth(), MENU_HEIGHT);
         pnlMenuItem.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-        //pnlMenuItem.setOpaque(false);
-        if (menus.size() == 1) {
-            pnlMenuItem.setBackground(Color.green);
-        } else pnlMenuItem.setBackground(Color.cyan);
+        pnlMenuItem.setOpaque(false);
         
-        JLabel lblMenuItem = new JLabel(menuTitle);
+        String menuSpriteFilename = "menu" + menuTitle.replaceAll(" ", "") + ".gif";
+        ImageIcon menuSprite = spriteProxy.generateProxyObject(menuSpriteFilename).toImageIcon();
+        JLabel lblMenuItem = new JLabel(menuSprite);
         lblMenuItem.setForeground(Color.WHITE);
         lblMenuItem.setHorizontalAlignment(JLabel.CENTER);
         lblMenuItem.setVerticalAlignment(JLabel.CENTER);
@@ -96,8 +103,17 @@ public abstract class Menu extends JPanel {
         super.paintComponent(g);
     }
     
+    private void forceSize(Container c, int width, int height) {
+        Dimension size = new Dimension(width, height);
+        c.setSize(size);
+        c.setMinimumSize(size);
+        c.setMaximumSize(size);
+        c.setPreferredSize(size);
+    }
+    
     private List<JPanel> menus;
-    private static final int MENU_HEIGHT = 30;
+    private static final int MENU_HEIGHT = 60;
     private JPanel pnlMenuContainer;
     private JPanel fillerTop, fillerBottom;
+    private SpriteProxy spriteProxy = new SpriteProxy();
 }
