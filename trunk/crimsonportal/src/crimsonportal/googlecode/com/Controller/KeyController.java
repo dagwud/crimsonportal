@@ -12,7 +12,7 @@ import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
 import crimsonportal.googlecode.com.Observer.KeyPress.KeyPressObservable;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
-import crimsonportal.googlecode.com.gui.menu.MenuMainMenu;
+import crimsonportal.googlecode.com.gui.menu.MenuFactory;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -57,7 +57,7 @@ public class KeyController implements KeyListener, KeyPressObservable
                 if (gameState.getGameTime().isPaused()) {
                     gameState.getMenuManager().closeAllMenus();
                 } else {
-                    gameState.getMenuManager().openMenu(MenuMainMenu.createMenu());
+                    gameState.getMenuManager().openMenu(MenuFactory.MenuType.Main);
                 }
                 break;
                 
