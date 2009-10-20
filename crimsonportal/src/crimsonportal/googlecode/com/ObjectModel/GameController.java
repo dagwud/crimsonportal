@@ -19,13 +19,12 @@ import crimsonportal.googlecode.com.Observer.Player.Turn.PlayerTurnObserver;
 import crimsonportal.googlecode.com.Observer.Player.Shoot.ShootEvent;
 import crimsonportal.googlecode.com.gui.GameFrame;
 import crimsonportal.googlecode.com.gui.GameCanvas;
-import crimsonportal.googlecode.com.gui.menu.MenuMainMenu;
+import crimsonportal.googlecode.com.gui.menu.MenuFactory;
 import crimsonportal.googlecode.com.terrain.InvalidTerrainException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import javax.swing.event.MenuEvent;
 
 /**
  *
@@ -95,7 +94,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
         observers.notifyObservers(new GameStateChangedEvent(gameState));
         
         gameState.getMenuManager().setCanvas(frame.getLayeredPane());
-        gameState.getMenuManager().openMenu(MenuMainMenu.createMenu());
+        gameState.getMenuManager().openMenu(MenuFactory.MenuType.Main);
         gameState.getGameTime().pauseTimer();
         Observer<MenuListenerEvent> mnuobs = new Observer<MenuListenerEvent>() {
             public void update(MenuListenerEvent event)

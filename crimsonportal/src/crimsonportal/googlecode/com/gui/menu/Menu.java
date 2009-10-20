@@ -5,17 +5,13 @@
 
 package crimsonportal.googlecode.com.gui.menu;
 
-import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -24,8 +20,9 @@ import javax.swing.JPanel;
  * @author dagwud
  */
 public abstract class Menu extends JPanel {
-    protected Menu() {
+    protected Menu(MenuManager managingManager) {
         super();
+        this.managingManager = managingManager;
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         pnlMenuContainer = new JPanel();
         pnlMenuContainer.setLayout(new BoxLayout(pnlMenuContainer, BoxLayout.PAGE_AXIS));
@@ -60,35 +57,18 @@ public abstract class Menu extends JPanel {
         }
     }
     
-    protected void addMenuItem(String menuTitle) {
-        // Create a menu item and add it to the menu panel:
-        JPanel pnlMenu = createMenuItem(menuTitle);
-        menus.add(pnlMenu);
-        pnlMenuContainer.add(pnlMenu);
+    protected void addMenuItem(MenuItemFactory.MenuItemType menuItemType) {
+        MenuItem menuItem = MenuItemFactory.createMenuItem(menuItemType, this);
+        menus.add(menuItem);
+        pnlMenuContainer.add(menuItem);
         
         // Resize the menu panels:
-        int h = MENU_HEIGHT * menus.size();
+        int h = MenuItem.MENUITEM_HEIGHT * menus.size();
         int screenHeight = getHeight();
         forceSize(fillerTop, getWidth(), (screenHeight - h) / 2);
         forceSize(pnlMenuContainer, getWidth(), h);
+        forceSize(menuItem, getWidth(), h);
         forceSize(fillerBottom, getWidth(), (screenHeight - h) / 2);
-    }
-    
-    private JPanel createMenuItem(String menuTitle) {
-        JPanel pnlMenuItem = new JPanel();
-        forceSize(pnlMenuItem, getWidth(), MENU_HEIGHT);
-        pnlMenuItem.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-        pnlMenuItem.setOpaque(false);
-        
-        String menuSpriteFilename = "menu" + menuTitle.replaceAll(" ", "") + ".gif";
-        ImageIcon menuSprite = spriteProxy.generateProxyObject(menuSpriteFilename).toImageIcon();
-        JLabel lblMenuItem = new JLabel(menuSprite);
-        lblMenuItem.setForeground(Color.WHITE);
-        lblMenuItem.setHorizontalAlignment(JLabel.CENTER);
-        lblMenuItem.setVerticalAlignment(JLabel.CENTER);
-        pnlMenuItem.add(lblMenuItem);
-        
-        return pnlMenuItem;
     }
     
     public void centreOn(JLayeredPane panel) {
@@ -103,7 +83,11 @@ public abstract class Menu extends JPanel {
         super.paintComponent(g);
     }
     
-    private void forceSize(Container c, int width, int height) {
+    public void closeMenu() {
+        managingManager.closeCurrentMenu();
+    }
+    
+    public static void forceSize(Container c, int width, int height) {
         Dimension size = new Dimension(width, height);
         c.setSize(size);
         c.setMinimumSize(size);
@@ -112,8 +96,7 @@ public abstract class Menu extends JPanel {
     }
     
     private List<JPanel> menus;
-    private static final int MENU_HEIGHT = 60;
     private JPanel pnlMenuContainer;
     private JPanel fillerTop, fillerBottom;
-    private SpriteProxy spriteProxy = new SpriteProxy();
+    private MenuManager managingManager;
 }

@@ -16,7 +16,8 @@ import javax.swing.JLayeredPane;
  *
  * @author dagwud
  */
-public class MenuManager implements Observable<MenuListenerEvent> {
+public class MenuManager extends Thread
+                         implements Observable<MenuListenerEvent> {
     public MenuManager() {
         menuStack = new Vector<Menu>();
         observers = new ObserverGroup<MenuListenerEvent>();
@@ -36,7 +37,8 @@ public class MenuManager implements Observable<MenuListenerEvent> {
         }
     }
     
-    public void openMenu(Menu menu) {
+    public void openMenu(MenuFactory.MenuType menuType) {
+        Menu menu = new MenuFactory().createMenu(menuType, this);
         panel.add(menu, new Integer(2));
         menu.centreOn(panel);
         menuStack.add(menu);
@@ -50,7 +52,6 @@ public class MenuManager implements Observable<MenuListenerEvent> {
     public void setCanvas(JLayeredPane panel) {
         this.panel = panel;
     }
-    
     
     public Vector<Menu> menuStack;
     protected JLayeredPane panel;
