@@ -29,8 +29,9 @@ public abstract class MenuItem extends JPanel implements MouseListener
         
         ImageIcon menuSprite = getIconInactive();
         lblMenuItem = new JLabel(menuSprite);
-        lblMenuItem.setForeground(Color.WHITE);
-        lblMenuItem.setHorizontalAlignment(JLabel.CENTER);
+        lblMenuItem.setText(menuText);
+        lblMenuItem.setForeground(getLabelColourInactive());
+        lblMenuItem.setHorizontalTextPosition(JLabel.CENTER);
         lblMenuItem.setVerticalAlignment(JLabel.CENTER);
         add(lblMenuItem);
         // Create a menu item and add it to the menu panel:
@@ -42,18 +43,22 @@ public abstract class MenuItem extends JPanel implements MouseListener
         return menuText;
     }
     
+    public Color getLabelColourInactive() {
+        return Color.WHITE;
+    }
+    
+    public Color getLabelColourActive() {
+        return Color.LIGHT_GRAY;
+    }
+    
     public ImageIcon getIconInactive() {
-        String menuSpriteFilename = getIconBaseName() + ".gif";
+        String menuSpriteFilename = "button_background.gif";
         return spriteProxy.generateProxyObject(menuSpriteFilename).toImageIcon();
     }
     
     public ImageIcon getIconActive() {
-        String menuSpriteFilename = getIconBaseName() + "_active.gif";
+        String menuSpriteFilename = "button_background_a.gif";
         return spriteProxy.generateProxyObject(menuSpriteFilename).toImageIcon();
-    }
-    
-    private String getIconBaseName() {
-        return "menu" + menuText.replaceAll(" ", "");
     }
     
     public Menu getContainerMenu() {
@@ -73,9 +78,11 @@ public abstract class MenuItem extends JPanel implements MouseListener
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {
         lblMenuItem.setIcon(getIconActive());
+        lblMenuItem.setForeground(getLabelColourActive());
     }
     public void mouseExited(MouseEvent e) {
         lblMenuItem.setIcon(getIconInactive());
+        lblMenuItem.setForeground(getLabelColourInactive());
     }
 
     private String menuText;
