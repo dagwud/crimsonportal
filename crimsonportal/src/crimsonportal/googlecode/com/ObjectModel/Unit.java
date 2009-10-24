@@ -14,7 +14,8 @@ import java.util.LinkedList;
  */
 public abstract class Unit extends GameObject
 {
-    public Unit(double size, Location location, Strategy strategy, GameState gameState)
+    public Unit(double size, Location location, Strategy strategy, 
+            GameState gameState)
     {
         super(size, location);
         this.strategy = strategy;

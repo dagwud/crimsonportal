@@ -4,25 +4,13 @@ public abstract class Weapon
 {
     public Weapon() {
         this.clipSize = getDefaultClipSize();
-        this.firingRate = getDefaultFiringRate();
+        this.attackSpeed = getDefaultAttackSpeed();
     }
     
-    public Weapon(int clipSize, float firingRate)
+    public Weapon(int clipSize, double attackSpeed)
     {
         this.clipSize = clipSize;
-        this.firingRate = firingRate;
-    }
-    
-    public final float getFiringRate()
-    {
-        return firingRate;
-    }
-    
-    public abstract float getDefaultFiringRate();
-    
-    protected final void setFiringRate(float firingRate)
-    {
-        this.firingRate = firingRate;
+        this.attackSpeed = attackSpeed;
     }
     
     public final int getClipSize()
@@ -31,6 +19,7 @@ public abstract class Weapon
     }
     
     public abstract int getDefaultClipSize();
+    public abstract double getDefaultAttackSpeed();
     
     protected final void setClipSize(int clipSize)
     {
@@ -42,6 +31,15 @@ public abstract class Weapon
     @Override
     public abstract Weapon clone();
     
-    private float firingRate;
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+    
+    public double getAttackSpeed() {
+        return attackSpeed;
+    }
+    
+    protected int attackDamage;
+    protected double attackSpeed;
     private int clipSize;
 }

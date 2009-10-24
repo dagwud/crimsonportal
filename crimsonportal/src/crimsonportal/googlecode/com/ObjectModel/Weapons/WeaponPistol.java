@@ -17,8 +17,8 @@ public class WeaponPistol extends Weapon {
         super();
     }
     
-    public WeaponPistol(int clipSize, float firingRate) {
-        super(clipSize, firingRate);
+    public WeaponPistol(int clipSize, double attackSpeed) {
+        super(clipSize, attackSpeed);
     }
     
     @Override
@@ -28,15 +28,15 @@ public class WeaponPistol extends Weapon {
 
     @Override
     public Weapon clone() {
-        return new WeaponPistol(getClipSize(), getFiringRate());
+        return new WeaponPistol(getClipSize(), getAttackSpeed());
     }
     
     public int getDefaultClipSize() {
         return 10;
     }
     
-    public float getDefaultFiringRate() {
-        return 0.003f;
+    public double getDefaultAttackSpeed() {
+        return 0.003d;
     }
     
     class BulletPistol extends Bullet {

@@ -11,8 +11,9 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public abstract class UnitWithWeapon extends Unit {
     public UnitWithWeapon(double radius, Location location, 
-            Strategy strategy, GameState gameState) {
+            Strategy strategy, GameState gameState, Weapon weapon) {
         super(radius, location, strategy, gameState);
+        this.weapon = weapon;
     }
     
     public Weapon getWeapon() {
@@ -23,5 +24,13 @@ public abstract class UnitWithWeapon extends Unit {
         this.weapon = weapon;
     }
     
-    private Weapon weapon;
+    protected static final int PRESET_ATTACKSPEED_SLOW = 1;
+    protected static final int PRESET_ATTACKSPEED_MODERATE = 2;
+    protected static final int PRESET_ATTACKSPEED_FAST = 3;
+    protected static final int PRESET_ATTACKDAMAGE_ANNOY = 1;
+    protected static final int PRESET_ATTACKDAMAGE_HIT = 2;
+    protected static final int PRESET_ATTACKDAMAGE_HURT = 3;
+    protected static final int PRESET_ATTACKDAMAGE_MAUL = 4;
+    
+    protected Weapon weapon;
 }
