@@ -11,6 +11,9 @@ import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
+import crimsonportal.googlecode.com.ObjectModel.Weapon;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
 
 /**
  *
@@ -24,15 +27,15 @@ public class EnemyUnitBarbarian extends EnemyUnit {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_barbarian.gif";
     
-    public EnemyUnitBarbarian(Location location, GameObject target, GameState gameState)
+    public EnemyUnitBarbarian(Location location, GameState gameState, GameObject target)
     {
-        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
+        super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);
     }
     
     @Override
     public EnemyUnit clone()
     {
-        return new EnemyUnitBarbarian(location, strategy.getTarget(), gameState);
+        return new EnemyUnitBarbarian(location, gameState, strategy.getTarget());
     }
 
     @Override
@@ -44,5 +47,9 @@ public class EnemyUnitBarbarian extends EnemyUnit {
     @Override
     protected MovementHandler getMovementHandler() {
         return new MovementHandlerStraightLine(MOVE_SPEED);
+    }
+
+    public Weapon getDefaultWeapon() {
+        return new WeaponPunch(ATTACK_DAMAGE, ATTACK_SPEED);
     }
 }

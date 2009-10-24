@@ -12,6 +12,9 @@ import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.LocationObject;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
+import crimsonportal.googlecode.com.ObjectModel.Weapon;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
 import crimsonportal.googlecode.com.Utils;
 import java.util.Iterator;
 import java.util.List;
@@ -29,9 +32,9 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_lemmingleader.gif";
     
-    public EnemyUnitLemmingLeader(Location location, GameObject target, GameState gameState)
+    public EnemyUnitLemmingLeader(Location location, GameState gameState, GameObject target)
     {
-        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, new LocationObject(100,100), gameState);
+        super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);
         
         // Create lemmings to follow this leader:
         final int distanceBetweenLemmingsAndLeader = 30;
@@ -73,7 +76,7 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
     @Override
     public EnemyUnit clone()
     {
-        return new EnemyUnitLemmingLeader(location, strategy.getTarget(), gameState);
+        return new EnemyUnitLemmingLeader(location, gameState, strategy.getTarget());
     }
 
     @Override
@@ -87,5 +90,9 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
         return new MovementHandlerStraightLine(MOVE_SPEED);
     }
     
+    public Weapon getDefaultWeapon() {
+        return new WeaponPunch(ATTACK_DAMAGE, ATTACK_SPEED);
+    }
+
     protected List<EnemyUnitLemming> lemmings;
 }

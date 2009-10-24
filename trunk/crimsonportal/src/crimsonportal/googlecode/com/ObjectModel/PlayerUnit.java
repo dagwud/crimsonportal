@@ -27,7 +27,7 @@ public class PlayerUnit extends UnitWithWeapon implements
     
     public PlayerUnit(Location location, int moveSpeed, GameState gameState)
     {
-        super(PLAYER_SIZE, location, null, gameState);
+        super(PLAYER_SIZE, location, null, gameState, null);
         observers = new ObserverGroup<PlayerMoveEvent>();
         turnObservers = new ObserverGroup<PlayerTurnEvent>();
         this.moveSpeed = moveSpeed;
@@ -36,7 +36,7 @@ public class PlayerUnit extends UnitWithWeapon implements
     
     public PlayerUnit(Location location, double moveSpeed, Weapon weapon, GameState gameState)
     {
-        super(PLAYER_SIZE, location, null, gameState);
+        super(PLAYER_SIZE, location, null, gameState, null);
         setWeapon(weapon);
     }
     
@@ -139,7 +139,16 @@ public class PlayerUnit extends UnitWithWeapon implements
         this.armourStrength = armourStrength;
     }
     
+    public int getExperience() {
+        return experience;
+    }
+    
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+    
     protected double moveSpeed;
     protected double armourStrength;
     protected double armourPerc;
+    protected int experience;
 }

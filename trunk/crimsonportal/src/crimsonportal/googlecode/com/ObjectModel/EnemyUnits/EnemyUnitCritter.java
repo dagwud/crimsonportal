@@ -11,6 +11,9 @@ import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandlerFly;
+import crimsonportal.googlecode.com.ObjectModel.Weapon;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
 
 /**
  *
@@ -26,15 +29,18 @@ public class EnemyUnitCritter extends EnemyUnitFly {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_critter.gif";
     
-    public EnemyUnitCritter(Location location, GameObject target, GameState gameState)
+    public EnemyUnitCritter(Location location, GameState gameState, GameObject target)
     {
-        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
+        super(location, gameState, target);
+        setRadius(SIZE);
+        getMovementHandler().setMoveSpeed(MOVE_SPEED);
+        setHealth(DEFAULT_HEALTH);
     }
     
     @Override
     public EnemyUnit clone()
     {
-        return new EnemyUnitCritter(location, strategy.getTarget(), gameState);
+        return new EnemyUnitCritter(location, gameState, strategy.getTarget());
     }
 
     @Override
@@ -54,5 +60,9 @@ public class EnemyUnitCritter extends EnemyUnitFly {
     @Override
     protected MovementHandler getMovementHandler() {
         return new MovementHandlerFly(MOVE_SPEED, TURN_SPEED);
+    }
+    
+    public Weapon getDefaultWeapon() {
+        return new WeaponPunch(ATTACK_DAMAGE, ATTACK_SPEED);
     }
 }

@@ -10,6 +10,8 @@ import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
+import crimsonportal.googlecode.com.ObjectModel.Weapon;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
 
 /**
  *
@@ -25,14 +27,14 @@ public class EnemyUnitLemming extends EnemyUnit {
     
     public EnemyUnitLemming(Location location, GameObject target, GameState gameState,
             EnemyUnitLemmingLeader leader) {
-        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
+        super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);
         this.leader = leader;
         this.setStrategy(new StrategyLemming(target, leader));
     }
     
     public EnemyUnitLemming(Location location, GameObject target, GameState gameState)
     {
-        super(SIZE, DEFAULT_HEALTH, ATTACK_DAMAGE, ATTACK_SPEED, MOVE_SPEED, location, target, gameState);
+        super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);
     }
         
     @Override
@@ -52,5 +54,9 @@ public class EnemyUnitLemming extends EnemyUnit {
         return new MovementHandlerStraightLine(MOVE_SPEED);
     }
     
+    public Weapon getDefaultWeapon() {
+        return new WeaponPunch(ATTACK_DAMAGE, ATTACK_SPEED);
+    }
+
     protected EnemyUnitLemmingLeader leader;
 }

@@ -16,8 +16,8 @@ public class WeaponUzi extends Weapon {
         super();
     }
 
-    public WeaponUzi(int clipSize, float firingRate) {
-        super(clipSize, firingRate);
+    public WeaponUzi(int clipSize, double attackSpeed) {
+        super(clipSize, attackSpeed);
     }
 
     @Override
@@ -27,15 +27,15 @@ public class WeaponUzi extends Weapon {
 
     @Override
     public Weapon clone() {
-        return new WeaponUzi(getClipSize(), getFiringRate());
+        return new WeaponUzi(getClipSize(), getAttackSpeed());
     }
 
     public int getDefaultClipSize() {
         return 50;
     }
 
-    public float getDefaultFiringRate() {
-        return 0.003f;
+    public double getDefaultAttackSpeed() {
+        return 0.003d;
     }
 
     class BulletUzi extends Bullet {

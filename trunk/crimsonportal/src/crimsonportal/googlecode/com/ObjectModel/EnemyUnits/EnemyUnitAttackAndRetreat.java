@@ -10,21 +10,23 @@ import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandlerAttackAndRetreat;
-import crimsonportal.googlecode.com.ObjectModel.PlayerUnit;
+import crimsonportal.googlecode.com.ObjectModel.Unit;
 
 /**
  *
  * @author jdevenish
  */
 public abstract class EnemyUnitAttackAndRetreat extends EnemyUnit {
-    protected EnemyUnitAttackAndRetreat(double size, double startingHealth, int attackDamage, double attackSpeed, int moveSpeed, Location location, GameObject target, GameState gameState, int retreatDistance)
+    protected EnemyUnitAttackAndRetreat(double size, Location location, 
+            GameState gameState, GameObject target, double startingHealth, 
+            int moveSpeed, int retreatDistance)
     {
-        super(size, startingHealth, attackDamage, attackSpeed, moveSpeed, location, target, gameState);
+        super(size, location, gameState, startingHealth, moveSpeed, target);
         this.retreatDistance = retreatDistance;
     }
     
     @Override
-    public void attack(PlayerUnit player) {
+    public void attack(Unit player) {
         try {
             MovementHandlerAttackAndRetreat handler = (MovementHandlerAttackAndRetreat)this.getMovementHandler();
         }
