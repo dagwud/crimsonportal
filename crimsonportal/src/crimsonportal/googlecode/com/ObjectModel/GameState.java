@@ -48,7 +48,7 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         gameTimer.start();
         map = new Map();
         observers = new ObserverGroup<GameStateChangedEvent>();
-        menuManager = new MenuManager();
+        menuManager = new MenuManager(this);
     }
     
     /**
@@ -224,6 +224,21 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
             return;
         }
         throw new IllegalArgumentException("Cannot kill unit type; unit is " + unit);
+    }
+    
+    protected void killUnit(EnemyUnit victim, UnitWithWeapon benefactor) {
+        if (enemies.contains(victim)) {
+            killEnemy((EnemyUnit)victim);
+            double currentXP = benefactor.getExperience();
+            currentXP = currentXP + victim.getExperienceValueToKiller();
+            benefactor.setExperience(currentXP);
+            enemies.remove(victim);
+            if (Debug.checkFlag(Debug.flagKey.LOGATTACKDAMAGE)) {
+                Debug.logKill(victim.getEnemyTypeEnum(), 1);
+            }
+            return;
+        }
+        throw new IllegalArgumentException("Cannot kill unit type; victim unit is " + victim);
     }
     
     /**
@@ -419,6 +434,14 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
     
     public MenuManager getMenuManager() {
         return menuManager;
+    }
+    
+    public void quit() {
+        if (Debug.checkFlag(Debug.flagKey.LOGATTACKDAMAGE)) {
+            // Log the total damage done before quitting:
+            Debug.printLogs();
+        }
+        System.exit(0);
     }
     
     ObserverGroup<GameStateChangedEvent> observers;

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.gui.menu;
 
+import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.Proxy.SpriteProxy;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -19,10 +20,11 @@ import javax.swing.JPanel;
  */
 public abstract class MenuItem extends JPanel implements MouseListener
 {
-    public MenuItem(String menuText, Menu containerMenu) {
+    public MenuItem(String menuText, Menu containerMenu, GameState gameState) {
         super();
         this.menuText = menuText;
         this.containerMenu = containerMenu;
+        this.gameState = gameState;
         
         setAlignmentX(JPanel.CENTER_ALIGNMENT);
         setOpaque(false);
@@ -84,10 +86,15 @@ public abstract class MenuItem extends JPanel implements MouseListener
         lblMenuItem.setIcon(getIconInactive());
         lblMenuItem.setForeground(getLabelColourInactive());
     }
+    
+    public GameState getGameState() {
+        return gameState;
+    }
 
     private String menuText;
     public static final int MENUITEM_HEIGHT = 60;
     private SpriteProxy spriteProxy = new SpriteProxy();
     private JLabel lblMenuItem;
     private Menu containerMenu;
+    private GameState gameState;
 }

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.ObjectModel.EnemyUnits;
 
+import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
@@ -12,7 +13,6 @@ import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandler;
 import crimsonportal.googlecode.com.ObjectModel.MovementHandlerStraightLine;
 import crimsonportal.googlecode.com.ObjectModel.Weapon;
-import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
 import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
 
 /**
@@ -26,6 +26,10 @@ public class EnemyUnitBarbarian extends EnemyUnit {
     protected static int MOVE_SPEED = PRESET_MOVESPEED_AMBLE;
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_barbarian.gif";
+    
+    public EnemyUnitBarbarian() {
+        super();
+    }
     
     public EnemyUnitBarbarian(Location location, GameState gameState, GameObject target)
     {
@@ -51,5 +55,10 @@ public class EnemyUnitBarbarian extends EnemyUnit {
 
     public Weapon getDefaultWeapon() {
         return new WeaponPunch(ATTACK_DAMAGE, ATTACK_SPEED);
+    }
+
+    @Override
+    public EnemyUnitFactory.enemyType getEnemyTypeEnum() {
+        return EnemyUnitFactory.enemyType.ENEMY_BARBARIAN;
     }
 }

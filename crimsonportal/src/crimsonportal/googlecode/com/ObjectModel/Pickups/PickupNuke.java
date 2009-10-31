@@ -6,6 +6,7 @@ import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.PickupProxy;
 import crimsonportal.googlecode.com.ObjectModel.PickupSingleUse;
 import crimsonportal.googlecode.com.ObjectModel.Unit;
+import crimsonportal.googlecode.com.ObjectModel.UnitWithWeapon;
 import crimsonportal.googlecode.com.gui.Animations.NukeAnimation;
 import java.util.Iterator;
 
@@ -25,7 +26,7 @@ public class PickupNuke extends PickupSingleUse {
         PickupProxy.addAnimation(new NukeAnimation(this.getCentreOfObject(), (int)NUKE_RADIUS));
         while (units.hasNext()) {
             EnemyUnit enemyUnit = units.next();
-            PickupProxy.killUnit(enemyUnit);
+            PickupProxy.killUnit(enemyUnit, (UnitWithWeapon)unit);
         }
     }
 

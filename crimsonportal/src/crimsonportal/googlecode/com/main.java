@@ -18,6 +18,7 @@ public class main
         System.out.println("Loading");
 
         GameController gameController = new GameController();
+        Debug.setFlag(Debug.flagKey.LOGATTACKDAMAGE, Debug.flagValue.TRUE);
         
         Thread gameControlThread = new Thread(gameController);
         gameControlThread.start();

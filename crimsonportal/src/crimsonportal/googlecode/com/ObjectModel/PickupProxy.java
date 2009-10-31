@@ -68,11 +68,24 @@ public class PickupProxy {
         gameState.killUnit(unit);
     }
     
+    public static void killUnit(EnemyUnit victim, UnitWithWeapon benefactor) {
+        if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
+        gameState.killUnit(victim, benefactor);
+    }
+    
     public static void killUnit(Collection<Unit> units) {
         if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
         Iterator<Unit> it_units = units.iterator();
         while (it_units.hasNext()) {
             killUnit(it_units.next());
+        }
+    }
+    
+    public static void killUnit(Collection<EnemyUnit> units, UnitWithWeapon benefactor) {
+        if (gameState == null) throw new IllegalArgumentException(GAMESTATE_NOT_SET);
+        Iterator<EnemyUnit> it_units = units.iterator();
+        while (it_units.hasNext()) {
+            killUnit(it_units.next(), benefactor);
         }
     }
     

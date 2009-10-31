@@ -5,13 +5,20 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
+
 /**
  *
  * @author dagwud
  */
 public abstract class EnemyUnit extends UnitWithWeapon
 {
-    protected EnemyUnit(double size, Location location, GameState gameState, 
+    protected EnemyUnit() {
+        super();
+    }
+    
+    protected EnemyUnit(Double size, Location location, GameState gameState, 
             double startingHealth, int moveSpeed, GameObject target)
     {
         super(size, location, new Strategy(target), 
@@ -40,7 +47,11 @@ public abstract class EnemyUnit extends UnitWithWeapon
         if (timeSinceLastAttackMS >= attackDurationMS)
         {
             lastAttackTime = System.currentTimeMillis();
-            unitToAttack.setHealth(unitToAttack.getHealth() - getWeapon().getAttackDamage());
+            int damage = getWeapon().getAttackDamage();
+            unitToAttack.setHealth(unitToAttack.getHealth() - damage);
+            if (Debug.checkFlag(Debug.flagKey.LOGATTACKDAMAGE)) {
+                Debug.logAttack(this.getEnemyTypeEnum(), damage);
+            }
         }
     }
     
@@ -49,11 +60,37 @@ public abstract class EnemyUnit extends UnitWithWeapon
     {
         double distY = getCentreOfObject().getY() - getStrategy().getTarget().getCentreOfObject().getY();
         double distX = getCentreOfObject().getX() - getStrategy().getTarget().getCentreOfObject().getX();
-        double rotation = Math.atan2(distY, distX) + Math.PI; // Using PI is quicker than Math.toRadians(180);
-        return rotation;
+        double rotation2 = Math.atan2(distY, distX) + Math.PI; // Using PI is quicker than Math.toRadians(180);
+        return rotation2;
+    }
+    
+    @Override
+    public double getExperienceValueToKiller()
+    {
+        double scaleDamage = 1;
+        double scaleAttackSpeed = 1;
+        double scaleMoveSpeed = 1;
+        if (getWeapon() != null) {
+            scaleDamage = getWeapon().getAttackDamage();
+            scaleAttackSpeed = getWeapon().getAttackSpeed();
+        } else {
+            scaleDamage = getDefaultWeapon().getAttackDamage();
+            scaleAttackSpeed = getDefaultWeapon().getAttackSpeed();
+        }
+        scaleMoveSpeed = getMovementHandler().getMoveSpeed();
+        
+        return scaleDamage * scaleAttackSpeed * scaleMoveSpeed;
+    }
+
+    @Override
+    public Double getExperienceRequirementForNextLevel()
+    {
+        return null;
     }
     
     public abstract String getSpriteFilename();
+    
+    public abstract EnemyUnitFactory.enemyType getEnemyTypeEnum();
     
     private long lastAttackTime;
 

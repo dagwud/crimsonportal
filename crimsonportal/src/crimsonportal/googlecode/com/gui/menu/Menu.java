@@ -58,7 +58,8 @@ public abstract class Menu extends JPanel {
     }
     
     protected void addMenuItem(MenuItemFactory.MenuItemType menuItemType) {
-        MenuItem menuItem = MenuItemFactory.createMenuItem(menuItemType, this);
+        MenuItem menuItem = MenuItemFactory.createMenuItem(menuItemType, this, 
+                managingManager.getGameState());
         menus.add(menuItem);
         pnlMenuContainer.add(menuItem);
         

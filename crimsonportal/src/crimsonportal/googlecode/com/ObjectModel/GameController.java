@@ -10,6 +10,7 @@ import crimsonportal.googlecode.com.Controller.ShootListener;
 import crimsonportal.googlecode.com.Controller.TurnListener;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
+import crimsonportal.googlecode.com.GameSettings.LevelSettings;
 import crimsonportal.googlecode.com.GameSettings.Timers;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.MenuExit.MenuListenerEvent;
@@ -158,47 +159,37 @@ public class GameController implements Observer<GameStateChangedEvent>,
         // Choose what type of enemy to spawn
         Location location = new Location(locationX, locationY);
         PlayerUnit target = gameState.getPlayers().next();
-        if (gameState.getNumPlayers() > 0)
-        {
-            List<EnemyUnitFactory.enemyType> enemyTypes = new LinkedList<EnemyUnitFactory.enemyType>();
-            if (gameState.getNumEnemies() < 15) 
-            {
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
-            }
-            else if (gameState.getNumEnemies() < 30)
-            {
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BARBARIAN);
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
-            }
-            else
-            {
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
-                enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
-            }
             
-            //enemyTypes.clear();
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BARBARIAN);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
-            //enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
-            
-            //if (gameState.getNumEnemies() > 0) return;
-            
-            // Choose from the list of spawnable enemy types:
-            int r = random.nextInt(enemyTypes.size());
-            EnemyUnit[] enemy = EnemyUnitFactory.createEnemyUnit(enemyTypes.get(r), location, target, gameState);
-            for (int i = 0; i < enemy.length; i++) {
-                gameState.spawnEnemy(enemy[i]);
+        List<EnemyUnitFactory.enemyType> enemyTypes = new LinkedList<EnemyUnitFactory.enemyType>();
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_CRITTER);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_ZOMBIE);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEECH);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SUPERCRITTER);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BARBARIAN);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_SCUTTLER);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_BANSHEE);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_FLETCHER);
+        enemyTypes.add(EnemyUnitFactory.enemyType.ENEMY_LEMMINGLEADER);
+
+        Iterator<EnemyUnitFactory.enemyType> enemyTypesIt = enemyTypes.iterator();
+        int currentLevel = gameState.getPlayers().next().getLevel();
+        while (enemyTypesIt.hasNext()) {
+            EnemyUnitFactory.enemyType type = enemyTypesIt.next();
+            int requiredLevel = EnemyUnitFactory.getEnemyLevelRequirement(type);
+            if (currentLevel < requiredLevel) {
+                enemyTypesIt.remove();;
             }
+        }
+
+        if (enemyTypes.size() == 0) {
+            throw new IllegalArgumentException("No possible enemies matching criteria for player on level " + currentLevel);
+        }
+
+        // Choose from the list of spawnable enemy types:
+        int r = random.nextInt(enemyTypes.size());
+        EnemyUnit[] enemy = EnemyUnitFactory.createEnemyUnit(enemyTypes.get(r), location, target, gameState);
+        for (int i = 0; i < enemy.length; i++) {
+            gameState.spawnEnemy(enemy[i]);
         }
         
         observers.notifyObservers(new GameStateChangedEvent(gameState));
@@ -211,21 +202,33 @@ public class GameController implements Observer<GameStateChangedEvent>,
             loopCount++;
             if (! getGameState().getGameTime().isPaused() )
             {
+                // Determine whether or not to spawn an enemy:
                 if (loopCount % Timers.SPAWN_NEW_ENEMY == 0)
                 {
-                    if (getGameState().getNumEnemies() < 100)
-                    {
+                    int currentLevel = gameState.getPlayers().next().getLevel();
+                    int minEnemies = LevelSettings.getMinEnemiesForLevel(currentLevel);
+                    int maxEnemies = LevelSettings.getMaxEnemiesForLevel(currentLevel);
+                    double percLevelComplete = gameState.getPlayers().next().getExperience() / gameState.getPlayers().next().getExperienceRequirementForNextLevel();
+                    double percLevelTime = gameState.getGameTime().getNumSeconds() / LevelSettings.getParLevelTime(currentLevel);
+                    if (percLevelTime > 1) { percLevelTime = 1; }
+                    double idealEnemies = Math.max(minEnemies + ((maxEnemies - minEnemies) * percLevelComplete),
+                                                    minEnemies + ((maxEnemies - minEnemies) * percLevelTime));
+                    boolean shouldSpawn = gameState.getNumEnemies() < idealEnemies;
+                    if (shouldSpawn) {
                         spawnEnemy();
                     }
                 }
-                
+
+                // Move bullets:
                 moveBullets(loopCount);
                 
+                // Move enemies:
                 if (loopCount % Timers.MOVE_ENEMIES == 0)
                 {
                     moveEnemies();
                 }
                 
+                // Spawn bullets:
                 if (loopCount % Timers.SPAWN_BULLET == 0) 
                 {
                     if (gameState.isSpawningBullets())
@@ -344,7 +347,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
                         // Remove the enemy if it's dead:
                         if (enemy.getHealth() <= 0)
                         {
-                            enemies.remove();
+                            getGameState().killUnit(enemy, bullet.getShooter());
                         }
                         
                         // Destroy the bullet:
