@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.gui.menu;
 
+import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.Observer.MenuExit.MenuListenerEvent;
 import crimsonportal.googlecode.com.Observer.Observable;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -18,9 +19,10 @@ import javax.swing.JLayeredPane;
  */
 public class MenuManager extends Thread
                          implements Observable<MenuListenerEvent> {
-    public MenuManager() {
+    public MenuManager(GameState gameState) {
         menuStack = new Vector<Menu>();
         observers = new ObserverGroup<MenuListenerEvent>();
+        this.gameState = gameState;
     }
     
     public void closeCurrentMenu() {
@@ -81,4 +83,10 @@ public class MenuManager extends Thread
     {
         return observers.countObservers();
     }
+    
+    public GameState getGameState() {
+        return gameState;
+    }
+    
+    protected GameState gameState;
 }

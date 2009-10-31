@@ -7,7 +7,6 @@ package crimsonportal.googlecode.com.Controller;
 
 import crimsonportal.googlecode.com.Observer.Player.Move.MoveTimer;
 import crimsonportal.googlecode.com.Debug;
-import crimsonportal.googlecode.com.GameSettings.ObjectSizes;
 import crimsonportal.googlecode.com.ObjectModel.Bullet;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.Location;
@@ -93,15 +92,6 @@ public class ShootListener implements MouseListener, MouseMotionListener,
     
     public void mouseReleased(MouseEvent e) 
     {
-        //GameObject target = new LocationObject(e.getX(), e.getY());
-        
-        /*double bulletSize = ObjectSizes.BULLET_SIZE_PISTOL;
-        double bulletMoveSpeed = ObjectSizes.BULLET_SPEED_PISTOL;
-        int bulletDamage = ObjectSizes.BULLET_DAMAGE_PISTOL;
-        Strategy strategy = new Strategy(target);
-        Bullet bullet = new Bullet(bulletSize,
-                controlledUnit.getCentreOfObject(), 
-                strategy, bulletMoveSpeed, bulletDamage);*/
         ShootEvent ev = new ShootEvent(false, controlledUnit, null);
         lastShot = ev;
         notifyObservers(ev);

@@ -34,7 +34,25 @@ public class EnemyUnitFactory
         ENEMY_LEMMINGLEADER,
         ENEMY_SCUTTLER,
         ENEMY_SUPERCRITTER,
-        ENEMY_ZOMBIE
+        ENEMY_ZOMBIE,
+        ENEMY_LEMMING
+    }
+    
+    public static int getEnemyLevelRequirement(enemyType enemyType) {
+        switch (enemyType) {
+            case ENEMY_BANSHEE:         return 1;
+            case ENEMY_BARBARIAN:       return 2;
+            case ENEMY_CRITTER:         return 3;
+            case ENEMY_FLETCHER:        return 4;
+            case ENEMY_LEECH:           return 4;
+            case ENEMY_LEMMINGLEADER:   return 5;
+            case ENEMY_SCUTTLER:        return 5;
+            case ENEMY_SUPERCRITTER:    return 6;
+            case ENEMY_ZOMBIE:          return 6;
+
+            default:
+                throw new UnsupportedOperationException("EnemyType " + enemyType + " not found");
+        }
     }
 
     public static EnemyUnit[] createEnemyUnit(enemyType enemyType,

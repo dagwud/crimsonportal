@@ -114,6 +114,10 @@ public abstract class Bullet extends GameObject
         this.strategy = strategy;
     }
     
+    public UnitWithWeapon getShooter() {
+        return shooter;
+    }
+    
     /**
      * Specifies the name of the filename which represents the graphical 
      * representation of this game object. 

@@ -6,11 +6,13 @@
 package crimsonportal.googlecode.com.ObjectModel;
 
 import crimsonportal.googlecode.com.Debug;
+import crimsonportal.googlecode.com.GameSettings.LevelSettings;
 import crimsonportal.googlecode.com.ObjectModel.Weapons.UnitWithArmour;
 import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
+import java.util.HashMap;
 
 /**
  *
@@ -34,16 +36,17 @@ public class PlayerUnit extends UnitWithWeapon implements
         setHealth(DEFAULT_HEALTH);
     }
     
-    public PlayerUnit(Location location, double moveSpeed, Weapon weapon, GameState gameState)
+    public PlayerUnit(Location location, Weapon weapon, GameState gameState)
     {
         super(PLAYER_SIZE, location, null, gameState, null);
         setWeapon(weapon);
+        currentLevel = 1;
     }
     
     @Override
     public PlayerUnit clone()
     {
-        PlayerUnit p = new PlayerUnit(getCentreOfObject(), moveSpeed, getWeapon(), gameState);
+        PlayerUnit p = new PlayerUnit(getCentreOfObject(), getWeapon(), gameState);
         return p;
     }
     
@@ -139,16 +142,22 @@ public class PlayerUnit extends UnitWithWeapon implements
         this.armourStrength = armourStrength;
     }
     
-    public int getExperience() {
-        return experience;
+    @Override
+    public double getExperienceValueToKiller()
+    {
+        return experience / 2.0;
     }
     
-    public void setExperience(int experience) {
-        this.experience = experience;
+    @Override
+    public Double getExperienceRequirementForNextLevel() {
+        Double xpRequired = LevelSettings.getExperienceRequirementForLevel(currentLevel + 1);
+        if (xpRequired == null) {
+            return getExperience() + 1; // All levels completed.
+        }
+        return xpRequired;
     }
     
     protected double moveSpeed;
     protected double armourStrength;
     protected double armourPerc;
-    protected int experience;
 }

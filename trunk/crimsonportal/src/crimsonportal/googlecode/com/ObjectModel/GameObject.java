@@ -25,6 +25,8 @@ public abstract class GameObject
         this.radius = size;
         this.location = location.clone();
     }
+
+    public GameObject() {}
     
     /**
      * Returns the current location of the centre of the game object

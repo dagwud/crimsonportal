@@ -14,12 +14,20 @@ import java.util.LinkedList;
  */
 public abstract class Unit extends GameObject
 {
-    public Unit(double size, Location location, Strategy strategy, 
+    public Unit() {
+        super();
+    }
+    
+    public Unit(Double size, Location location, Strategy strategy, 
             GameState gameState)
     {
         super(size, location);
-        this.strategy = strategy;
-        this.gameState = gameState;
+        //if (strategy != null) {
+            this.strategy = strategy;
+        //}
+        //if (gameState != null) {
+            this.gameState = gameState;
+        //}
         pickups = new LinkedList<Pickup>();
     }
     
@@ -50,6 +58,8 @@ public abstract class Unit extends GameObject
         pickups.add(pickup);
         pickup.applyTo(gameState.getGameTime(), this);
     }
+    
+    public abstract double getExperienceValueToKiller();
     
     protected Strategy strategy;
     protected double health;

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.ObjectModel.EnemyUnits;
 
+import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
@@ -50,5 +51,10 @@ public class EnemyUnitLeech extends EnemyUnit {
     
     public Weapon getDefaultWeapon() {
         return new WeaponPunch(ATTACK_DAMAGE, ATTACK_SPEED);
+    }
+
+    @Override
+    public EnemyUnitFactory.enemyType getEnemyTypeEnum() {
+        return EnemyUnitFactory.enemyType.ENEMY_LEECH;
     }
 }

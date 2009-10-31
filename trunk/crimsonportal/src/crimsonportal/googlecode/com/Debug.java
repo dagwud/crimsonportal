@@ -5,8 +5,13 @@
 
 package crimsonportal.googlecode.com;
 
+import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -81,6 +86,75 @@ public abstract class Debug
         }
     }
     
+    public static void logAttack(EnemyUnitFactory.enemyType enemyType, int attackDamage) {
+        // If the map hasn't been used before, initialise it:
+        if (mapDamagerEnemies == null) {
+            mapDamagerEnemies = new HashMap<EnemyUnitFactory.enemyType, Integer>();
+        }
+        
+        // Get the total amount of damage done by this enemyType:
+        Integer totalAttackDamage = mapDamagerEnemies.get(enemyType);
+        if (totalAttackDamage == null) {
+            // If this enemyType hasn't damaged the player before, initialise 
+            // its counter:
+            totalAttackDamage = 0;
+        }
+        
+        // Increase the counter of the amount of damage done by this enemyType:
+        totalAttackDamage += attackDamage;
+        mapDamagerEnemies.put(enemyType, totalAttackDamage);
+    }
+    
+    public static void logKill(EnemyUnitFactory.enemyType enemyType, int attackDamage) {
+        // If the map hasn't been used before, initialise it:
+        if (mapEnemiesKilled == null) {
+            mapEnemiesKilled = new HashMap<EnemyUnitFactory.enemyType, Integer>();
+        }
+        
+        // Get the total amount of damage done by this enemyType:
+        Integer totalKills = mapEnemiesKilled.get(enemyType);
+        if (totalKills == null) {
+            // If the player hasn't killed this enemyType before, initialise 
+            // its counter:
+            totalKills = 0;
+        }
+        
+        // Increase the counter of the amount of damage done by this enemyType:
+        totalKills++;
+        mapEnemiesKilled.put(enemyType, totalKills);
+    }
+    
+    public static void printLogs() {
+        if (mapDamagerEnemies == null || mapEnemiesKilled == null) {
+            return;
+        }
+        Set<EnemyUnitFactory.enemyType> types = new HashSet<EnemyUnitFactory.enemyType>();
+        if (mapDamagerEnemies != null) {
+            mapDamagerEnemies.keySet();
+        }
+        if (mapEnemiesKilled != null) {
+            types.addAll(mapEnemiesKilled.keySet());
+        }
+        
+        Iterator<EnemyUnitFactory.enemyType> it = types.iterator();
+        System.out.println("EnemyType, damage, kills");
+        while (it.hasNext()) {
+            EnemyUnitFactory.enemyType type = it.next();
+            Integer damage = mapDamagerEnemies.get(type);
+            if (damage == null) { 
+                damage = 0; 
+            }
+            Integer kills = mapEnemiesKilled.get(type);
+            if (kills == null) {
+                kills = 0;
+            }
+            System.out.println(type.name() + ", " + damage + ", " + kills);
+        }
+    }
+    
+    private static Map<EnemyUnitFactory.enemyType, Integer> mapDamagerEnemies;
+    private static Map<EnemyUnitFactory.enemyType, Integer> mapEnemiesKilled;
+    
     protected static Map<flagKey, flagValue> flags;
     static {
         flags = new HashMap<Debug.flagKey, Debug.flagValue>();
@@ -89,7 +163,8 @@ public abstract class Debug
     public static enum flagKey {
         DISABLE_ENEMY_SPAWNING,
         PLAYER_MOVEMENT_VERTICAL,
-        DISABLE_ENEMY_MOVEMENT
+        DISABLE_ENEMY_MOVEMENT,
+        LOGATTACKDAMAGE
     };
     
     public static enum flagValue {

@@ -5,6 +5,7 @@
 
 package crimsonportal.googlecode.com.ObjectModel.EnemyUnits;
 
+import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
@@ -99,4 +100,9 @@ public class EnemyUnitZombie extends EnemyUnit {
     
     protected double rotationShift = 0.0;
     protected double msOffset = new Random().nextDouble() * 1000;
+
+    @Override
+    public EnemyUnitFactory.enemyType getEnemyTypeEnum() {
+        return EnemyUnitFactory.enemyType.ENEMY_ZOMBIE;
+    }
 }

@@ -26,6 +26,12 @@ public class GameTime implements Comparable<GameTime>
         this.previousRunTime = numSeconds * 1000;
     }
     
+    public GameTime(GameTime gameTime, int numSecondsToAdd) {
+        this(gameTime);
+        this.previousRunTime = 0;
+        this.lastStartTime += (numSecondsToAdd * 1000);
+    }
+    
     public GameTime(GameTime gameTime)
     {
         this.previousRunTime = gameTime.previousRunTime;

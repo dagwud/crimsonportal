@@ -23,6 +23,7 @@ public class GameTimerTask
         return triggerTime;
     }
 
+    @Override
     public String toString() {
         return "GameTimerTask[trigger at " + triggerTime + "]";
     }
