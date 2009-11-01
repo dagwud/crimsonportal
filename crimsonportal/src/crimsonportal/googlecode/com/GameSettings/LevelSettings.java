@@ -6,10 +6,21 @@
 package crimsonportal.googlecode.com.GameSettings;
 
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitBanshee;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitBarbarian;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitCritter;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitFletcher;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitFlying;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitLeech;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitLemmingLeader;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitScuttler;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitSuperCritter;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitZombie;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,14 +81,37 @@ public class LevelSettings {
         return xpRequired;
     }
 
-    // Experience points required for a player to move up to each level
+    // Experience points required for a player to reach each level
     private static java.util.Map<Integer, Double> experienceLevels;
     static {
         experienceLevels = new HashMap<Integer, Double>();
         experienceLevels.put(1, 0d);
-        experienceLevels.put(2, experienceLevels.get(1) + 4 * new EnemyUnitBanshee().getExperienceValueToKiller());
-        experienceLevels.put(3, experienceLevels.get(2) + new EnemyUnitBarbarian().getExperienceValueToKiller());
-        experienceLevels.put(4, experienceLevels.get(3) + 500d);
-        experienceLevels.put(5, experienceLevels.get(4) + 1000d);
+        experienceLevels.put(2, experienceLevels.get(1) + 1 * getExperienceForOneOfEachEnemy(1));
+        experienceLevels.put(3, experienceLevels.get(2) + 3 * getExperienceForOneOfEachEnemy(2));
+        experienceLevels.put(4, experienceLevels.get(3) + 4 * getExperienceForOneOfEachEnemy(3));
+        experienceLevels.put(5, experienceLevels.get(4) + 4 * getExperienceForOneOfEachEnemy(4));
+        experienceLevels.put(6, experienceLevels.get(5) + 6 * getExperienceForOneOfEachEnemy(5));
+        experienceLevels.put(7, experienceLevels.get(6) + 8 * getExperienceForOneOfEachEnemy(6));
+    }
+
+    private static double getExperienceForOneOfEachEnemy(int curLevel) {
+        List<EnemyUnit> enemyTemplates = new LinkedList<EnemyUnit>();
+        enemyTemplates.add(new EnemyUnitBarbarian());
+        enemyTemplates.add(new EnemyUnitCritter());
+        enemyTemplates.add(new EnemyUnitFletcher());
+        enemyTemplates.add(new EnemyUnitLeech());
+        enemyTemplates.add(new EnemyUnitLemmingLeader());
+        enemyTemplates.add(new EnemyUnitScuttler());
+        enemyTemplates.add(new EnemyUnitSuperCritter());
+        enemyTemplates.add(new EnemyUnitZombie());
+        
+        Iterator<EnemyUnit> it = enemyTemplates.iterator();
+        double oneOfEach = 1;
+        while (it.hasNext()) {
+            EnemyUnit template = it.next();
+            int levelReq = EnemyUnitFactory.getEnemyLevelRequirement(template.getEnemyTypeEnum());
+            if (levelReq == curLevel) oneOfEach += template.getExperienceValueToKiller();
+        }
+        return oneOfEach;
     }
 }

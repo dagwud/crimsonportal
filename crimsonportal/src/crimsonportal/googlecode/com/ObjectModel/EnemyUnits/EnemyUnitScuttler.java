@@ -17,7 +17,6 @@ import crimsonportal.googlecode.com.ObjectModel.Unit;
 import crimsonportal.googlecode.com.ObjectModel.Weapon;
 import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
 import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
-import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponScuttler;
 
 /**
  *
@@ -31,6 +30,10 @@ public class EnemyUnitScuttler extends EnemyUnit {
     protected static final double ROTATE_SPEED = Math.toRadians(10);
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_scuttler.gif";
+    
+    public EnemyUnitScuttler() {
+        super();
+    }
     
     public EnemyUnitScuttler(Location location, GameState gameState, GameObject target)
     {
