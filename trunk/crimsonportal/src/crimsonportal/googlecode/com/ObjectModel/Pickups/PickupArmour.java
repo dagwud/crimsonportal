@@ -13,9 +13,10 @@ import crimsonportal.googlecode.com.ObjectModel.Weapons.UnitWithArmour;
  * @author dagwud
  */
 public class PickupArmour extends PickupSingleUse {
-
+    protected static final double SIZE = PRESET_SIZE_SMALL;
+    
     public PickupArmour(Location location, GameTime expirationTime) {
-        super(location, expirationTime);
+        super(SIZE, location, expirationTime);
         this.armourStrength = 15;
     }
     

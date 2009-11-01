@@ -11,9 +11,11 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public abstract class WeaponPickup extends PickupSingleUse
 {
+    protected static final double SIZE = PRESET_SIZE_SMALL;
+
     public WeaponPickup(Location location, GameTime expirationTime)
     {
-        super(location, expirationTime);
+        super(SIZE, location, expirationTime);
     }
     
     @Override

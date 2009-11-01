@@ -15,9 +15,10 @@ import java.util.Iterator;
  * @author jdevenish
  */
 public class PickupNuke extends PickupSingleUse {
+    protected static final double SIZE = PRESET_SIZE_SMALL;
     
     public PickupNuke(Location location, GameTime expirationTime) {
-        super(location, expirationTime);
+        super(SIZE, location, expirationTime);
     }
     
     @Override

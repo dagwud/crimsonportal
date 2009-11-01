@@ -10,8 +10,8 @@ package crimsonportal.googlecode.com.ObjectModel;
  * @author dagwud
  */
 public abstract class PickupTimed extends Pickup {
-    public PickupTimed(Location location, GameTime expirationTime) {
-        super(location, expirationTime);
+    public PickupTimed(double size, Location location, GameTime expirationTime) {
+        super(size, location, expirationTime);
     }
     
     protected final void startExpirationTimer(GameTime gameTime, Unit unitToUnapplyTo)

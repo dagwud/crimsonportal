@@ -31,8 +31,8 @@ package crimsonportal.googlecode.com.ObjectModel;
  */
 public abstract class PickupSingleUse extends Pickup {
 
-    public PickupSingleUse(Location location, GameTime expirationTime) {
-        super(location, expirationTime);
+    public PickupSingleUse(double size, Location location, GameTime expirationTime) {
+        super(size, location, expirationTime);
     }
     
     /**
