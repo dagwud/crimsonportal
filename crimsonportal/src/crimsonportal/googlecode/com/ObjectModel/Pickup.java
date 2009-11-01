@@ -42,9 +42,9 @@ public abstract class Pickup extends GameObject
      * is, the GameTime at which the pickup will disappear if it has not been 
      * collected
      */
-    public Pickup(Location location, GameTime expirationTime)
+    public Pickup(double radius, Location location, GameTime expirationTime)
     {
-        super(20.0, location);
+        super(radius, location);
         this.expirationTime = expirationTime;
     }
     

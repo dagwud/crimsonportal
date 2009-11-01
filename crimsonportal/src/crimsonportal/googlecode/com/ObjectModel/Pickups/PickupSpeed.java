@@ -13,9 +13,11 @@ import crimsonportal.googlecode.com.ObjectModel.*;
  */
 public class PickupSpeed extends PickupTimed
 {
+    protected static final double SIZE = PRESET_SIZE_SMALL;
+
     public PickupSpeed(Location location, GameTime expirationTime, 
             double speedMultiplier) {
-        super(location, expirationTime);
+        super(SIZE, location, expirationTime);
         this.speedMultiplier = speedMultiplier;
     }
     

@@ -12,9 +12,10 @@ import crimsonportal.googlecode.com.ObjectModel.*;
  * @author dagwud
  */
 public class PickupHealth extends PickupSingleUse {
+    protected static final double SIZE = PRESET_SIZE_SMALL;
 
     public PickupHealth(Location location, GameTime expirationTime, double healthValue) {
-        super(location, expirationTime);
+        super(SIZE, location, expirationTime);
         this.healthValue = healthValue;
     }
     

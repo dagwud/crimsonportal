@@ -7,8 +7,10 @@ import crimsonportal.googlecode.com.ObjectModel.*;
  * @author jdevenish
  */
 public class PickupGrow extends PickupTimed {
+    protected static final double SIZE = PRESET_SIZE_SMALL;
+
     public PickupGrow(Location location, GameTime expirationTime, double sizeMultiplier) {
-        super(location, expirationTime);
+        super(SIZE, location, expirationTime);
         this.sizeMultiplier = sizeMultiplier;
     }
     

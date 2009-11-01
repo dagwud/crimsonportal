@@ -98,9 +98,4 @@ public abstract class EnemyUnit extends UnitWithWeapon
     protected static final int PRESET_MOVESPEED_WALK = 2;
     protected static final int PRESET_MOVESPEED_TROT = 3;
     protected static final int PRESET_MOVESPEED_RACE = 4;
-    protected static final double PRESET_SIZE_TINY = 10d;
-    protected static final double PRESET_SIZE_SMALL = 14d;
-    protected static final double PRESET_SIZE_MEDIUM = 15d;
-    protected static final double PRESET_SIZE_LARGE = 20d;
-    protected static final double PRESET_SIZE_HUGE = 35d;
 }

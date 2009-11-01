@@ -12,7 +12,6 @@ import crimsonportal.googlecode.com.Observer.Observer;
 import crimsonportal.googlecode.com.Observer.ObserverGroup;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveEvent;
 import crimsonportal.googlecode.com.Observer.Player.Move.PlayerMoveObservable;
-import java.util.HashMap;
 
 /**
  *
