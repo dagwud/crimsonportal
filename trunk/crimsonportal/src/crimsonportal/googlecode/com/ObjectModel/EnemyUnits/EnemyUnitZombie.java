@@ -29,6 +29,10 @@ public class EnemyUnitZombie extends EnemyUnit {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_zombie.gif";
     
+    public EnemyUnitZombie() {
+        super();
+    }
+    
     public EnemyUnitZombie(Location location, GameState gameState, GameObject target)
     {
         super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);

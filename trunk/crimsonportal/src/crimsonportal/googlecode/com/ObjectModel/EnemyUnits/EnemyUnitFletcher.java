@@ -29,6 +29,10 @@ public class EnemyUnitFletcher extends EnemyUnitAttackAndRetreat {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_fletcher.gif";
     
+    public EnemyUnitFletcher() {
+        super();
+    }
+    
     public EnemyUnitFletcher(Location location, GameState gameState, GameObject target)
     {
         super(SIZE, location, gameState, target, DEFAULT_HEALTH, MOVE_SPEED, 

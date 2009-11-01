@@ -33,6 +33,10 @@ public class EnemyUnitLemmingLeader extends EnemyUnit {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_lemmingleader.gif";
     
+    public EnemyUnitLemmingLeader() {
+        super();
+    }
+    
     public EnemyUnitLemmingLeader(Location location, GameState gameState, GameObject target)
     {
         super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);

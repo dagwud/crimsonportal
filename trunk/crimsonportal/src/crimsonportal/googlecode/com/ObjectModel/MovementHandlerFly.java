@@ -5,7 +5,7 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
-import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitFly;
+import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitFlying;
 import crimsonportal.googlecode.com.Utils;
 
 /**
@@ -22,7 +22,7 @@ public class MovementHandlerFly extends MovementHandlerStraightLine {
         if (moveObject.gameState.getGameTime().isPaused()) {
             return;
         }
-        EnemyUnitFly f = (EnemyUnitFly) moveObject;
+        EnemyUnitFlying f = (EnemyUnitFlying) moveObject;
         Location targetLoc = f.getStrategy().getTarget().getCentreOfObject();
         Location thisLoc = f.getCentreOfObject();
         double diffY = targetLoc.getY() - thisLoc.getY();

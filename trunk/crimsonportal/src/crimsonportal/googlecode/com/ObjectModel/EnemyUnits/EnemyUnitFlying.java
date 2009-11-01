@@ -10,21 +10,24 @@ import crimsonportal.googlecode.com.ObjectModel.GameObject;
 import crimsonportal.googlecode.com.ObjectModel.GameState;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Weapon;
-import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
 import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
 
 /**
  *
  * @author jdevenish
  */
-public abstract class EnemyUnitFly extends EnemyUnit {
+public abstract class EnemyUnitFlying extends EnemyUnit {
     protected static final double SIZE = PRESET_SIZE_MEDIUM;
     protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_ANNOY;
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_MODERATE;
     protected static double DEFAULT_HEALTH = 10;
     protected static int MOVE_SPEED = PRESET_MOVESPEED_RACE;
     
-    public EnemyUnitFly(Location location, GameState gameState, 
+    public EnemyUnitFlying() {
+        super();
+    }
+    
+    public EnemyUnitFlying(Location location, GameState gameState, 
             GameObject target) {
         super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);
     }

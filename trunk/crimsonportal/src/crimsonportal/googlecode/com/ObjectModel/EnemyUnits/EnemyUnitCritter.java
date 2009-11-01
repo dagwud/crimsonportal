@@ -20,7 +20,7 @@ import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPunch;
  *
  * @author dagwud
  */
-public class EnemyUnitCritter extends EnemyUnitFly {
+public class EnemyUnitCritter extends EnemyUnitFlying {
     protected static final double SIZE = PRESET_SIZE_SMALL;
     protected static final int ATTACK_DAMAGE = PRESET_ATTACKDAMAGE_ANNOY;
     protected static final double ATTACK_SPEED = PRESET_ATTACKSPEED_FAST;
@@ -29,6 +29,10 @@ public class EnemyUnitCritter extends EnemyUnitFly {
     protected static int MOVE_SPEED = PRESET_MOVESPEED_RACE;
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_critter.gif";
+    
+    public EnemyUnitCritter() {
+        super();
+    }
     
     public EnemyUnitCritter(Location location, GameState gameState, GameObject target)
     {

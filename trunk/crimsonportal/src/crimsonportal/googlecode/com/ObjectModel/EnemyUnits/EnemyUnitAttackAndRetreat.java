@@ -17,6 +17,10 @@ import crimsonportal.googlecode.com.ObjectModel.Unit;
  * @author jdevenish
  */
 public abstract class EnemyUnitAttackAndRetreat extends EnemyUnit {
+    public EnemyUnitAttackAndRetreat() {
+        super();
+    }
+    
     protected EnemyUnitAttackAndRetreat(double size, Location location, 
             GameState gameState, GameObject target, double startingHealth, 
             int moveSpeed, int retreatDistance)

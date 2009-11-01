@@ -27,6 +27,10 @@ public class EnemyUnitLeech extends EnemyUnit {
     protected static double DEFAULT_HEALTH = 10;
     private static final String SPRITE_FILENAME = "enemy_leech.gif";
     
+    public EnemyUnitLeech() {
+        super();
+    }
+    
     public EnemyUnitLeech(Location location, GameState gameState, GameObject target)
     {
         super(SIZE, location, gameState, DEFAULT_HEALTH, MOVE_SPEED, target);
