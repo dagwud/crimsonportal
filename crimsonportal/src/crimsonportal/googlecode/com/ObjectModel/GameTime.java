@@ -76,7 +76,7 @@ public class GameTime implements Comparable<GameTime>
     @Override
     public GameTime clone()
     {
-        GameTime g = new GameTime((int)Math.floor(previousRunTime / 1000.0));
+        GameTime g = new GameTime(this);
         return g;
     }
 

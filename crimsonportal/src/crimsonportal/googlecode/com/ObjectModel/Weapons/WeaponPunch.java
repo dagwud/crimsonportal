@@ -7,6 +7,7 @@ package crimsonportal.googlecode.com.ObjectModel.Weapons;
 
 import crimsonportal.googlecode.com.ObjectModel.Bullet;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import crimsonportal.googlecode.com.ObjectModel.UnitWithWeapon;
 import crimsonportal.googlecode.com.ObjectModel.Weapon;
 
@@ -39,7 +40,7 @@ public class WeaponPunch extends Weapon {
     }
 
     @Override
-    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target)
+    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target, GameTime gameTime)
     {
         return null;
     }

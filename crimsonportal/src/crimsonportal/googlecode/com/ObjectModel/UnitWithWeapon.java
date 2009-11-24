@@ -5,6 +5,8 @@
 
 package crimsonportal.googlecode.com.ObjectModel;
 
+import crimsonportal.googlecode.com.Debug;
+
 /**
  *
  * @author jdevenish
@@ -37,8 +39,13 @@ public abstract class UnitWithWeapon extends Unit {
         this.experience = experience;
         while (this.experience >= getExperienceRequirementForNextLevel()) {
             // Level up:
-            this.currentLevel++;
+            incrementLevel();
         }
+    }
+    
+    public void incrementLevel() {
+        this.currentLevel++;
+        Debug.logLevelUp(gameState.getGameTime());
     }
     
     public int getLevel() {

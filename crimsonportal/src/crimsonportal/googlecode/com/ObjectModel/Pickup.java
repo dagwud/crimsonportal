@@ -108,4 +108,6 @@ public abstract class Pickup extends GameObject
      * be collectable) if it is not collected
      */
     private GameTime expirationTime;
+    
+    protected static final double PRESET_SIZE_SMALL = 10d;
 }

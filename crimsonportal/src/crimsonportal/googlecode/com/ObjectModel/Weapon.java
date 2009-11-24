@@ -26,7 +26,8 @@ public abstract class Weapon
         this.clipSize = clipSize;
     }
     
-    public abstract Bullet spawnBullet(UnitWithWeapon shooter, GameObject target);
+    public abstract Bullet spawnBullet(UnitWithWeapon shooter, GameObject target,
+            GameTime spawnTime);
     
     @Override
     public abstract Weapon clone();

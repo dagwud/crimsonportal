@@ -61,7 +61,6 @@ public class GameCanvas extends JPanel implements Observer<GameStateChangedEvent
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        //if (1 == 1) return;
         
         if (animationBuffer == null) {
              animationBuffer = getGraphicsConfiguration().createCompatibleImage(

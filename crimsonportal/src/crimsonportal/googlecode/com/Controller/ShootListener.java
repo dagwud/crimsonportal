@@ -9,6 +9,7 @@ import crimsonportal.googlecode.com.Observer.Player.Move.MoveTimer;
 import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.ObjectModel.Bullet;
 import crimsonportal.googlecode.com.ObjectModel.GameObject;
+import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.LocationObject;
 import crimsonportal.googlecode.com.ObjectModel.PlayerTurnEvent;
@@ -33,11 +34,12 @@ import java.awt.event.MouseMotionListener;
 public class ShootListener implements MouseListener, MouseMotionListener,
         Observable<ShootEvent>
 {
-    public ShootListener(UnitWithWeapon controlledUnit)
+    public ShootListener(UnitWithWeapon controlledUnit, GameTime gameTime)
     {
         Debug.logMethod("Initialising ShootListener for unit " + controlledUnit);
         observers = new ObserverGroup<ShootEvent>();
         this.controlledUnit = controlledUnit;
+        this.gameTime = gameTime;
     }
     
     
@@ -83,7 +85,7 @@ public class ShootListener implements MouseListener, MouseMotionListener,
             // No weapon; cannot shoot.
             return;
         }
-        Bullet bullet = weapon.spawnBullet(controlledUnit, target);
+        Bullet bullet = weapon.spawnBullet(controlledUnit, target, gameTime);
         
         ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
         lastShot = ev;
@@ -112,11 +114,12 @@ public class ShootListener implements MouseListener, MouseMotionListener,
         }
         //GameObject target = lastShot.getBullet().getStrategy().getTarget();
         GameObject target = new LocationObject(e.getX(), e.getY());
-        Bullet bullet = weapon.spawnBullet(controlledUnit, target);
+        Bullet bullet = weapon.spawnBullet(controlledUnit, target, gameTime);
         ShootEvent ev = new ShootEvent(true, controlledUnit, bullet);
         lastShot = ev;
         notifyObservers(ev);
     }
     
     ShootEvent lastShot = null;
+    GameTime gameTime = null;
 }
