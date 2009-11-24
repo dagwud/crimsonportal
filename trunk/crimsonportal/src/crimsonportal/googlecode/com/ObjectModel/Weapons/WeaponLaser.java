@@ -11,24 +11,24 @@ import crimsonportal.googlecode.com.ObjectModel.Weapon;
  *
  * @author jdevenish
  */
-public class WeaponPistol extends Weapon {
+public class WeaponLaser extends Weapon {
 
-    public WeaponPistol() {
+    public WeaponLaser() {
         super();
     }
     
-    public WeaponPistol(int clipSize, double attackSpeed) {
+    public WeaponLaser(int clipSize, double attackSpeed) {
         super(clipSize, attackSpeed);
     }
     
     @Override
-    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target, GameTime gameTime) {
-        return new BulletPistol(shooter, target, gameTime);
+    public Bullet spawnBullet(UnitWithWeapon shooter, GameObject target, GameTime spawnTime) {
+        return new BulletLaser(shooter, target, spawnTime);
     }
 
     @Override
     public Weapon clone() {
-        return new WeaponPistol(getClipSize(), getAttackSpeed());
+        return new WeaponLaser(getClipSize(), getAttackSpeed());
     }
     
     public int getDefaultClipSize() {

@@ -31,13 +31,22 @@ public abstract class Bullet extends GameObject
      * @param attackDamage the base damage this bullet will inflict on a GameObject
      * if it collides with it
     */
-    public Bullet(double radius, UnitWithWeapon shooter, Location location, Strategy strategy, double moveSpeed, int attackDamage)
+    public Bullet(double radius, UnitWithWeapon shooter, Location location, 
+            Strategy strategy, int attackDamage, GameTime spawnTime)
     {
         super(radius, location);
         this.strategy = strategy;
-        this.moveSpeed = moveSpeed;
+        this.moveSpeed = getDefaultMoveSpeed();
+        this.attackSpeedMS = getDefaultAttackSpeed();
         this.attackDamage = attackDamage;
         this.shooter = shooter;
+        this.spawnTime = spawnTime.clone();
+        this.currentTime = spawnTime.clone();
+        this.spawnTime.pauseTimer();
+    }
+    
+    public long getTimeSinceSpawnMS() {
+        return currentTime.getNumMilliseconds() - spawnTime.getNumMilliseconds();
     }
     
     /**
@@ -56,6 +65,14 @@ public abstract class Bullet extends GameObject
      * @return
      */
     public abstract double getDefaultMoveSpeed();
+    
+    /**
+     * Returns the number of milliseconds which must elapse between bullets firing
+     */
+    public abstract int getDefaultAttackSpeed();
+    
+    protected GameTime spawnTime;
+    protected GameTime currentTime;
     
     /**
      * Sets the logical speed with which this bullet will move. Note that this
@@ -91,6 +108,10 @@ public abstract class Bullet extends GameObject
         this.attackDamage = attackDamage;
     }
     
+    public int getAttackSpeed() {
+        return attackSpeedMS;
+    }
+    
     /**
      * Returns the {@link Strategy} which will be used to determine the movement
      * path of this bullet
@@ -121,19 +142,16 @@ public abstract class Bullet extends GameObject
     /**
      * Specifies the name of the filename which represents the graphical 
      * representation of this game object. 
-     * For instances of the Bullet class, this returns the filename representing
-     * the image used by GUIs to render a bullet (that is, the filename of the
-     * image which looks like a bullet)
+     * Inheriting classes (i.e. bullet types) should override this method to return
+     * the filenam representing the image used by GUIs to render the bullet 
+     * (that is, the filename of the image which looks like the bullet)
      * <p>
      * Note that the specifics of this rendering process are not defined here, but are 
      * deferred to the presentation-related classes.
      * @return a string representing the filename which is used by GUIs to determine
      * the sprite for Bullets
      */
-    public String getSpriteFilename()
-    {
-        return "bullet.gif";
-    }
+    public abstract String getSpriteFilename();
     
     /**
      * Moves the current bullet in a manner dictated by its current strategy.
@@ -210,6 +228,11 @@ public abstract class Bullet extends GameObject
      * bullet
      */
     protected UnitWithWeapon shooter;
+    
+    /**
+     * The number of milliseconds which must pass between bullets being fired
+     */
+    protected int attackSpeedMS;
 
     /**
      * Causes the current bullet to 'attack' (that is, inflict damage upon) a
@@ -228,4 +251,17 @@ public abstract class Bullet extends GameObject
         health = health - attackDamage;
         enemy.setHealth(health);
     }
+    
+    // Preset sizes
+    protected static final double PRESET_SIZE_SMALL = 2d;
+    protected static final double PRESET_SIZE_MEDIUM = 4d;
+    protected static final double PRESET_SIZE_LARGE = 6d;
+    protected static final double PRESET_SIZE_HUGE = 8d;
+    protected static final int PRESET_DAMAGE_WEAK = 1;
+    protected static final int PRESET_SPEED_SLOW = 5;
+    protected static final int PRESET_ATTACKSPEED_SLOW = 300;
+    protected static final int PRESET_ATTACKSPEED_MEDIUM = 100;
+    protected static final int PRESET_ATTACKSPEED_FAST = 50;
+    protected static final double PRESET_SPEED_NORMAL = 10;
+    protected static final double PRESET_SPEED_FAST = 20;
 }

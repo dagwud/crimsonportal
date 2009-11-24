@@ -173,11 +173,4 @@ public abstract class GameObject
      * @see #setRotation(double)
      */
     protected double rotation;
-    
-    // Preset sizes
-    protected static final double PRESET_SIZE_TINY = 10d;
-    protected static final double PRESET_SIZE_SMALL = 14d;
-    protected static final double PRESET_SIZE_MEDIUM = 15d;
-    protected static final double PRESET_SIZE_LARGE = 20d;
-    protected static final double PRESET_SIZE_HUGE = 35d;
 }

@@ -8,6 +8,7 @@ package crimsonportal.googlecode.com.Factories;
 import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import crimsonportal.googlecode.com.ObjectModel.Location;
 import crimsonportal.googlecode.com.ObjectModel.Pickup;
+import crimsonportal.googlecode.com.ObjectModel.PickupWeaponLaser;
 import crimsonportal.googlecode.com.ObjectModel.PickupWeaponPistol;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupArmour;
 import crimsonportal.googlecode.com.ObjectModel.Pickups.PickupGrow;
@@ -34,7 +35,8 @@ public class PickupFactory {
  
     public static enum weaponType {
         WEAPON_PISTOL,
-        WEAPON_UZI
+        WEAPON_UZI,
+        WEAPON_LASER
     }
     
     protected static Pickup createPickup(Location location, pickupType pickupType, 
@@ -62,6 +64,8 @@ public class PickupFactory {
                 return new PickupWeaponPistol(location, expirationTime);
             case WEAPON_UZI:
                 return new PickupWeaponUzi(location, expirationTime);
+            case WEAPON_LASER:
+                return new PickupWeaponLaser(location, expirationTime);
             default:
                 throw new UnsupportedOperationException("WeaponType " + weaponType + " not found");
         }

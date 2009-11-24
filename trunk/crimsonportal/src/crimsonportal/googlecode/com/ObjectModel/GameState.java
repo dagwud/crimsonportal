@@ -297,7 +297,23 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
      */
     protected void spawnPlayer(Location location)
     {
+        spawnPlayer(location, null);
+    }
+    
+    /**
+     * Spawns (creates) a PlayerUnit at a given location with a given weapon, 
+     * and adds it to the GameState. This can be either a friendly player or 
+     * an opposition-controlled player.
+     * @param location the location at which the player should be created.
+     * @param weapon the weapon to be given to the player which will be created.
+     * @see #getPlayers
+     */
+    protected void spawnPlayer(Location location, Weapon weapon)
+    {
         PlayerUnit player = new PlayerUnit(location, 4, this);
+        if (weapon != null) {
+            player.setWeapon(weapon);
+        }
         players.add(player);
         player.addObserver(this);
     }
@@ -391,8 +407,12 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
         {
             return;
         }
-        Bullet bullet = spawningBullets.clone();
-        bullets.add(bullet);
+        long elapsed = (elapsedGameTime.getNumMilliseconds() - lastSpawnBullet);
+        if (elapsed >= spawningBullets.getAttackSpeed()) {
+            lastSpawnBullet = elapsedGameTime.getNumMilliseconds();
+            Bullet bullet = spawningBullets.clone();
+            bullets.add(bullet);
+        }
     }
     
     /**
@@ -521,6 +541,8 @@ public class GameState implements PlayerMoveObserver, GameStateChangedObservable
      * </code>
      */
     private Bullet spawningBullets = null;
+    
+    private long lastSpawnBullet = 0;
     
     /**
      * The name of the landscape to be used (which is independant of the name

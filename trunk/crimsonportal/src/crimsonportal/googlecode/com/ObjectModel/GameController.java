@@ -12,6 +12,7 @@ import crimsonportal.googlecode.com.Debug;
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.GameSettings.LevelSettings;
 import crimsonportal.googlecode.com.GameSettings.Timers;
+import crimsonportal.googlecode.com.ObjectModel.Weapons.WeaponPistol;
 import crimsonportal.googlecode.com.Observer.GameState.GameStateChangedEvent;
 import crimsonportal.googlecode.com.Observer.MenuExit.MenuListenerEvent;
 import crimsonportal.googlecode.com.Observer.Observer;
@@ -60,7 +61,8 @@ public class GameController implements Observer<GameStateChangedEvent>,
         frame.pack();
         
         gameState.spawnPlayer(new Location(gameState.getMap().getWidth() / 2, 
-                gameState.getMap().getHeight() / 2));
+                gameState.getMap().getHeight() / 2),
+                new WeaponPistol());
         gameState.spawnPickup();
         
         PlayerUnit controlledPlayer = gameState.getPlayers().next();
@@ -75,7 +77,7 @@ public class GameController implements Observer<GameStateChangedEvent>,
         l.addObserver(observer);
         
         // Add a PlayerShoot listener for player 1:
-        ShootListener s = new ShootListener(controlledPlayer);
+        ShootListener s = new ShootListener(controlledPlayer, gameState.getGameTime());
         gameCanvas.addMouseListener(s);
         gameCanvas.addMouseMotionListener(s);
         Observer<ShootEvent> obs = new Observer<ShootEvent>() {

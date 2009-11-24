@@ -6,9 +6,11 @@
 package crimsonportal.googlecode.com;
 
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
+import crimsonportal.googlecode.com.ObjectModel.GameTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,6 +126,15 @@ public abstract class Debug
         mapEnemiesKilled.put(enemyType, totalKills);
     }
     
+    public static void logLevelUp(GameTime time) {
+        if (levelUpTimes == null) {
+            levelUpTimes = new LinkedList<GameTime>();
+        }
+        GameTime timePause = time.clone();
+        timePause.pauseTimer();
+        levelUpTimes.add(timePause);
+    }
+    
     public static void printLogs() {
         if (mapDamagerEnemies == null || mapEnemiesKilled == null) {
             return;
@@ -150,10 +161,22 @@ public abstract class Debug
             }
             System.out.println(type.name() + ", " + damage + ", " + kills);
         }
+        System.out.print("Leveluptimes=");
+        Iterator<GameTime> levelIt = levelUpTimes.iterator();
+        while (levelIt.hasNext()) {
+            System.out.print(levelIt.next());
+            if (levelIt.hasNext()) {
+                System.out.print(", ");
+            }
+            else {
+                System.out.println("");
+            }
+        }
     }
     
     private static Map<EnemyUnitFactory.enemyType, Integer> mapDamagerEnemies;
     private static Map<EnemyUnitFactory.enemyType, Integer> mapEnemiesKilled;
+    private static List<GameTime> levelUpTimes;
     
     protected static Map<flagKey, flagValue> flags;
     static {

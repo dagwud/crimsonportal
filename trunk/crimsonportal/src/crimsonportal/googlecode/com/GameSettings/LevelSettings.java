@@ -7,11 +7,9 @@ package crimsonportal.googlecode.com.GameSettings;
 
 import crimsonportal.googlecode.com.Factories.EnemyUnitFactory;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnit;
-import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitBanshee;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitBarbarian;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitCritter;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitFletcher;
-import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitFlying;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitLeech;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitLemmingLeader;
 import crimsonportal.googlecode.com.ObjectModel.EnemyUnits.EnemyUnitScuttler;
@@ -21,7 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -29,7 +26,7 @@ import java.util.Map;
  */
 public class LevelSettings {
     public static int getMinEnemiesForLevel(int level) {
-        Integer minEnemies = maxEnemiesPerLevel.get(level - 1);
+        Integer minEnemies = LevelSetting.getSettings(level - 1).maxEnemies;
         if (minEnemies == null) {
             return 1;
         }
@@ -37,63 +34,54 @@ public class LevelSettings {
     }
     
     public static int getMaxEnemiesForLevel(int level) {
-        Integer maxEnemies = maxEnemiesPerLevel.get(level);
+        Integer maxEnemies = LevelSetting.getSettings(level).maxEnemies;
         if (maxEnemies == null) {
             return Integer.MAX_VALUE;
         }
         return maxEnemies;
     }
     
-    private static Map<Integer, Integer> maxEnemiesPerLevel;
-    static {
-        maxEnemiesPerLevel = new HashMap<Integer, Integer>();
-        maxEnemiesPerLevel.put(1, 10);
-        maxEnemiesPerLevel.put(2, 15);
-        maxEnemiesPerLevel.put(3, 20);
-        maxEnemiesPerLevel.put(4, 35);
-        maxEnemiesPerLevel.put(5, 50);
-    }
-    
     public static double getParLevelTime(int level) {
-        Double timeSec = parTimePerLevel.get(level);
+        Double timeSec = LevelSetting.getSettings(level).experienceRequired;
         if (timeSec == null) {
             return 1;
         }
         return timeSec;
     }
     
-    private static Map<Integer, Double> parTimePerLevel;
-    static {
-        parTimePerLevel = new HashMap<Integer, Double>();
-        parTimePerLevel.put(1, 35d);
-        parTimePerLevel.put(2, parTimePerLevel.get(1) + 15d);
-        parTimePerLevel.put(3, parTimePerLevel.get(2) + 25d);
-        parTimePerLevel.put(4, parTimePerLevel.get(3) + 35d);
-        parTimePerLevel.put(5, parTimePerLevel.get(4) + 50d);
-        parTimePerLevel.put(6, parTimePerLevel.get(5) + 75d);
-    }
-    
     public static Double getExperienceRequirementForLevel(int level) {
-        Double xpRequired = experienceLevels.get(level);
+        Double xpRequired = LevelSetting.getSettings(level).experienceRequired;
         if (xpRequired == null) {
             return null; // All levels completed.
         }
         return xpRequired;
     }
+}
 
-    // Experience points required for a player to reach each level
-    private static java.util.Map<Integer, Double> experienceLevels;
-    static {
-        experienceLevels = new HashMap<Integer, Double>();
-        experienceLevels.put(1, 0d);
-        experienceLevels.put(2, experienceLevels.get(1) + 1 * getExperienceForOneOfEachEnemy(1));
-        experienceLevels.put(3, experienceLevels.get(2) + 3 * getExperienceForOneOfEachEnemy(2));
-        experienceLevels.put(4, experienceLevels.get(3) + 4 * getExperienceForOneOfEachEnemy(3));
-        experienceLevels.put(5, experienceLevels.get(4) + 4 * getExperienceForOneOfEachEnemy(4));
-        experienceLevels.put(6, experienceLevels.get(5) + 6 * getExperienceForOneOfEachEnemy(5));
-        experienceLevels.put(7, experienceLevels.get(6) + 8 * getExperienceForOneOfEachEnemy(6));
+class LevelSetting {
+    private LevelSetting(int maxEnemies, double experienceRequired, 
+            double parTimeSec) {
+        this.experienceRequired = experienceRequired;
+        this.maxEnemies = maxEnemies;
+        this.parTimeSec = parTimeSec;
     }
 
+    public static void createSettings(int levelNumber, int maxEnemies, 
+            int numKillsRequired, double parTimeSec) {
+        if (levelSettings == null) {
+            levelSettings = new HashMap<Integer, LevelSetting>();
+        }
+        
+        levelSettings.put(levelNumber, create(maxEnemies,
+            levelSettings.get(levelNumber - 1).experienceRequired + (numKillsRequired * getExperienceForOneOfEachEnemy(levelNumber)),
+            levelSettings.get(levelNumber - 1).parTimeSec + parTimeSec));
+    }
+    
+    private static LevelSetting create(int maxEnemies, double experienceRequired,
+            double parTimeSec) {
+        return new LevelSetting(maxEnemies, experienceRequired, parTimeSec);
+    }
+    
     private static double getExperienceForOneOfEachEnemy(int curLevel) {
         List<EnemyUnit> enemyTemplates = new LinkedList<EnemyUnit>();
         enemyTemplates.add(new EnemyUnitBarbarian());
@@ -114,4 +102,31 @@ public class LevelSettings {
         }
         return oneOfEach;
     }
+    
+    public static LevelSetting getSettings(int levelNumber) {
+        if (levelSettings == null) {
+            initSettings();
+        }
+        
+        return levelSettings.get(levelNumber);
+    }
+    
+    private static void initSettings() {
+        levelSettings = new HashMap<Integer, LevelSetting>();
+        levelSettings.put(0, new LevelSetting(0, 0, 1));
+        LevelSetting.createSettings(1, 10, 0, 35d);
+        LevelSetting.createSettings(2, 15, 1, 15d);
+        LevelSetting.createSettings(3, 20, 3, 15d);
+        LevelSetting.createSettings(4, 30, 4, 35d);
+        LevelSetting.createSettings(5, 35, 4, 15d);
+        LevelSetting.createSettings(6, 45, 6, 30d);
+        LevelSetting.createSettings(7, 60, 8, 20d);
+        LevelSetting.createSettings(8, 70, 10, 25d);
+        LevelSetting.createSettings(9, 85, 15, 25d);
+    }
+
+    int maxEnemies;
+    double experienceRequired;
+    double parTimeSec;
+    private static java.util.Map<Integer, LevelSetting> levelSettings;
 }
